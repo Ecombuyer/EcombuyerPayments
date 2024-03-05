@@ -32,11 +32,11 @@
           <div class="col-lg-6 d-flex flex-column justify-content-center" data-aos="fade-up" data-aos-delay="200">
             <div class="content">
               <h3>Who We Are</h3>
-              <h2>Expedita voluptas omnis cupiditate totam eveniet nobis sint iste. Dolores est repellat corrupti
-                reprehenderit.</h2>
-              <p>
-                Quisquam vel ut sint cum eos hic dolores aperiam. Sed deserunt et. Inventore et et dolor consequatur
-                itaque ut voluptate sed et. Magnam nam ipsum tenetur suscipit voluptatum nam et est corrupti.
+              <h2>Empowering modern businesses with the futuristic payments infrastructure.</h2>
+              <p> 
+              We empower businesses of all sizes by constructing the payments infrastructure of the future, today.
+              
+We are proactively advancing the digitization movement in India through close collaborations with traditional banks, with a focus on improving ease and convenience for customers at the final mile.
               </p>
               <div class="text-center text-lg-start">
                 <a href="#"
@@ -62,7 +62,7 @@
 
         <header class="section-header">
           <h2>Our Values</h2>
-          <p>Odit est perspiciatis laborum et dicta</p>
+          <p>Empowering Transactions, Enriching Experiences, Your Gateway to Seamless Payments</p>
         </header>
 
         <div class="row">
@@ -70,24 +70,24 @@
           <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
             <div class="box">
               <img src="assets/img/values-1.png" class="img-fluid" alt="">
-              <h3>Ad cupiditate sed est odio</h3>
-              <p>Eum ad dolor et. Autem aut fugiat debitis voluptatem consequuntur sit. Et veritatis id.</p>
+              <h3>Security</h3>
+              <p>Implement robust security measures to safeguard sensitive payment information and ensure trust and reliability among users</p>
             </div>
           </div>
 
           <div class="col-lg-4 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="400">
             <div class="box">
               <img src="assets/img/values-2.png" class="img-fluid" alt="">
-              <h3>Voluptatem voluptatum alias</h3>
-              <p>Repudiandae amet nihil natus in distinctio suscipit id. Doloremque ducimus ea sit non.</p>
+              <h3>Simplicity</h3>
+              <p>Strive for simplicity in design and functionality, ensuring a seamless experience for both businesses integrating the gateway and end-users making payments.</p>
             </div>
           </div>
 
           <div class="col-lg-4 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="600">
             <div class="box">
               <img src="assets/img/values-3.png" class="img-fluid" alt="">
-              <h3>Fugit cupiditate alias nobis.</h3>
-              <p>Quam rem vitae est autem molestias explicabo debitis sint. Vero aliquid quidem commodi.</p>
+              <h3>Scalability</h3>
+              <p>Offer scalable solutions that can grow alongside businesses, catering to their expanding needs without compromising performance.</p>
             </div>
           </div>
 
@@ -159,7 +159,7 @@
 
         <header class="section-header">
           <h2>Features</h2>
-          <p>Laboriosam et omnis fuga quis dolor direda fara</p>
+          <p>Empowering Your UPI Business Streamlining Business Payments </p>
         </header>
 
         <div class="row">
@@ -174,42 +174,42 @@
               <div class="col-md-6" data-aos="zoom-out" data-aos-delay="200">
                 <div class="feature-box d-flex align-items-center">
                   <i class="bi bi-check"></i>
-                  <h3>Eos aspernatur rem</h3>
+                  <h3>Multiple Payment Modes</h3>
                 </div>
               </div>
 
               <div class="col-md-6" data-aos="zoom-out" data-aos-delay="300">
                 <div class="feature-box d-flex align-items-center">
                   <i class="bi bi-check"></i>
-                  <h3>Facilis neque ipsa</h3>
+                  <h3>Seamless Integration</h3>
                 </div>
               </div>
 
               <div class="col-md-6" data-aos="zoom-out" data-aos-delay="400">
                 <div class="feature-box d-flex align-items-center">
                   <i class="bi bi-check"></i>
-                  <h3>Volup amet voluptas</h3>
+                  <h3>Secure Infrastructure</h3>
                 </div>
               </div>
 
               <div class="col-md-6" data-aos="zoom-out" data-aos-delay="500">
                 <div class="feature-box d-flex align-items-center">
                   <i class="bi bi-check"></i>
-                  <h3>Rerum omnis sint</h3>
+                  <h3>Periodic Transactions</h3>
                 </div>
               </div>
 
               <div class="col-md-6" data-aos="zoom-out" data-aos-delay="600">
                 <div class="feature-box d-flex align-items-center">
                   <i class="bi bi-check"></i>
-                  <h3>Alias possimus</h3>
+                  <h3>Specialized Assistance</h3>
                 </div>
               </div>
 
               <div class="col-md-6" data-aos="zoom-out" data-aos-delay="700">
                 <div class="feature-box d-flex align-items-center">
                   <i class="bi bi-check"></i>
-                  <h3>Repellendus mollitia</h3>
+                  <h3>Real-time Settlements</h3>
                 </div>
               </div>
 
@@ -382,67 +382,61 @@
 
         <header class="section-header">
           <h2>Services</h2>
-          <p>Veritatis et dolores facere numquam et praesentium</p>
+          <p>Transforming Businesses through Seamless UPI Solutions</p>
         </header>
 
         <div class="row gy-4">
 
           <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
             <div class="service-box blue">
-              <i class="ri-discuss-line icon"></i>
-              <h3>Nesciunt Mete</h3>
-              <p>Provident nihil minus qui consequatur non omnis maiores. Eos accusantium minus dolores iure perferendis
-                tempore et consequatur.</p>
+            <i class="fa-solid fa-clock icon"></i>
+              <h3>Real-time Transaction Tracking</h3>
+              <p> Gain real-time insights into your UPI transactions, allowing you to monitor and manage payments with ease and precision.</p>
               <a href="#" class="read-more"><span>Read More</span> <i class="bi bi-arrow-right"></i></a>
             </div>
           </div>
 
           <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
             <div class="service-box orange">
-              <i class="ri-discuss-line icon"></i>
-              <h3>Eosle Commodi</h3>
-              <p>Ut autem aut autem non a. Sint sint sit facilis nam iusto sint. Libero corrupti neque eum hic non ut
-                nesciunt dolorem.</p>
+            <i class="fa-solid fa-hand icon"></i>
+              <h3>Compliance and Regulation</h3>
+              <p>Stay compliant with relevant regulations and standards governing UPI transactions, minimizing risks and ensuring regulatory compliance.</p>
               <a href="#" class="read-more"><span>Read More</span> <i class="bi bi-arrow-right"></i></a>
             </div>
           </div>
 
           <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
             <div class="service-box green">
-              <i class="ri-discuss-line icon"></i>
-              <h3>Ledo Markt</h3>
-              <p>Ut excepturi voluptatem nisi sed. Quidem fuga consequatur. Minus ea aut. Vel qui id voluptas adipisci
-                eos earum corrupti.</p>
+            <i class="fa-solid fa-shield-halved icon"></i>
+              <h3>Enhanced Security Measures</h3>
+              <p>Implement advanced security protocols to safeguard sensitive payment data and protect your business and customers from potential threats.</p>
               <a href="#" class="read-more"><span>Read More</span> <i class="bi bi-arrow-right"></i></a>
             </div>
           </div>
 
           <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
             <div class="service-box red">
-              <i class="ri-discuss-line icon"></i>
-              <h3>Asperiores Commodi</h3>
-              <p>Non et temporibus minus omnis sed dolor esse consequatur. Cupiditate sed error ea fuga sit provident
-                adipisci neque.</p>
+            <i class="fa-solid fa-users-line icon"></i>
+              <h3>Customized Solutions</h3>
+              <p>Tailor-made UPI solutions designed to meet the unique needs and requirements of your business, ensuring optimal performance and efficiency.</p>
               <a href="#" class="read-more"><span>Read More</span> <i class="bi bi-arrow-right"></i></a>
             </div>
           </div>
 
           <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
             <div class="service-box purple">
-              <i class="ri-discuss-line icon"></i>
-              <h3>Velit Doloremque.</h3>
-              <p>Cumque et suscipit saepe. Est maiores autem enim facilis ut aut ipsam corporis aut. Sed animi at autem
-                alias eius labore.</p>
+            <i class="fa-solid fa-fingerprint icon"></i>
+              <h3>Fraud Prevention and Risk Management.</h3>
+              <p>Deploy advanced fraud prevention tools and risk management techniques to detect and prevent fraudulent activities, safeguarding your business and customers against potential threats..</p>
               <a href="#" class="read-more"><span>Read More</span> <i class="bi bi-arrow-right"></i></a>
             </div>
           </div>
 
           <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="700">
             <div class="service-box pink">
-              <i class="ri-discuss-line icon"></i>
-              <h3>Dolori Architecto</h3>
-              <p>Hic molestias ea quibusdam eos. Fugiat enim doloremque aut neque non et debitis iure. Corrupti
-                recusandae ducimus enim.</p>
+            <i class="fa-solid fa-headset icon"></i>
+              <h3>24/7 Customer Support</h3>
+              <p> Access dedicated support services round the clock to address any queries or issues promptly, ensuring a smooth and uninterrupted payment experience.</p>
               <a href="#" class="read-more"><span>Read More</span> <i class="bi bi-arrow-right"></i></a>
             </div>
           </div>
@@ -468,7 +462,7 @@
           <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="100">
             <div class="box">
               <h3 style="color: #07d5c0;">Free Plan</h3>
-              <div class="price"><sup>$</sup>0<span> / mo</span></div>
+              <div class="price"><sup>₹</sup>0<span> / mo</span></div>
               <img src="assets/img/pricing-free.png" class="img-fluid" alt="">
               <ul>
                 <li>Aida dere</li>
