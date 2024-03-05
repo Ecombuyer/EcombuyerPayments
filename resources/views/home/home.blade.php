@@ -5,8 +5,8 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-6 d-flex flex-column justify-content-center">
-          <h1 data-aos="fade-up">We offer modern solutions for growing your business</h1>
-          <h2 data-aos="fade-up" data-aos-delay="400">We are team of talented designers making websites with Bootstrap
+          <h1 data-aos="fade-up">Developing a payment ecosystem tailored to the needs of India.</h1>
+          <h2 data-aos="fade-up" data-aos-delay="400">Facilitate transactions, process disbursements, oversee global transfers, and more - utilizing a robust, adaptable financial platform designed specifically for your business's payment requirements.
           </h2>
           <div data-aos="fade-up" data-aos-delay="600">
             <div class="text-center text-lg-start">
@@ -221,18 +221,18 @@ We are proactively advancing the digitization movement in India through close co
         <!-- Feature Tabs -->
         <div class="row feture-tabs" data-aos="fade-up">
           <div class="col-lg-6">
-            <h3>Neque officiis dolore maiores et exercitationem quae est seda lidera pat claero</h3>
+            <h3>Accelerate growth with a resilient payments and banking infrastructure designed for enduring success.</h3>
 
             <!-- Tabs -->
             <ul class="nav nav-pills mb-3">
               <li>
-                <a class="nav-link active" data-bs-toggle="pill" href="#tab1">Saepe fuga</a>
+                <a class="nav-link active" data-bs-toggle="pill" href="#tab1">Invoices</a>
               </li>
               <li>
-                <a class="nav-link" data-bs-toggle="pill" href="#tab2">Voluptates</a>
+                <a class="nav-link" data-bs-toggle="pill" href="#tab2">Payment Pages</a>
               </li>
               <li>
-                <a class="nav-link" data-bs-toggle="pill" href="#tab3">Corrupti</a>
+                <a class="nav-link" data-bs-toggle="pill" href="#tab3">Smart Collect</a>
               </li>
             </ul><!-- End Tabs -->
 
@@ -240,57 +240,45 @@ We are proactively advancing the digitization movement in India through close co
             <div class="tab-content">
 
               <div class="tab-pane fade show active" id="tab1">
-                <p>Consequuntur inventore voluptates consequatur aut vel et. Eos doloribus expedita. Sapiente atque
-                  consequatur minima nihil quae aspernatur quo suscipit voluptatem.</p>
+                <p>Send your customers GST compliant invoices with item level details to accept online payments through debit/credit cards, netbanking, wallets, UPI etc.</p>
                 <div class="d-flex align-items-center mb-2">
                   <i class="bi bi-check2"></i>
-                  <h4>Repudiandae rerum velit modi et officia quasi facilis</h4>
+                  <h4>Grow Trust</h4>
                 </div>
-                <p>Laborum omnis voluptates voluptas qui sit aliquam blanditiis. Sapiente minima commodi dolorum non
-                  eveniet magni quaerat nemo et.</p>
+                <p>Become the preferred vendor for your clients by partnering with India’s strongest fintech brand</p>
                 <div class="d-flex align-items-center mb-2">
                   <i class="bi bi-check2"></i>
-                  <h4>Incidunt non veritatis illum ea ut nisi</h4>
+                  <h4>Seamless Payment Integration</h4>
                 </div>
-                <p>Non quod totam minus repellendus autem sint velit. Rerum debitis facere soluta tenetur. Iure
-                  molestiae assumenda sunt qui inventore eligendi voluptates nisi at. Dolorem quo tempora. Quia et
-                  perferendis.</p>
+                <p>Effortlessly integrate UPI payments into your business operations, enabling swift and convenient transactions for your customers.</p>
               </div><!-- End Tab 1 Content -->
 
               <div class="tab-pane fade show" id="tab2">
-                <p>Consequuntur inventore voluptates consequatur aut vel et. Eos doloribus expedita. Sapiente atque
-                  consequatur minima nihil quae aspernatur quo suscipit voluptatem.</p>
+                <p>Create custom-branded, hosted Payment Pages in a few clicks to accept payments online. Your business can go online with zero integration and tech efforts.</p>
                 <div class="d-flex align-items-center mb-2">
                   <i class="bi bi-check2"></i>
-                  <h4>Repudiandae rerum velit modi et officia quasi facilis</h4>
+                  <h4>Grow Expertise</h4>
                 </div>
-                <p>Laborum omnis voluptates voluptas qui sit aliquam blanditiis. Sapiente minima commodi dolorum non
-                  eveniet magni quaerat nemo et.</p>
+                <p>Become an expert in selling and building fintech solutions using our exclusive partner resources</p>
                 <div class="d-flex align-items-center mb-2">
                   <i class="bi bi-check2"></i>
-                  <h4>Incidunt non veritatis illum ea ut nisi</h4>
+                  <h4>API Documentation and Integration Support:</h4>
                 </div>
-                <p>Non quod totam minus repellendus autem sint velit. Rerum debitis facere soluta tenetur. Iure
-                  molestiae assumenda sunt qui inventore eligendi voluptates nisi at. Dolorem quo tempora. Quia et
-                  perferendis.</p>
+                <p>Access comprehensive API documentation and integration support, simplifying the process of integrating UPI payments into your existing business systems and platforms.</p>
               </div><!-- End Tab 2 Content -->
 
               <div class="tab-pane fade show" id="tab3">
-                <p>Consequuntur inventore voluptates consequatur aut vel et. Eos doloribus expedita. Sapiente atque
-                  consequatur minima nihil quae aspernatur quo suscipit voluptatem.</p>
+                <p>Now accept NEFT, RTGS and IMPS transfers through customer identifiers that can be generated on-demand with automated reconciliation for payments at scale.</p>
                 <div class="d-flex align-items-center mb-2">
                   <i class="bi bi-check2"></i>
-                  <h4>Repudiandae rerum velit modi et officia quasi facilis</h4>
+                  <h4>Grow Revenue</h4>
                 </div>
-                <p>Laborum omnis voluptates voluptas qui sit aliquam blanditiis. Sapiente minima commodi dolorum non
-                  eveniet magni quaerat nemo et.</p>
+                <p>Generate additional wealth by offering fintech solutions while earning partner commissions</p>
                 <div class="d-flex align-items-center mb-2">
                   <i class="bi bi-check2"></i>
-                  <h4>Incidunt non veritatis illum ea ut nisi</h4>
+                  <h4>Multi-channel Payment Solutions: </h4>
                 </div>
-                <p>Non quod totam minus repellendus autem sint velit. Rerum debitis facere soluta tenetur. Iure
-                  molestiae assumenda sunt qui inventore eligendi voluptates nisi at. Dolorem quo tempora. Quia et
-                  perferendis.</p>
+                <p>Enable payments across various channels including online, mobile, and POS terminals, providing flexibility for customers to pay anytime, anywhere</p>
               </div><!-- End Tab 3 Content -->
 
             </div>
@@ -548,13 +536,12 @@ We are proactively advancing the digitization movement in India through close co
                 <h2 class="accordion-header">
                   <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#faq-content-1">
-                    Non consectetur a erat nam at lectus urna duis?
+                    Is it safe to use a Ecom Buyer Payments?
                   </button>
                 </h2>
                 <div id="faq-content-1" class="accordion-collapse collapse" data-bs-parent="#faqlist1">
                   <div class="accordion-body">
-                    Feugiat pretium nibh ipsum consequat. Tempus iaculis urna id volutpat lacus laoreet non curabitur
-                    gravida. Venenatis lectus magna fringilla urna porttitor rhoncus dolor purus non.
+                  Yes, we employ various security measures such as encryption, tokenization, and fraud detection to ensure the safety of online transactions. Additionally, We comply with industry standards such as PCI DSS to safeguard sensitive payment data
                   </div>
                 </div>
               </div>
@@ -563,14 +550,13 @@ We are proactively advancing the digitization movement in India through close co
                 <h2 class="accordion-header">
                   <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#faq-content-2">
-                    Feugiat scelerisque varius morbi enim nunc faucibus a pellentesque?
+                    Why should you choose to be a part of Ecom Buyer Payments?
                   </button>
                 </h2>
                 <div id="faq-content-2" class="accordion-collapse collapse" data-bs-parent="#faqlist1">
                   <div class="accordion-body">
-                    Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id
-                    donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque
-                    elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.
+                   
+                  The Ecom Buyer Payments is the most comprehensive in Indian fintech. It offers multiple products for clients' money movement needs: accepting payments, vendor payouts, employee payroll, and business loans. Additionally, it's the most rewarding B2B payment affiliate program in India
                   </div>
                 </div>
               </div>
@@ -579,15 +565,12 @@ We are proactively advancing the digitization movement in India through close co
                 <h2 class="accordion-header">
                   <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#faq-content-3">
-                    Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi?
+                    Do I need a merchant account to use Ecom Buyer Payments?
                   </button>
                 </h2>
                 <div id="faq-content-3" class="accordion-collapse collapse" data-bs-parent="#faqlist1">
                   <div class="accordion-body">
-                    Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Faucibus pulvinar
-                    elementum integer enim. Sem nulla pharetra diam sit amet nisl suscipit. Rutrum tellus pellentesque
-                    eu tincidunt. Lectus urna duis convallis convallis tellus. Urna molestie at elementum eu facilisis
-                    sed odio morbi quis
+                  Some payment gateway providers offer standalone services, while others provide integrated solutions that combine payment gateway and merchant account functionalities. The choice of provider and your business needs will determine which option is suitable for you. We provide both!
                   </div>
                 </div>
               </div>
@@ -604,14 +587,13 @@ We are proactively advancing the digitization movement in India through close co
                 <h2 class="accordion-header">
                   <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#faq2-content-1">
-                    Ac odio tempor orci dapibus. Aliquam eleifend mi in nulla?
+                    
+What payment types are accepted through Ecom Buyer Payments?
                   </button>
                 </h2>
                 <div id="faq2-content-1" class="accordion-collapse collapse" data-bs-parent="#faqlist2">
                   <div class="accordion-body">
-                    Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id
-                    donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque
-                    elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.
+                  Ecom Buyer Payments support a wide range of payment methods, including credit cards, debit cards, digital wallets, and bank transfers.
                   </div>
                 </div>
               </div>
@@ -620,14 +602,12 @@ We are proactively advancing the digitization movement in India through close co
                 <h2 class="accordion-header">
                   <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#faq2-content-2">
-                    Tempus quam pellentesque nec nam aliquam sem et tortor consequat?
+                    Can recurring payments be managed through Ecom Buyer Payments?
                   </button>
                 </h2>
                 <div id="faq2-content-2" class="accordion-collapse collapse" data-bs-parent="#faqlist2">
                   <div class="accordion-body">
-                    Molestie a iaculis at erat pellentesque adipiscing commodo. Dignissim suspendisse in est ante in.
-                    Nunc vel risus commodo viverra maecenas accumsan. Sit amet nisl suscipit adipiscing bibendum est.
-                    Purus gravida quis blandit turpis cursus in
+                  Yes, We offer features for managing recurring payments and subscriptions. Merchants can set up recurring billing schedules and automatically charge customers at regular intervals, streamlining subscription management
                   </div>
                 </div>
               </div>
@@ -636,15 +616,12 @@ We are proactively advancing the digitization movement in India through close co
                 <h2 class="accordion-header">
                   <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#faq2-content-3">
-                    Varius vel pharetra vel turpis nunc eget lorem dolor?
+                    Are there any transaction limits for Ecom Buyer Payments?
                   </button>
                 </h2>
                 <div id="faq2-content-3" class="accordion-collapse collapse" data-bs-parent="#faqlist2">
                   <div class="accordion-body">
-                    Laoreet sit amet cursus sit amet dictum sit amet justo. Mauris vitae ultricies leo integer malesuada
-                    nunc vel. Tincidunt eget nullam non nisi est sit amet. Turpis nunc eget lorem dolor sed. Ut
-                    venenatis tellus in metus vulputate eu scelerisque. Pellentesque diam volutpat commodo sed egestas
-                    egestas fringilla phasellus faucibus. Nibh tellus molestie nunc non blandit massa enim nec.
+                  Transaction limits for Ecom Buyer Payments may vary depending on factors such as your bank's policies and your account type. You can check with your bank to verify your transaction limits and make any necessary adjustments.
                   </div>
                 </div>
               </div>

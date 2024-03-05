@@ -39,36 +39,56 @@
 
       <a href="index.html" class="logo d-flex align-items-center">
         <img src="{{env('APP_URL')}}homepage_assets/img/logo.png" alt="">
-        <span>FlexStart</span>
+        <span>Ecom Buyer</span>
       </a>
 
       <nav id="navbar" class="navbar">
         <ul>
           <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
-          <li><a class="nav-link scrollto" href="#about">About</a></li>
-          <li><a class="nav-link scrollto" href="#services">Services</a></li>
-          <li><a class="nav-link scrollto" href="#portfolio">Portfolio</a></li>
-          <li><a class="nav-link scrollto" href="#team">Team</a></li>
+          <li><a class="nav-link scrollto" href="#about">Developer Portal</a></li>
+          <li><a class="nav-link scrollto" href="#services">Resources</a></li>
+          <li><a class="nav-link scrollto" href="#portfolio">Support</a></li>
+          
           <li><a href="blog.html">Blog</a></li>
-          <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
+          <li class="dropdown"><a href="#"><span>Products</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
-              <li><a href="#">Drop Down 1</a></li>
-              <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
+            <li class="dropdown"><a href="#"><span>Collect Payments</span> <i class="bi bi-chevron-right"></i></a>
                 <ul>
-                  <li><a href="#">Deep Drop Down 1</a></li>
-                  <li><a href="#">Deep Drop Down 2</a></li>
-                  <li><a href="#">Deep Drop Down 3</a></li>
-                  <li><a href="#">Deep Drop Down 4</a></li>
-                  <li><a href="#">Deep Drop Down 5</a></li>
+                  <li><a href="#">Payment Gateway</a></li>
+                  <li><a href="#">Payment Links</a></li>
+                  <li><a href="#">UPI QR code</a></li>
+                  <li><a href="#">Auto Collect</a></li>
+                  <li><a href="#">Easy Split</a></li>
+                </ul>
+              <li class="dropdown"><a href="#"><span>Reccuring Payments</span> <i class="bi bi-chevron-right"></i></a>
+                <ul>
+                  <li><a href="#">Subscription</a></li>
+                  <li><a href="#">UPI Autopay</a></li>
                 </ul>
               </li>
-              <li><a href="#">Drop Down 2</a></li>
-              <li><a href="#">Drop Down 3</a></li>
-              <li><a href="#">Drop Down 4</a></li>
+              <li class="dropdown"><a href="#"><span>Make Payouts</span> <i class="bi bi-chevron-right"></i></a>
+                <ul>
+                  <li><a href="#">Payouts</a></li>
+                  <li><a href="#">vendor Payouts</a></li>
+                </ul>
+              </li>
+              <li class="dropdown"><a href="#"><span>Verifty Idendity</span> <i class="bi bi-chevron-right"></i></a>
+                <ul>
+                  <li><a href="#">Complete Verification Suite</a></li>
+                  <li><a href="#">Bank Account Verifications</a></li>
+                  <li><a href="#">UPI Id Verification</a></li>
+                  <li><a href="#">PAN Verification</a></li>
+                  <li><a href="#">GST Verification</a></li>
+                  <li><a href="#">[New] KYC Link</a></li>
+                  <li><a href="#">UPI Id from Phone Number</a></li>
+                  <li><a href="#">Aadhaar Verification</a></li>
+                 
+                </ul>
+              </li>
             </ul>
           </li>
 
-          <li class="dropdown megamenu"><a href="#"><span>Mega Menu</span> <i class="bi bi-chevron-down"></i></a>
+          <!-- <li class="dropdown megamenu"><a href="#"><span>Mega Menu</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
               <li>
                 <a href="#">Column 1 link 1</a>
@@ -91,9 +111,9 @@
                 <a href="#">Column 4 link 3</a>
               </li>
             </ul>
-          </li>
+          </li> -->
 
-          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+         
           <li><a class="getstarted scrollto" href="#about">Get Started</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
