@@ -1,10 +1,10 @@
 <?php
-  
+
 namespace App\Http\Middleware;
-  
+
 use Closure;
 use Illuminate\Http\Request;
-  
+
 class UserAccess
 {
     /**
@@ -16,10 +16,26 @@ class UserAccess
      */
     public function handle(Request $request, Closure $next, $userType)
     {
+
+        // dd($request);
         if(auth()->user()->type == $userType){
+
             return $next($request);
         }
-          
+
+
+        else if(auth()->user()->type == 'admin'){
+
+
+            return $next($request);
+        }
+        else if(auth()->user()->type == 'manager'){
+
+
+            return $next($request);
+        }
+
+
         return response()->json(['You do not have permission to access for this page.']);
         /* return response()->view('errors.check-permission'); */
     }
