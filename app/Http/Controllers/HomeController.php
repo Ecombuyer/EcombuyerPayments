@@ -23,7 +23,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('user.home');
     } 
   
     /**
@@ -33,7 +33,8 @@ class HomeController extends Controller
      */
     public function adminHome()
     {
-        return view('adminHome');
+        $title = "Admin Dashboard";
+        return view('admin.adminHome')->with(compact('title'));
     }
   
     /**
@@ -43,7 +44,7 @@ class HomeController extends Controller
      */
     public function managerHome()
     {
-        return view('managerHome');
+        return view('manager.managerHome');
     }
 
 
