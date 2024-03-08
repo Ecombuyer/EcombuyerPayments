@@ -42,7 +42,7 @@
                         </div>
                         <div class="card card-md" id="card-body">
                             <div class="card-body">
-                                <div class="text-center"><img src="{{env('APP_URL')}}dist/img/software/ecomorangelogo.png" height="250px" style="margin-top: -100px;margin-bottom: -100px;" alt=""></div>
+                            <div class="text-center"><img src="{{env('APP_URL')}}dist/img/software/ecomorangelogo.png" height="250px" style="margin-top: -100px;margin-bottom: -100px;" alt=""></div>
                                 <h2 class="h2 text-center mb-4">Create to your account</h2>
                                 <form action="{{ route('register') }}" method="post" autocomplete="off" novalidate>
                                     @csrf()
@@ -63,29 +63,6 @@
                                             <strong>{{ $message }}</strong>
                                         </span>
                                         @enderror
-                                    </div>
-                                    <div class="mb-2">
-                                        <label class="form-label">PanCard No</label>
-                                        <div class="input-group input-group-flat">
-                                            <input id="PanCard-confirm" type="text" class="form-control @error('PanCard') is-invalid @enderror" name="PanCard_confirmation" required autocomplete="new-PanCard" placeholder="AF*****">
-                                            @error('PanCard')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="mb-2">
-                                        <label class="form-label">Phone</label>
-                                        <div class="input-group input-group-flat">
-                                            <input id="phone-confirm" type="phone" class="form-control @error('phone') is-invalid @enderror" name="phone_confirmation" required autocomplete="new-phone" placeholder="+91-**********">
-                                            @error('phone')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                            @enderror
-                                        </div>
-
                                     </div>
                                     <div class="mb-2">
                                         <label class="form-label">
@@ -113,7 +90,18 @@
                                         </div>
 
                                     </div>
+                                    <div class="mb-2">
+                                        <label class="form-label">Phone</label>
+                                        <div class="input-group input-group-flat">
+                                            <input id="phone-confirm" type="phone" class="form-control @error('phone') is-invalid @enderror" name="phone_confirmation" required autocomplete="new-phone" placeholder="+91-**********">
+                                            @error('phone')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                            @enderror
+                                        </div>
 
+                                    </div>
 
 
                                     <div class="mb-2 mt-4">

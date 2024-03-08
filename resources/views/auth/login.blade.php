@@ -29,6 +29,7 @@
         }
     </style>
 </head>
+
 <body class=" d-flex flex-column">
     <script src="{{env('APP_URL')}}dist/js/demo-theme.min.js?1692870487"></script>
     <div class="page page-center">
@@ -37,11 +38,12 @@
                 <div class="col-lg">
                     <div class="container-tight">
                         <div class="text-center mb-4">
-                            <a href="." class="navbar-brand navbar-brand-autodark"><img src="./static/logo.svg" height="36" alt=""></a>
+                            <a href="." class="navbar-brand navbar-brand-autodark"></a>
                         </div>
                         <div class="card card-md" id="card-body">
                             <div class="card-body">
-                                <h2 class="h2 text-center mb-4">Login to your account</h2>
+                                <div class="text-center"><img src="{{env('APP_URL')}}dist/img/software/ecomorangelogo.png" height="250px" style="margin-top: -100px;margin-bottom: -100px;" alt=""></div>
+                                <h3 class="h3 text-center mb-4">Login to your account</h3>
                                 <form action="{{ route('login') }}" method="post" autocomplete="off" novalidate>
                                     <div class="mb-3">
                                         <label class="form-label">Email address</label>
