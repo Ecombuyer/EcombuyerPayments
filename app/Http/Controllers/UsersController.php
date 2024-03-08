@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
     public function otp()
     {
-        return view('home.home');
+        $user = Auth::user();
+        return view('user.otp')->with(compact('user'));
     }
 }
