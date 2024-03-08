@@ -67,8 +67,8 @@
                                     <div class="mb-2">
                                         <label class="form-label">PanCard No</label>
                                         <div class="input-group input-group-flat">
-                                            <input id="PanCard-confirm" type="text" class="form-control @error('PanCard') is-invalid @enderror" name="PanCard_confirmation" required autocomplete="new-PanCard" placeholder="AF*****">
-                                            @error('PanCard')
+                                            <input id="Pancard" type="text" class="form-control @error('Pancard') is-invalid @enderror" name="Pancard" required autocomplete="new-Pancard" placeholder="AF*****">
+                                            @error('Pancard')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
@@ -78,7 +78,7 @@
                                     <div class="mb-2">
                                         <label class="form-label">Phone</label>
                                         <div class="input-group input-group-flat">
-                                            <input id="phone-confirm" type="phone" class="form-control @error('phone') is-invalid @enderror" name="phone_confirmation" required autocomplete="new-phone" placeholder="+91-**********">
+                                            <input id="phone-confirm" type="phone" class="form-control @error('phone') is-invalid @enderror" name="phone" required autocomplete="new-phone" placeholder="+91-**********">
                                             @error('phone')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -100,7 +100,6 @@
                                             @enderror
                                         </div>
                                     </div>
-
                                     <div class="mb-2">
                                         <label class="form-label">Confirm Password</label>
                                         <div class="input-group input-group-flat">
@@ -113,9 +112,6 @@
                                         </div>
 
                                     </div>
-
-
-
                                     <div class="mb-2 mt-4">
                                         <label class="form-check">
                                             <input type="checkbox" class="form-check-input" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }} />
@@ -141,7 +137,7 @@
                     </div>
                 </div>
                 <div class="col-lg d-none d-lg-block">
-                    <img src="./bansd" height="300" class="d-block mx-auto" alt="">
+                    <img src="{{env('APP_URL')}}dist/img/software/register.png" height="700px" class="d-block mx-auto" alt="">
                     </form>
                 </div>
             </div>

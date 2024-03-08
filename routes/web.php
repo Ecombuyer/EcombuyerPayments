@@ -18,19 +18,11 @@ use App\Http\Controllers\ManagerviewController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('');
 });
 
 Route::get('/homepage', [HomepageController::class, 'homepage'])->name('homepage');
 Route::get('/aboutpage', [HomepageController::class, 'aboutpage'])->name('aboutpage');
-
-
-/**view user page */
-Route::get('viewuser', [UserviewController::class, 'viewuser'])->name('viewuser');
-Route::get('managerview', [ManagerviewController::class, 'managerview'])->name('manager');
-
-
-// Route::get('viewuser', [UserviewController::class, 'viewuser'])->name('viewuser');
 
 Auth::routes();
 /*------------------------------------------
