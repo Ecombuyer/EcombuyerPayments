@@ -81,7 +81,7 @@
     <script>
         // Countdown timer
         var countdown = document.getElementById('resend');
-        var timer = 15; // 1 minute
+        var timer = 60; // 1 minute
         var interval = setInterval(function () {
             var minutes = Math.floor(timer / 60);
             var seconds = timer % 60;
