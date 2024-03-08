@@ -4,8 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HomepageController;
-use App\Http\Controllers\UserviewController;
-use App\Http\Controllers\ManagerviewController;
+use App\Http\Controllers\UsersController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,6 +28,10 @@ Auth::routes();
 --------------------------------------------
 Home page Routes
 --------------------------------------------
+   
+
+
+
 --------------------------------------------*/
 
 
@@ -42,6 +45,7 @@ All Normal Users Routes List
 Route::middleware(['auth', 'user-access:user'])->group(function () {
 
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/otp', [UsersController::class, 'otp'])->name('user.otp');
 });
 
 /*------------------------------------------
