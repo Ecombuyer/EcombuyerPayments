@@ -4,9 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateUsersTable extends Migration
 {
-
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
@@ -16,6 +15,8 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->integer('pin')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('Pancard')->nullable();
             $table->tinyInteger('type')->default(0);
             $table->tinyInteger('status')->default(0);
             $table->tinyInteger('steps')->default(0);
@@ -23,8 +24,9 @@ return new class extends Migration
             $table->timestamps();
         });
     }
+
     public function down()
     {
         Schema::dropIfExists('users');
     }
-};
+}

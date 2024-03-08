@@ -4,8 +4,8 @@
     <div class="row justify-content-center">
         <div class="offcanvas offcanvas-start" id="demo">
             <div class="offcanvas-header">
-              <h1 class="offcanvas-title">Dashboard</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+                <h1 class="offcanvas-title">Dashboard</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
             </div>
             <div class="offcanvas-body">
                 <ul class="list-group">
@@ -22,14 +22,14 @@
 
 
                 </ul>
-              {{-- <a href="{{ route('homepage') }}" class="btn btn-secondary" type="button">homepage</a> --}}
+                {{-- <a href="{{ route('homepage') }}" class="btn btn-secondary" type="button">homepage</a> --}}
             </div>
-          </div>
+        </div>
         <div class="col-md-8">
             <div class="card">
                 <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#demo">
                     <i class="bi bi-list"></i>
-                  </button>
+                </button>
                 <div class="card-header">{{ __('Dashboard') }}</div>
 
                 {{-- <div class="card-body">
@@ -96,4 +96,4 @@
         </div>
 
     </div>
-@endsection
+    @endsection

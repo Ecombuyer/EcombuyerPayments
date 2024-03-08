@@ -11,12 +11,13 @@ class CreatePaymentlinksTable extends Migration
     {
         Schema::create('paymentlinks', function (Blueprint $table) {
             $table->id();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('product_id')->nullable();
             $table->string('title');
             $table->text('description');
             $table->decimal('amount', 10, 2);
-            $table->string('payment_method');
-            $table->string('redirect_url');
+            $table->string('payment_method')->nullable();
+            $table->string('redirect_url')->nullable();
             $table->string('success_url')->nullable();
             $table->string('cancel_url')->nullable();
             $table->dateTime('expiry_date');
@@ -24,6 +25,8 @@ class CreatePaymentlinksTable extends Migration
             $table->tinyInteger('status')->default(0);
             $table->string('type');
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 
