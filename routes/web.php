@@ -16,26 +16,16 @@ use App\Http\Controllers\UsersController;
 |
 */
 
-Route::get('/', function () {
-    return view('');
-});
-
-Route::get('/homepage', [HomepageController::class, 'homepage'])->name('homepage');
-Route::get('/aboutpage', [HomepageController::class, 'aboutpage'])->name('aboutpage');
-
 Auth::routes();
 /*------------------------------------------
 --------------------------------------------
 Home page Routes
 --------------------------------------------
-   
-
-
-
 --------------------------------------------*/
 
 
-
+Route::get('/', [HomepageController::class, 'homepage'])->name('homepage');
+Route::get('/aboutpage', [HomepageController::class, 'aboutpage'])->name('aboutpage');
 
 /*------------------------------------------
 --------------------------------------------
@@ -46,6 +36,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
 
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('/otp', [UsersController::class, 'otp'])->name('user.otp');
+    Route::post('/otppost', [UsersController::class, 'otppost'])->name('otppost');
 });
 
 /*------------------------------------------
@@ -64,6 +55,5 @@ All Manager Routes List
 --------------------------------------------
 --------------------------------------------*/
 Route::middleware(['auth', 'user-access:manager'])->group(function () {
-
     Route::get('/manager/home', [HomeController::class, 'managerHome'])->name('manager.home');
 });

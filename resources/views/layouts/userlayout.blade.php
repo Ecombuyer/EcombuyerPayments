@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>{{$title}}</title>
-    <!-- CSS files -->
     <link href="{{env('APP_URL')}}dist/css/tabler.min.css?1692870487" rel="stylesheet" />
     <link href="{{env('APP_URL')}}dist/css/tabler-flags.min.css?1692870487" rel="stylesheet" />
     <link href="{{env('APP_URL')}}dist/css/tabler-payments.min.css?1692870487" rel="stylesheet" />
@@ -91,7 +90,10 @@
                             <div class="dropdown-divider"></div>
                             <a href=".{{env('APP_URL')}}/settings.html" class="dropdown-item">Settings</a>
                             <div class="dropdown-divider"></div>
-                            <a href=".{{env('APP_URL')}}/sign-in.html" class="dropdown-item">Logout</a>
+                            <form action="{{route('logout')}}" method="post">
+                                @csrf
+                                <input type="submit" class="dropdown-item" value="Logout">
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -212,8 +214,10 @@
                             <a href=".{{env('APP_URL')}}/profile.html" class="dropdown-item">Profile</a>
                             <a href=".{{env('APP_URL')}}/settings.html" class="dropdown-item">Settings</a>
                             <div class="dropdown-divider"></div>
-
-                            <a href=".{{env('APP_URL')}}/sign-in.html" class="dropdown-item">Logout</a>
+                            <form action="{{route('logout')}}" method="post">
+                                @csrf
+                                <input type="submit" class="dropdown-item" value="Logout">
+                            </form>
                         </div>
                     </div>
                 </div>

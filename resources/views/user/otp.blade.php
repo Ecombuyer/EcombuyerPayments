@@ -7,11 +7,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>OTP - Verify</title>
     <!-- CSS files -->
-    <link href="{{env('APP_URL')}}dist/css/tabler.min.css?1692870487" rel="stylesheet" />
-    <link href="{{env('APP_URL')}}dist/css/tabler-flags.min.css?1692870487" rel="stylesheet" />
-    <link href="{{env('APP_URL')}}dist/css/tabler-payments.min.css?1692870487" rel="stylesheet" />
-    <link href="{{env('APP_URL')}}dist/css/tabler-vendors.min.css?1692870487" rel="stylesheet" />
-    <link href="{{env('APP_URL')}}dist/css/demo.min.css?1692870487" rel="stylesheet" />
+    <link href="{{ env('APP_URL') }}dist/css/tabler.min.css?1692870487" rel="stylesheet" />
+    <link href="{{ env('APP_URL') }}dist/css/tabler-flags.min.css?1692870487" rel="stylesheet" />
+    <link href="{{ env('APP_URL') }}dist/css/tabler-payments.min.css?1692870487" rel="stylesheet" />
+    <link href="{{ env('APP_URL') }}dist/css/tabler-vendors.min.css?1692870487" rel="stylesheet" />
+    <link href="{{ env('APP_URL') }}dist/css/demo.min.css?1692870487" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
     <style>
         @import url('https://rsms.me/inter/inter.css');
 
@@ -29,8 +31,9 @@
         }
     </style>
 </head>
+
 <body class="d-flex flex-column">
-    <script src="{{env('APP_URL')}}dist/js/demo-theme.min.js?1692870487"></script>
+    <script src="{{ env('APP_URL') }}dist/js/demo-theme.min.js?1692870487"></script>
     <div class="page page-center">
         <div class="container container-normal py-4">
             <div class="row align-items-center g-4">
@@ -43,19 +46,26 @@
                         <div class="card card-md" id="card-body">
                             <div class="card-body">
                                 <div class="text-center"><img
-                                        src="{{env('APP_URL')}}dist/img/software/ecomorangelogo.png" height="250px"
+                                        src="{{ env('APP_URL') }}dist/img/software/ecomorangelogo.png" height="250px"
                                         style="margin-top: -100px;margin-bottom: -100px;" alt=""></div>
                                 <h2 class="h2 text-center mb-4">Enter an OTP</h2>
-                                <form action="{{ route('register') }}" method="post" autocomplete="off" novalidate>
-                                    @csrf()
+                                <form id="otpForm" method="POST" action="{{ route('otppost') }}" autocomplete="off">
+                                    @csrf
                                     <div class="mb-3">
-                                        <h3 class="card-title">Send to +91-{{$user->phone}}</h3>
+                                        <h3 class="card-title">Send to +91-{{ $user->phone }}</h3>
                                         <p class="card-subtitle">Enter Four Digit OTP</p>
                                         <div>
-                                            <input type="text" class="form-control" placeholder="OTP" name="otp">
+                                            <div id="alerts"></div>
+                                            <input type="text" class="form-control" id="pin" placeholder="OTP"
+                                                name="pin" maxlength="4"> <!-- Set maxlength to 4 -->
                                             <small class="form-hint">
                                                 Please input the OTP (One-Time Password)
                                             </small>
+                                            @error('pin')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="form-footer">
@@ -63,26 +73,29 @@
                                             Resend
                                         </button>
                                         <button type="submit" class="btn btn-primary">
-                                            Login
+                                            Submit
                                         </button>
                                     </div>
                                 </form>
+
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg d-none d-lg-block">
-                    <img src="{{env('APP_URL')}}dist/img/software/register.png" height="700px"
+                    <img src="{{ env('APP_URL') }}dist/img/software/register.png" height="700px"
                         class="d-block mx-auto" alt="">
                 </div>
             </div>
         </div>
     </div>
+    <script src="{{ env('APP_URL') }}dist/js/tabler.min.js?1692870487" defer></script>
+    <script src="{{ env('APP_URL') }}dist/js/demo.min.js?1692870487" defer></script>
     <script>
         // Countdown timer
         var countdown = document.getElementById('resend');
         var timer = 60; // 1 minute
-        var interval = setInterval(function () {
+        var interval = setInterval(function() {
             var minutes = Math.floor(timer / 60);
             var seconds = timer % 60;
             countdown.innerHTML = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
@@ -95,8 +108,6 @@
             }
         }, 1000);
     </script>
-    <script src="{{env('APP_URL')}}dist/js/tabler.min.js?1692870487" defer></script>
-    <script src="{{env('APP_URL')}}dist/js/demo.min.js?1692870487" defer></script>
 </body>
 
 </html>

@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -20,11 +21,18 @@
 
         body {
             font-feature-settings: "cv03", "cv04", "cv11";
+            background-color: whitesmoke;
         }
 
         #card-body {
             border-radius: 7px;
             box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+        }
+
+        @media (min-width: 768px) {
+            .card-md>.card-body {
+                padding: 20px;
+            }
         }
     </style>
 </head>
@@ -41,8 +49,7 @@
                         </div>
                         <div class="card card-md" id="card-body">
                             <div class="card-body">
-                                <div class="text-center"><img src="{{env('APP_URL')}}dist/img/software/ecomorangelogo.png" height="250px" style="margin-top: -100px;margin-bottom: -100px;" alt=""></div>
-                                <h2 class="h2 text-center mb-4">Create to your account</h2>
+                                <h2 class="h2 text-center mb-4">Register</h2>
                                 <form action="{{ route('register') }}" method="post" autocomplete="off" novalidate>
                                     @csrf()
                                     <div class="mb-3">
@@ -57,6 +64,7 @@
                                     <div class="mb-3">
                                         <label class="form-label">Email address</label>
                                         <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="your@email.com">
+                                        <small class="form-hint">We'll never share your email with anyone else.</small>
                                         @error('email')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -109,7 +117,6 @@
                                             </span>
                                             @enderror
                                         </div>
-
                                     </div>
                                     <div class="mb-2 mt-4">
                                         <label class="form-check">
@@ -118,11 +125,11 @@
                                         </label>
                                     </div>
                                     <div class="form-footer">
-                                        <button type="submit" class="btn btn-primary">
-                                            Login
+                                        <button type="submit" class="btn btn-dark">
+                                            Register
                                         </button>
                                         @if (Route::has('password.request'))
-                                        <a class="btn btn-link" href="{{ route('password.request') }}">
+                                        <a class="btn btn-link text-dark" href="{{ route('password.request') }}">
                                             Forgot Password?
                                         </a>
                                         @endif
@@ -131,7 +138,7 @@
                             </div>
                         </div>
                         <div class="text-center text-secondary mt-3">
-                            Alreday have an account? <a href="{{ route('login') }}" tabindex="-1"> Sign In</a>
+                            Alreday have an account? <a class="text-dark" href="{{ route('login') }}" tabindex="-1"> Sign In</a>
                         </div>
                     </div>
                 </div>

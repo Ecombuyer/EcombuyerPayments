@@ -21,12 +21,14 @@
 
         body {
             font-feature-settings: "cv03", "cv04", "cv11";
+            background-color: whitesmoke;
         }
-
         #card-body {
             border-radius: 7px;
             box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
         }
+
+        
     </style>
 </head>
 
@@ -42,9 +44,9 @@
                         </div>
                         <div class="card card-md" id="card-body">
                             <div class="card-body">
-                                <div class="text-center"><img src="{{env('APP_URL')}}dist/img/software/ecomorangelogo.png" height="250px" style="margin-top: -100px;margin-bottom: -100px;" alt=""></div>
-                                <h3 class="h3 text-center mb-4">Login to your account</h3>
+                                <h3 class="h3 text-center mb-4">Login</h3>
                                 <form action="{{ route('login') }}" method="post" autocomplete="off" novalidate>
+                                    @csrf
                                     <div class="mb-3">
                                         <label class="form-label">Email address</label>
                                         <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" required autofocus placeholder="your@email.com" autocomplete="off">
@@ -75,7 +77,7 @@
                                         </label>
                                     </div>
                                     <div class="form-footer">
-                                        <button type="submit" class="btn btn-primary">
+                                        <button type="submit" class="btn btn-dark">
                                             Login
                                         </button>
                                         @if (Route::has('password.request'))
@@ -88,12 +90,15 @@
                             </div>
                         </div>
                         <div class="text-center text-secondary mt-3">
-                            Don't have account yet? <a href="{{ route('register') }}" tabindex="-1"> Sign up</a>
+                            Don't have account yet? <a class="text-dark" href="{{ route('register') }}" tabindex="-1"> Sign up</a>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg d-none d-lg-block">
-                    <img src="./bansd" height="300" class="d-block mx-auto" alt="">
+                    <!-- <img src="./bansd" height="300" class="d-block mx-auto" alt=""> -->
+                    <h1>
+                        Image
+                    </h1>
                 </div>
             </div>
         </div>

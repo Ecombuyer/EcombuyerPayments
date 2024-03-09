@@ -23,7 +23,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('user.home');
+        $title = "User Dashboard";
+        return view('user.home')->with(compact('title'));
     } 
   
     /**
