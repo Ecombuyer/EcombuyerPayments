@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\UsersController;
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -33,10 +34,12 @@ All Normal Users Routes List
 --------------------------------------------
 --------------------------------------------*/
 Route::middleware(['auth', 'user-access:user'])->group(function () {
-
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('/otp', [UsersController::class, 'otp'])->name('user.otp');
+    Route::get('/mailverify', [UsersController::class, 'mailverify'])->name('user.mailverify');
     Route::post('/otppost', [UsersController::class, 'otppost'])->name('otppost');
+    Route::middleware(['check_user_pin_and_steps'])->group(function () {
+        Route::get('/home', [HomeController::class, 'index'])->name('home');
+    });
 });
 
 /*------------------------------------------

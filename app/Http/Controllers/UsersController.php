@@ -15,6 +15,13 @@ class UsersController extends Controller
         return view('user.otp')->with(compact('user'));
     }
 
+
+    public function mailverify()
+    {
+        $user = Auth::user();
+        return view('user.mailverify')->with(compact('user'));
+    }
+
     public function otppost(Request $request)
     {
         $user = Auth::user();
