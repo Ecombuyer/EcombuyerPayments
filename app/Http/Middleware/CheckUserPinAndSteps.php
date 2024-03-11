@@ -16,6 +16,7 @@ class CheckUserPinAndSteps
             } elseif ($user->steps == 1 && !empty($user->pin)) {
                 return redirect()->route('user.mailverify');
             }
+
         }
 
         return $next($request);

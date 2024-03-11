@@ -55,45 +55,53 @@
                         class="navbar-brand-image">
                 </a>
             </div>
-            <form class="card card-md" action="./" method="get" autocomplete="off" novalidate>
+
+            <form class="card card-md" action="{{ route('user.mailconfirm') }}" method="post" autocomplete="off" novalidate>
+                @csrf
                 <div class="card-body">
                     <h2 class="card-title card-title-lg text-center mb-4">Authenticate Your Account</h2>
                     <p class="my-4 text-center">Please confirm your account by entering the authorization code sent to
-                        <strong>+1 856-672-8552</strong>.</p>
+                        <strong> {{ $user->email }}</strong>.</p>
                     <div class="my-5">
                         <div class="row g-2">
                             <div class="col">
                                 <div class="row g-5">
                                     <div class="col">
                                         <input type="text" class="form-control form-control-lg text-center py-3"
-                                            maxlength="1" inputmode="numeric" pattern="[0-9]*" data-code-input />
+                                            maxlength="1" inputmode="numeric" pattern="[0-9]*" id="no1" name="no1" data-code-input />
                                     </div>
                                     <div class="col">
                                         <input type="text" class="form-control form-control-lg text-center py-3"
-                                            maxlength="1" inputmode="numeric" pattern="[0-9]*" data-code-input />
+                                            maxlength="1" inputmode="numeric" pattern="[0-9]*" id="no2" name="no2" data-code-input />
                                     </div>
                                     <div class="col">
                                         <input type="text" class="form-control form-control-lg text-center py-3"
-                                            maxlength="1" inputmode="numeric" pattern="[0-9]*" data-code-input />
+                                            maxlength="1" inputmode="numeric" pattern="[0-9]*" id="no3" name="no3" data-code-input />
                                     </div>
                                     <div class="col">
                                         <input type="text" class="form-control form-control-lg text-center py-3"
-                                            maxlength="1" inputmode="numeric" pattern="[0-9]*" data-code-input />
+                                            maxlength="1" inputmode="numeric" pattern="[0-9]*" id="no4" name="no4" data-code-input />
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    @if(session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @endif
                     <div class="form-footer">
                         <div class="btn-list flex-nowrap">
-                            <a href="./2-step-verification.html" class="btn w-100">
+                            <a href="{{ route("cancel") }}" class="btn w-100">
                                 Cancel
                             </a>
-                            <a href="#" class="btn btn-primary w-100" id="verify-button">
-                                Verify
-                            </a>
+
+                            <input class="btn btn-primary w-100" id="verify-button" type="submit" value="Verify">
                         </div>
                     </div>
+
+
                 </div>
             </form>
             <div class="text-center text-secondary mt-3">
