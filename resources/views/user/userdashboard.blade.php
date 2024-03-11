@@ -693,7 +693,7 @@
               <div class="col-lg-6">
                 <div class="card">
                   <div class="card-body" >
-                    <h3 class="card-title">Create Payment Link  <span class="badge badge-sm bg-rss-lt ms-auto">with products</span></h3>
+                    <h3 class="card-title">Payment Link  <span class="badge badge-sm bg-primary-lt ms-auto">with products</span></h3>
                    
                       <div class="card">
                         <div class="card-body">
