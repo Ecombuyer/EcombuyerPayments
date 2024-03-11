@@ -32,82 +32,122 @@
     </style>
 </head>
 
-<body class="d-flex flex-column">
-    <script src="{{ env('APP_URL') }}dist/js/demo-theme.min.js?1692870487"></script>
-    <div class="page page-center">
-        <div class="container container-normal py-4">
-            <div class="row align-items-center g-4">
-                <div class="col-lg">
-                    <div class="container-tight">
-                        <div class="text-center mb-4">
-                            <a href="#" class="navbar-brand navbar-brand-autodark"><img src="./static/logo.svg"
-                                    height="36" alt=""></a>
-                        </div>
-                        <div class="card card-md" id="card-body">
-                            <div class="card-body">
-                                <div class="text-center"><img
-                                        src="{{ env('APP_URL') }}dist/img/software/ecomorangelogo.png" height="250px"
-                                        style="margin-top: -100px;margin-bottom: -100px;" alt=""></div>
-                                <h2 class="h2 text-center mb-4">Enter an OTP</h2>
-                                <form id="otpForm" method="POST" action="{{ route('otppost') }}" autocomplete="off">
-                                    @csrf
-                                    <div class="mb-3">
-                                        <h3 class="card-title">Send to +91-{{ $user->phone }}</h3>
-                                        <p class="card-subtitle">Enter Four Digit OTP</p>
-                                        <div>
-                                            <div id="alerts"></div>
-                                            <input type="text" class="form-control" id="pin" placeholder="OTP"
-                                                name="pin" maxlength="4"> <!-- Set maxlength to 4 -->
-                                            <small class="form-hint">
-                                                Please input the OTP (One-Time Password)
-                                            </small>
-                                            @error('pin')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="form-footer">
-                                        <button id="resend" class="btn btn-danger" disabled>
-                                            Resend
-                                        </button>
-                                        <button type="submit" class="btn btn-primary">
-                                            Submit
-                                        </button>
-                                    </div>
-                                </form>
 
+
+
+
+<body class=" d-flex flex-column">
+    <script src="./dist/js/demo-theme.min.js?1692870487"></script>
+    <div class="page page-center">
+        <div class="container container-tight py-4">
+            <div class="text-center mb-4">
+                <a href="." class="navbar-brand navbar-brand-autodark">
+                    <img src="./static/logo.svg" width="110" height="32" alt="Tabler"
+                        class="navbar-brand-image">
+                </a>
+            </div>
+            <form class="card card-md" action="{{ route('otppost') }}" method="post" autocomplete="off" novalidate>
+                @csrf
+                <div class="card-body">
+                    <h2 class="card-title card-title-lg text-center mb-4">Authenticate Your Account</h2>
+                    <p class="my-4 text-center">Please confirm your account by entering the authorization code sent to
+                        <strong>+91 {{ $user->phone }}</strong>.</p>
+                    <div class="my-5">
+                        <div class="row g-2">
+                            <div class="col">
+                                <div class="row g-5">
+                                    <div class="col">
+                                        <input type="text" class="form-control form-control-lg text-center py-3"
+                                            maxlength="1" inputmode="numeric" pattern="[0-9]*" id="no1" name="no1" data-code-input />
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control form-control-lg text-center py-3"
+                                            maxlength="1" inputmode="numeric" pattern="[0-9]*" id="no2" name="no2" data-code-input />
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control form-control-lg text-center py-3"
+                                            maxlength="1" inputmode="numeric" pattern="[0-9]*" id="no3" name="no3" data-code-input />
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control form-control-lg text-center py-3"
+                                            maxlength="1" inputmode="numeric" pattern="[0-9]*" id="no4" name="no4" data-code-input />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    @if(session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                     @endif
+                    <div class="form-footer">
+                        <div class="btn-list flex-nowrap">
+                            <a href="{{ route("cancel") }}" class="btn w-100">
+                                Cancel
+                            </a>
+
+                            <input class="btn btn-primary w-100" id="verify-button" type="submit" value="Verify">
+                        </div>
+                    </div>
                 </div>
-                <div class="col-lg d-none d-lg-block">
-                    <img src="{{ env('APP_URL') }}dist/img/software/register.png" height="700px"
-                        class="d-block mx-auto" alt="">
-                </div>
+            </form>
+            <div class="text-center text-secondary mt-3">
+                It may take a minute to receive your code. Haven't received it? <a href="./">Resend a new code.</a>
             </div>
         </div>
     </div>
-    <script src="{{ env('APP_URL') }}dist/js/tabler.min.js?1692870487" defer></script>
-    <script src="{{ env('APP_URL') }}dist/js/demo.min.js?1692870487" defer></script>
+    <!-- Libs JS -->
+    <!-- Tabler Core -->
+    <script src="./dist/js/tabler.min.js?1692870487" defer></script>
+    <script src="./dist/js/demo.min.js?1692870487" defer></script>
     <script>
-        // Countdown timer
-        var countdown = document.getElementById('resend');
-        var timer = 60; // 1 minute
-        var interval = setInterval(function() {
-            var minutes = Math.floor(timer / 60);
-            var seconds = timer % 60;
-            countdown.innerHTML = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
-            timer--;
-
-            if (timer < 0) {
-                clearInterval(interval);
-                countdown.innerHTML = "Resend";
-                document.getElementById('resend').disabled = false;
+        document.addEventListener("DOMContentLoaded", function() {
+            var inputs = document.querySelectorAll('[data-code-input]');
+            // Attach an event listener to each input element
+            for (let i = 0; i < inputs.length; i++) {
+                inputs[i].addEventListener('input', function(e) {
+                    // If the input field has a character, and there is a next input field, focus it
+                    if (e.target.value.length === e.target.maxLength && i + 1 < inputs.length) {
+                        inputs[i + 1].focus();
+                    }
+                });
+                inputs[i].addEventListener('keydown', function(e) {
+                    // If the input field is empty and the keyCode for Backspace (8) is detected, and there is a previous input field, focus it
+                    if (e.target.value.length === 0 && e.keyCode === 8 && i > 0) {
+                        inputs[i - 1].focus();
+                    }
+                });
             }
-        }, 1000);
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input[data-code-input]');
+            const verifyButton = document.getElementById('verify-button');
+
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    const allFilled = Array.from(inputs).every(input => input.value.trim() !== '');
+                    if (allFilled) {
+                        verifyButton.removeAttribute('disabled');
+                        verifyButton.classList.add('active');
+                        verifyButton.style.backgroundColor =
+                        '#114ae6'; // Change button color to blue
+                    } else {
+                        verifyButton.setAttribute('disabled', true);
+                        verifyButton.classList.remove('active');
+                        verifyButton.style.backgroundColor =
+                        '#6e93f7'; // Change button color back to default
+                    }
+                });
+            });
+        });
     </script>
 </body>
+
+
+
+
+
+
 
 </html>
