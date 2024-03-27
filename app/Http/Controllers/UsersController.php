@@ -24,45 +24,83 @@ class UsersController extends Controller
 
     public function otppost(Request $request)
     {
+
         $user = Auth::user();
 
-        Validator::extend('match_user_pin', function ($attribute, $value, $parameters, $validator) use ($user) {
-            return $user && $user->pin === $value;
-        });
 
-        $messages = [
-            'pin.match_user_pin' => 'Invalid PIN.',
-            'pin.required' => 'The PIN field is required.',
-            'pin.digits' => 'The PIN must be 4 digits long.'
-        ];
+        /* Validation */
+        $request->validate([
+            'no1' => 'required',
+            'no2' => 'required',
+            'no3' => 'required',
+            'no4' => 'required'
+        ]);
 
-        $validator = Validator::make($request->all(), [
-            'pin' => [
-                'required',
-                'digits:4',
-                'match_user_pin',
-            ],
-        ], $messages);
+        $no1 = $request->input('no1');
+        $no2 = $request->input('no2');
+        $no3 = $request->input('no3');
+        $no4 = $request->input('no4');
 
-        if ($validator->fails()) {
-            if ($request->ajax()) {
-                return response()->json([
-                    'message' => 'The pin field is required.',
-                    'errors' => $validator->errors()
-                ], 422);
-            } else {
-                return redirect()->back()->withErrors($validator)->withInput();
-            }
+        $pin = $no1 . $no2 . $no3 . $no4;
+
+
+        /* Validation Logic */
+        $userOtp   = User::where('pin', $pin)->first();
+        $now = now();
+        if (!$userOtp) {
+
+            return redirect()->back()->with('error', 'Your OTP is in correct');
+        }
+        if ($userOtp) {
+            $userOtp->pin = null;
+            $userOtp->steps = 1;
+            $userOtp->save();
+            Auth::login($userOtp); // Logging in the user after OTP validation
+            return redirect('/home');
         }
 
-        $user->pin = '';
-        $user->steps = 2;
-        $user->update();
+        return redirect()->route('login')->with('error', 'Your OTP is ib correct');
+    }
 
-        if ($request->ajax()) {
-            return response()->json(['message' => 'PIN verified successfully.'], 200);
-        } else {
-            return redirect()->route('home')->with('success', 'PIN verified successfully.');
+    public function mailconfirm(Request $request)
+    {
+        $user = Auth::user();
+        $no1 = $request->input('no1');
+        $no2 = $request->input('no2');
+        $no3 = $request->input('no3');
+        $no4 = $request->input('no4');
+
+        $newotp = $no1 . $no2 . $no3 . $no4;
+
+        $usernewOtp = User::where('pin', $newotp)->first();
+
+        if (!$usernewOtp) {
+            return redirect()->back()->with('error', 'Your OTP is in correct');
+        }
+
+        if ($usernewOtp) {
+            $usernewOtp->pin = null;
+            $usernewOtp->steps = 1;
+            $usernewOtp->save();
+            Auth::login($usernewOtp); // Logging in the user after OTP validation
+            return redirect('/home');
+        }
+
+        return redirect()->route('login')->with('error', 'Failed to login');
+    }
+
+/*user login cancel*/
+    public function cancel()
+    {
+        $user = Auth::user();
+
+        if ($user) {
+            $user->pin = null;
+            $user->steps = 1;
+            $user->update();
+            Auth::logout();
+            return redirect()->route('login');
         }
     }
+    /*end*/
 }
