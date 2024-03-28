@@ -1,11 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\HomepageController;
-use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Auth;
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\HomepageController;
+use App\Http\Controllers\OrderdetailsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,6 +29,7 @@ Home page Routes
 
 Route::get('/', [HomepageController::class, 'homepage'])->name('homepage');
 Route::get('/aboutpage', [HomepageController::class, 'aboutpage'])->name('aboutpage');
+Route::resource('/orderdetails',OrderdetailsController::class)->names('orderdetails');
 
 /*------------------------------------------
 --------------------------------------------
@@ -51,6 +54,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
 
     });
 });
+
 
 /*------------------------------------------
 --------------------------------------------
