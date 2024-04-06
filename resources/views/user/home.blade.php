@@ -298,5 +298,114 @@
             </div>
         </div>
     </div>
+     @php
+     $user = Auth::user();
+        $userid =  $user->id;
+        use App\Models\Product;
+        $orders = App\Models\Product::where('status', '=', '1')
+        ->where('user_id',$userid)
+        ->limit(4)
+        ->get();
+
+        @endphp
+        <div class="row row-deck row-cards mt-5" >
+          <div class="col-12">
+            <div class="card">
+
+              <div class="card-header">
+                <div>
+                  <h1 class="card-title">PRODUCTS DETAILS</h1>
+
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table class="table card-table table-vcenter text-nowrap datatable table-hover">
+                  <thead>
+                    <tr>
+                        <th class="">Sno</th>
+
+                      <th class="">User Id</th>
+                      <th class="">Product ID</th>
+                      <th class="">product Name</th>
+
+                      <th>Product Description</th>
+                      <th class="">Product Price</th>
+                      <th class="">Transaction</th>
+                      <th class="">Product Image</th>
+
+                      {{-- <th class="w-1 text-center">Actions</th> --}}
+                    </tr>
+                  </thead>
+
+
+                  <tbody>
+                    @foreach ($orders as $order)
+
+                        <tr>
+                            <td>{{ $loop->index + 1 }}</td>
+                            <td>{{ $order->user_id }}</td>
+                            <td>{{ $order->product_id }}</td>
+                            <td>{{ $order->name }}</td>
+
+                            <td><div style="position: relative;overflow: auto;width: 235px !important;height: 120px !important;text-wrap: wrap; text-">{{ strip_tags($order->description) }}</div></td>
+                            <td>{{ $order->price }}</td>
+                            <td> <a href="{{route('orders.transaction',$order->product_id)}}" class="btn btn-no-underline mx-2"> Transaction</a></td>
+                            <td>
+                                <div class="card" style="width: 50%;">
+                                @if ($order->image)
+                                    <img class="card-img" style="width: 200px"  src="{{ asset('uploads/previewimages/' . $order->image) }}"
+                                       >
+                                @else
+                                    <span>No image found!</span>
+                                @endif
+                            </div>
+                            </td>
+
+                            {{-- <td >
+                                <div class=" mx-0 d-flex">
+                                    <a href="{{url('/'.$order->product_id.'/'.$order->name.'/show')}}" role="button" class="btn btn-primary mx-2"><i class="fa-regular fa-eye " style="margin-right: 5px"></i> Preview</a>
+
+                                <div class="share-module" data-title="{{ $order->name }}" data-text="{{ $order->description }}" data-url="{{url('/'.$order->product_id.'/'.$order->name.'/show')}}">
+                                    <template class="is-supported">
+                                        <button class="btn btn-primary mx-2 js-share"><i class="fa-solid fa-share" style="margin-right: 5px"></i>Share</button>
+                                    </template>
+                                    <template class="not-supported">
+                                        <pre>@Html.Partial('_Social.html')</pre>
+                                    </template>
+                                </div>
+
+
+
+                                <a href="{{url('/'.$order->id.'/edit')}}" class="btn btn-primary mx-2 " role="button"><i class="fa-regular fa-pen-to-square" style="margin-right: 5px"></i> Edit</a>
+                                <a href="{{url('/'.$order->id.'/destory')}}" class="btn btn-danger mx-2 "role="button"> <i class="fa-solid fa-trash-can" style="margin-right: 5px"></i> Delete</a>
+
+
+                                </div>
+
+
+
+                              </td> --}}
+                        </tr>
+                    @endforeach
+                </tbody>
+
+
+
+
+                </table>
+              </div>
+              <div class="card-footer d-flex align-items-center">
+                <a href="{{route('load_more_products')}}" class="">Show More...</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 @endsection
