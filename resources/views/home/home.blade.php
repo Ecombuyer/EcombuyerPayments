@@ -33,10 +33,10 @@
             <div class="content">
               <h3>Who We Are</h3>
               <h2>Empowering modern businesses with the futuristic payments infrastructure.</h2>
-              <p> 
+              <p>
               We empower businesses of all sizes by constructing the payments infrastructure of the future, today.
-              
-We are proactively advancing the digitization movement in India through close collaborations with traditional banks, with a focus on improving ease and convenience for customers at the final mile.
+
+                We are proactively advancing the digitization movement in India through close collaborations with traditional banks, with a focus on improving ease and convenience for customers at the final mile.
               </p>
               <div class="text-center text-lg-start">
                 <a href="#"
@@ -56,6 +56,7 @@ We are proactively advancing the digitization movement in India through close co
       </div>
 
     </section>
+
     <section id="values" class="values">
 
       <div class="container" data-aos="fade-up">
@@ -555,7 +556,7 @@ We are proactively advancing the digitization movement in India through close co
                 </h2>
                 <div id="faq-content-2" class="accordion-collapse collapse" data-bs-parent="#faqlist1">
                   <div class="accordion-body">
-                   
+
                   The Ecom Buyer Payments is the most comprehensive in Indian fintech. It offers multiple products for clients' money movement needs: accepting payments, vendor payouts, employee payroll, and business loans. Additionally, it's the most rewarding B2B payment affiliate program in India
                   </div>
                 </div>
@@ -587,7 +588,7 @@ We are proactively advancing the digitization movement in India through close co
                 <h2 class="accordion-header">
                   <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#faq2-content-1">
-                    
+
 What payment types are accepted through Ecom Buyer Payments?
                   </button>
                 </h2>
