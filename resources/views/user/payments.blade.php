@@ -19,7 +19,7 @@
 
 
 </body>
-@foreach ($paymenttype as $paymenttype )
+{{-- @foreach ($paymenttype as $paymenttype ) --}}
 
 
 {{-- @switch($paymenttype->payment_name=='indicpay' || $paymenttype->payment_name=='crizpay'|| $paymenttype->payment_name=='hodapay') --}}
@@ -176,7 +176,7 @@
         });
     </script>
   @endif
-  @endforeach
+ 
 
 
 </html>

@@ -302,7 +302,7 @@ class OrderController extends Controller
     {
         $user = Auth::user();
         $userid =  $user->id;
-        $paymenttype = Paymenttype::all();
+        $paymenttype = Paymenttype::where('status',1)->first();
 
         $form2 = $request->validate([
 
@@ -313,11 +313,11 @@ class OrderController extends Controller
 
 
         // Randomly select a name from the array
-        foreach ($paymenttype as $paymenttype) {
+        // foreach ($paymenttype as $paymenttype) {
 
             if ($paymenttype->payment_name == 'indicpay' && $paymenttype->status == 1) {
 
-                dd($paymenttype->payment_name);
+                // dd($paymenttype->payment_name);
                 $txnid = "TXN" . time();
                 $orderid = mt_rand(1000, 9000);
 
@@ -440,7 +440,7 @@ class OrderController extends Controller
                 $response = curl_exec($curl);
 
                 curl_close($curl);
-                dd($response);
+                // dd($response);
                 // dd($res);
                 // session()->put('txnid', $txnid);
                 if ($response === false) {
@@ -478,7 +478,7 @@ class OrderController extends Controller
                     }
                 }
             }
-        }
+        // }
 
 }
 

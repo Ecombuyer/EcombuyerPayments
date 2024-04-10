@@ -4,9 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-
-    "content-hash": "a7d412f84280f8c315e71af4614f4157",
-
+    "content-hash": "da6ccf3361a7b37b0bd129a4731b91cf",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -1289,7 +1287,6 @@
         },
         {
             "name": "laravel/framework",
-
             "version": "v10.48.4",
             "source": {
                 "type": "git",
@@ -1300,7 +1297,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/framework/zipball/7e0701bf59cb76a51f7c1f7bea51c0c0c29c0b72",
                 "reference": "7e0701bf59cb76a51f7c1f7bea51c0c0c29c0b72",
-
                 "shasum": ""
             },
             "require": {
@@ -1494,9 +1490,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-
             "time": "2024-03-21T13:36:36+00:00"
-
         },
         {
             "name": "laravel/prompts",
@@ -1878,7 +1872,6 @@
                 "source": "https://github.com/laravel/ui/tree/v4.5.1"
             },
             "time": "2024-03-21T18:12:29+00:00"
-
         },
         {
             "name": "league/commonmark",
@@ -6525,9 +6518,7 @@
                 "issues": "https://github.com/laravel/sail/issues",
                 "source": "https://github.com/laravel/sail"
             },
-
             "time": "2024-03-20T20:09:31+00:00"
-
         },
         {
             "name": "mockery/mockery",
