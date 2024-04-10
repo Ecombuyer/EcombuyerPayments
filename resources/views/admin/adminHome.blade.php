@@ -1,99 +1,189 @@
 @extends('layouts.adminlayout')
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="offcanvas offcanvas-start" id="demo">
-            <div class="offcanvas-header">
-                <h1 class="offcanvas-title">Dashboard</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
-            </div>
-            <div class="offcanvas-body">
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <a class="nav-link" href="">User</a>
 
-                    </li>
-                    <li class="list-group-item">
-                        <a class="nav-link" href="{{ route('manager') }}">manager</a>
-                    </li>
-                    <li class="list-group-item">
-                        <a class="nav-link" href="#">Contact</a>
-                    </li>
+<main class="main-content position-relative border-radius-lg ">
 
-
-                </ul>
-                {{-- <a href="{{ route('homepage') }}" class="btn btn-secondary" type="button">homepage</a> --}}
-            </div>
-        </div>
-        <div class="col-md-8">
-            <div class="card">
-                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#demo">
-                    <i class="bi bi-list"></i>
-                </button>
-                <div class="card-header">{{ __('Dashboard') }}</div>
-
-                {{-- <div class="card-body">
-                    You are a Admin User.
-                </div> --}}
-
-
-                @include('layouts.navbars.auth.topnav', ['title' => 'Dashboard'])
-                {{-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                    <div class="container-fluid">
-
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarNav">
-                            <ul class="navbar-nav">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Home</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">About</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Contact</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav> --}}
-
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
-                                <div class="card-header">Users</div>
-                                <div class="card-body">
-                                    <h5 class="card-title">1234</h5>
-                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <!-- End Navbar -->
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                <div class="card">
+                    <div class="card-body p-3">
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="numbers">
+                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Today's Money</p>
+                                    <h5 class="font-weight-bolder">
+                                        $53,000
+                                    </h5>
+                                    <p class="mb-0">
+                                        <span class="text-success text-sm font-weight-bolder">+55%</span>
+                                        since yesterday
+                                    </p>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
-                                <div class="card-header">Sales</div>
-                                <div class="card-body">
-                                    <h5 class="card-title">5678</h5>
-                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card text-white bg-danger mb-3" style="max-width: 18rem;">
-                                <div class="card-header">Revenue</div>
-                                <div class="card-body">
-                                    <h5 class="card-title">9012</h5>
-                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <div class="col-4 text-end">
+                                <div
+                                    class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
+                                    <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                <div class="card">
+                    <div class="card-body p-3">
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="numbers">
+                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Today's Users</p>
+                                    <h5 class="font-weight-bolder">
+                                        2,300
+                                    </h5>
+                                    <p class="mb-0">
+                                        <span class="text-success text-sm font-weight-bolder">+3%</span>
+                                        since last week
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-4 text-end">
+                                <div
+                                    class="icon icon-shape bg-gradient-danger shadow-danger text-center rounded-circle">
+                                    <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                <div class="card">
+                    <div class="card-body p-3">
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="numbers">
+                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">New Clients</p>
+                                    <h5 class="font-weight-bolder">
+                                        +3,462
+                                    </h5>
+                                    <p class="mb-0">
+                                        <span class="text-danger text-sm font-weight-bolder">-2%</span>
+                                        since last quarter
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-4 text-end">
+                                <div
+                                    class="icon icon-shape bg-gradient-success shadow-success text-center rounded-circle">
+                                    <i class="ni ni-paper-diploma text-lg opacity-10" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6">
+                <div class="card">
+                    <div class="card-body p-3">
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="numbers">
+                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Sales</p>
+                                    <h5 class="font-weight-bolder">
+                                        $103,430
+                                    </h5>
+                                    <p class="mb-0">
+                                        <span class="text-success text-sm font-weight-bolder">+5%</span> than last month
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-4 text-end">
+                                <div
+                                    class="icon icon-shape bg-gradient-warning shadow-warning text-center rounded-circle">
+                                    <i class="ni ni-cart text-lg opacity-10" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
         </div>
+        <div class="row my-4">
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-header pb-4 font-weight-bold">
+                        <span style="color: #0054A6;">USERS</span>
+                    </div>
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th
+                                            class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
+                                            S.no
+                                        </th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            User Id
+                                        </th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            User Name
+                                        </th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                           Email
+                                        </th>
+                                        <!-- <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+                                        >
+                                        Product Description
+                                        </th> -->
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Phone Number
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($users as $user)
+                                        <tr>
+                                            <td class="align-middle text-center">
+                                                <span
+                                                    class="text-secondary text-xs font-weight-bold">{{ $loop->index + 1 }}</span>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <span
+                                                    class="text-secondary text-xs font-weight-bold">{{ $user->id }}</span>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <span
+                                                    class="text-secondary text-xs font-weight-bold">{{ $user->name }}</span>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <span
+                                                    class="text-secondary text-xs font-weight-bold">{{ $user->email }}</span>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <span
+                                                    class="text-secondary text-xs font-weight-bold">{{ $user->phone }}</span>
+                                            </td>
+                                    @endforeach
 
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+</main>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     @endsection

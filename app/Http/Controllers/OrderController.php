@@ -105,12 +105,12 @@ class OrderController extends Controller
 
         // Redirect the user back to the create order page with a success message
         // return redirect()->route('orders.index')->with('success', 'Order created successfully!');
-if($order == true){
-    toastr()->success('Products Created Succesfully ');
-    return redirect()->route('orders.index');
-}
-else{
-toastr()->error('Products creation Failed');
+    if($order == true){
+        toastr()->success('Products Created Succesfully ');
+        return redirect()->route('orders.index');
+    }
+    else{
+        toastr()->error('Products creation Failed');
 }
     }
 
@@ -277,7 +277,8 @@ toastr()->error('Products creation Failed');
         $order = Product::find($id);
 
         $order->update(['status' => '0']);
-        return redirect('/index')->with('message', 'Order deleted successfully')
+        toastr()->warning('Product Deleted Successfully');
+        return redirect('/index')
             ->with('title', 'Orders');
     }
 
@@ -491,7 +492,7 @@ toastr()->error('Products creation Failed');
             }
         // }
 
-            } else if ($paymenttype->payment_name == 'crizzpay' && $paymenttype->status == '1') {
+            else if ($paymenttype->payment_name == 'crizzpay' && $paymenttype->status == '1') {
                 $txnid = "TXN" . time();
                 $orderid = mt_rand(1000, 9000);
 

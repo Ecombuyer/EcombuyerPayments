@@ -15,7 +15,7 @@
         "laravel/ui": "^4.4",
         "simplesoftwareio/simple-qrcode": "~4",
         "unisharp/laravel-filemanager": "*",
-        "yoeunes/toastr": "^2.3"
+        "yoeunes/toastr": "2.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

@@ -24,13 +24,12 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
-    {
-        $user = Auth::user();
-        $username =  $user->name;
+    {$user = Auth::user();
+        $username = $user->name;
         Session::put('username', $username);  // just example
         $title = "User Dashboard";
-
-        return view('user.home')->with(compact('title'));
+        return view('user.home', compact('title'));
+        
     }
 
     /**
@@ -40,8 +39,16 @@ class HomeController extends Controller
      */
     public function adminHome()
     {
+        $users = Auth::user()->where('type',0)
+        ->where('status',0)
+        ->get()
+        ->all();
+
+        $currentuser = Auth::user();
+        $username = $currentuser->name;
+        Session::put('username', $username);
         $title = "Admin Dashboard";
-        return view('admin.adminHome')->with(compact('title'));
+        return view('admin.adminhome',compact('users','title'));
     }
 
     /**
