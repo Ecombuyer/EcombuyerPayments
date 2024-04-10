@@ -4,10 +4,10 @@ use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\UsersController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\UsersController;
 use App\Http\Controllers\PaymentController;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\HomepageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +30,7 @@ Home page Routes
 
 Route::get('/', [HomepageController::class, 'homepage'])->name('homepage');
 Route::get('/aboutpage', [HomepageController::class, 'aboutpage'])->name('aboutpage');
-Route::resource('/orderdetails',OrderdetailsController::class)->names('orderdetails');
+
 
 /*------------------------------------------
 --------------------------------------------
@@ -51,7 +51,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
 
         Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-        Route::GET('/load-more-products', [OrderController::class, 'loadMoreProducts'])->name('load_more_products');
+        // Route::GET('/load-more-products', [OrderController::class, 'loadMoreProducts'])->name('load_more_products');
         Route::GET('/share', [OrderController::class, 'share'])->name('share');
         Route::GET('/preview', [OrderController::class, 'preview'])->name('preview');
         Route::POST('/store', [OrderController::class, 'store'])->name('orders.store');
@@ -73,9 +73,6 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
         Route::post('user/callback', [OrderController::class,'handleCallback'])->name('payment.callback');
         Route::GET('/paymentmethod', [PaymentController::class, 'paymentmethod'])->name('user.paymentmethod');
         Route::POST('/paymentactive', [PaymentController::class, 'paymentactive'])->name('user.paymentactive');
-
-
-
     });
 });
 

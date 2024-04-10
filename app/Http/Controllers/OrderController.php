@@ -33,7 +33,7 @@ class OrderController extends Controller
         $orders = Product::where('user_id', $userid)->where('status', 1)->get();
 
         // dd($orders);
-        return view('user.orderscreate', compact('title', 'orders', 'username'));
+        return view('user.orders', compact('title', 'orders', 'username'));
     }
 
     /**
@@ -42,7 +42,7 @@ class OrderController extends Controller
     public function create()
     {
         $title = "Orders";
-        return view('user.orders', compact('title'));
+        return view('user.orderscreate', compact('title'));
     }
 
     /**
@@ -52,7 +52,7 @@ class OrderController extends Controller
     {
 
 
-
+// dd($request->all());
         $user = Auth::user();
         $userid =  $user->id;
         $product_id = $userid . mt_rand(1000, 9999);
@@ -105,11 +105,13 @@ class OrderController extends Controller
 
         // Redirect the user back to the create order page with a success message
         // return redirect()->route('orders.index')->with('success', 'Order created successfully!');
-
-        return redirect()->route('orders.index')->with([
-            'message' => 'Order created successfully!',
-            'status' => 'success'
-        ]);
+if($order == true){
+    toastr()->success('Products Created Succesfully ');
+    return redirect()->route('orders.index');
+}
+else{
+toastr()->error('Products creation Failed');
+}
     }
 
     /**
@@ -251,9 +253,15 @@ class OrderController extends Controller
             'file' => $form1['productfile'] ?? $order->file
 
         ]);
+        if($order == true){
+            toastr()->success('Products Updated Succesfully ');
+            return redirect()->route('orders.index');
+        }
+        else{
+        toastr()->error('Products Updation Failed');
+        }
 
-
-        return redirect('/load-more-products')->with([
+        return redirect('/index')->with([
             'message' => 'Order updated successfully!',
             'status' => 'success'
         ]);
@@ -274,18 +282,18 @@ class OrderController extends Controller
     }
 
 
-    public function loadMoreProducts(Request $request)
-    {
-        $user = Auth::user();
-        $userid =  $user->id;
-        $title = "Orderslist";
-        $page = $request->page;
+    // public function loadMoreProducts(Request $request)
+    // {
+    //     $user = Auth::user();
+    //     $userid =  $user->id;
+    //     $title = "Orderslist";
+    //     $page = $request->page;
 
 
-        $orders = Product::where('user_id', $userid)->where('status', 1)->get();
+    //     $orders = Product::where('user_id', $userid)->where('status', 1)->get();
 
-        return view('user.orderscreate', compact('title', 'orders'));
-    }
+    //     return view('user.orders', compact('title', 'orders'));
+    // }
 
 
     public function buynow($productid)
@@ -302,7 +310,7 @@ class OrderController extends Controller
     {
         $user = Auth::user();
         $userid =  $user->id;
-        $paymenttype = Paymenttype::all();
+        $paymenttype = Paymenttype::where('status', 1)->get()->first();
 
         $form2 = $request->validate([
 
@@ -313,11 +321,11 @@ class OrderController extends Controller
 
 
         // Randomly select a name from the array
-        foreach ($paymenttype as $paymenttype) {
+        // foreach ($paymenttype as $paymenttype) {
 
             if ($paymenttype->payment_name == 'indicpay' && $paymenttype->status == 1) {
 
-                dd($paymenttype->payment_name);
+                // dd($paymenttype->payment_name);
                 $txnid = "TXN" . time();
                 $orderid = mt_rand(1000, 9000);
 
@@ -441,7 +449,6 @@ class OrderController extends Controller
 
                 curl_close($curl);
                 dd($response);
-                // dd($res);
                 // session()->put('txnid', $txnid);
                 if ($response === false) {
                     echo 'Curl error: ' . curl_error($curl);
@@ -473,15 +480,99 @@ class OrderController extends Controller
                             ->generate(
                                 $upi_url
                             );
-                        $paymenttype = Paymenttype::get()->first();
+                        // $paymenttype = Paymenttype::get()->first();
+                        return view('user.payments', compact('pay', 'userid', 'paymenttype', 'txnid'));
+                    }
+                }
+            } else if ($paymenttype->payment_name == 'crizzpay' && $paymenttype->status == '1') {
+                $txnid = "TXN" . time();
+                $orderid = mt_rand(1000, 9000);
+
+                $key = 'CP36308010567889670';
+                $paymentmethod = 'PS001';
+                $endpoint = 'https://boapi.cricpayz.io:14442/api/appuser/loginPaymentGateway';
+
+                $callback_url = route('payment.callback');
+                // }
+
+                $data = json_encode([
+                    'name' => $form2['name'],
+                    'phone' => $form2['mobileno'],
+                    'userId' => $form2['email'],
+                    'amount' => $request->productprice,
+                    'txnid' => $txnid,
+                    'merchantCode' => $key,
+                    'paymentMethod'  => $paymentmethod,
+                ]);
+                // $data = json_encode([
+
+                //     "email" => $form2['email'],
+                //     "amount" => $request->productprice,
+                //     "txnid" => $txnid,
+                //     "return_url" => $callback_url,
+                //     "token" => $key,
+                // ]);
+
+
+
+                $curl = curl_init();
+                curl_setopt_array($curl, [
+                    CURLOPT_URL => $endpoint,
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'POST',
+                    CURLOPT_POSTFIELDS => $data,
+                    CURLOPT_HTTPHEADER => [
+                        'Content-Type: application/json',
+                    ],
+                ]);
+
+                $response = curl_exec($curl);
+
+                curl_close($curl);
+                dd($response);
+                // session()->put('txnid', $txnid);
+                if ($response === false) {
+                    echo 'Curl error: ' . curl_error($curl);
+                } else {
+                    $response_array = json_decode($response, true);
+
+                    if (!empty($response_array) && isset($response_array['upi_url']) && !empty($response_array['upi_url'])) {
+                        $upi_url = $response_array['upi_url'];
+                        $orderdetails1 = Order_details::create([
+                            'order_id' => $orderid,
+                            'product_id' => $request->productid,
+                            'seller_id' => $request->selleruserid,
+                            'user_id' => $userid,
+                            'user_name' => $form2['name'],
+                            'user_email' => $form2['email'],
+                            'user_number' => $form2['mobileno'],
+                            'payment_method' => $request->input('payment-group'),
+                            'product_price' => $request->productprice,
+                            'product_name' => $request->productname,
+                            "transaction_id" => $txnid
+
+                        ]);
+                        /// dd($response_array);
+
+                        $pay = QrCode::size(200)
+                            ->backgroundColor(255, 255, 0)
+                            ->color(0, 0, 255)
+                            ->margin(1)
+                            ->generate(
+                                $upi_url
+                            );
+                        // $paymenttype = Paymenttype::get()->first();
                         return view('user.payments', compact('pay', 'userid', 'paymenttype', 'txnid'));
                     }
                 }
             }
-        }
 
-}
-
+    }
     public function transaction(Request $request, $id)
     {
 
@@ -540,4 +631,5 @@ class OrderController extends Controller
         ]);
         return "Payment is failed";
     }
+
 }
