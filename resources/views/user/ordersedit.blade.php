@@ -1,9 +1,5 @@
 @extends('layouts.userlayout')
 @section('content')
-
-    <head>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    </head>
     <style>
         .upload-area2 {
             width: 100%;
@@ -166,7 +162,6 @@
         }
 
         /* (drop-zoon--over) Modifier Class */
-        .drop-zoon--Uploaded2 {}
 
         .drop-zoon--Uploaded2 .drop-zoon__icon2,
         .drop-zoon--Uploaded2 .drop-zoon__paragraph2 {
@@ -313,7 +308,6 @@
             --clr-light-blue: rgb(171, 202, 255);
         }
 
-        body {}
 
         /* End General Styles */
 
@@ -479,7 +473,7 @@
         }
 
         /* (drop-zoon--over) Modifier Class */
-        .drop-zoon--Uploaded {}
+
 
         .drop-zoon--Uploaded .drop-zoon__icon,
         .drop-zoon--Uploaded .drop-zoon__paragraph {
@@ -610,282 +604,276 @@
             color: var(--clr-light-gray);
         }
     </style>
-    <div class="container-xl">
-        <form class="form-group" action="{{ url('/' . $order->id . '/update') }}" method="post" enctype="multipart/form-data">
-            @csrf
+    <style>
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
 
-            <div class="row row-deck row-cards d-flex align-items-center justify-content-center mb-3">
-                <h2 class="text-center"><span style="color: #0054A6;"> ORDER </span> PRODUCTS </h2>
-                <div class="col-lg-8">
-                    <div class="card" style="border-radius: 10px">
-                        <div class="card-body">
-                            {{-- <h3 class="card-title">Create Payment Link</h3>     --}}
-
-                            {{-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> --}}
-                            <div class="mb-3">
-                                <h4>Product Name</h4>
-                                <input type="text" class="form-control" placeholder="Short Sleeve T-Shirt"
-                                    name="product_name" style="border-radius: 10px" value="{{ $order->name }}">
-                            </div>
-                            <div class="mb-1">
-                                <h4>Product Description</h4>
-                                <textarea id="tinymce-mytextarea" name="product_description" style="border-radius: 10px">{{ strip_tags($order->description) }}</textarea>
-
-                            </div>
+        input[type="number"] {
+            -moz-appearance: textfield;
+            /* Firefox */
+        }
+    </style>
 
 
-                            {{-- <button type="button" class="btn btn-primary" style="margin-top: 20px;">Choose</button> --}}
-                        </div>
-                    </div>
+
+    <!-- End Navbar -->
+
+    <div class="row  d-flex align-items-center justify-content-center mb-3">
+        <div class="col-md-8 mt-4">
+            <div class="card" style="border-radius:30px">
+                <div class="card-header pb-0 px-3">
+                    <h4 class="mb-0"><span style="color: #0054A6;"> ORDER </span> PRODUCTS </h4>
                 </div>
-
-            </div>
-
-
-
-            <div class="row row-deck row-cards d-flex align-items-center justify-content-center">
-
-                <div class="col-lg-8">
-                    <div class="card" style="border-radius: 10px">
-                        <div class="card-body">
-                            <!-- Upload Area -->
-                            <h4>Product Media</h4>
-                            <div class="mb-3">
-                                <div class="form-label">Source File</div>
-                                <input type="file" name="productfile" id="productfile" class="form-control">
-                                <span id="ff1" class="text-danger"></span>
-                                {{-- <img src="{{ asset('uploads/products/' . $order->file) }}" alt="Old Image"
-                                    style="max-width: 100px;"> --}}
-                                    <span style="margin-top: 40px"> Old-file: {{$order->image}}</span>
-                                <input type="hidden" name="old_productfile[]" value="{{ $order->file }}">
-
-                            </div>
-
-
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div id="uploadArea" class="upload-area">
-                                        <!-- Header -->
-
-                                        <div class="upload-area__header">
-                                          <p class="upload-area__paragraph">
-                                            Preview Image 1
-                                            <strong class="upload-area__tooltip">
-
-                                              <span class="upload-area__tooltip-data"></span> <!-- Data Will be Comes From Js -->
-                                            </strong>
-                                          </p>
-                                        </div>
-                                        <!-- End Header -->
-
-                                        <!-- Drop Zoon -->
-                                        <div id="dropZoon" class="upload-area__drop-zoon drop-zoon">
-                                          <span class="drop-zoon__icon">
-                                            <i class=''></i>
-                                          </span>
-                                          <p class="drop-zoon__paragraph">Drop your file here or Click to browse</p>
-                                          <span id="loadingText" class="drop-zoon__loading-text">Please Wait</span>
-                                          <img src="" alt="Preview Image" id="previewImage" class="drop-zoon__preview-image" draggable="false">
-                                          <input type="file" id="fileInput" name="image" class="drop-zoon__file-input" accept="image/*">
-
-                                            <img src="{{ asset('uploads/previewimages/'.$order->image) }}" alt="Old Image"
-                                                                                style="max-width: 100px;">
-                                          <input type="hidden" name="old_images1[]" value="{{ $order->image }}">
-                                        </div>
-                                        <!-- End Drop Zoon -->
-
-                                        <!-- File Details -->
-                                        <div id="fileDetails" class="upload-area__file-details file-details">
-                                          <h3 class="file-details__title">Uploaded File</h3>
-
-                                          <div id="uploadedFile" class="uploaded-file">
-                                            <div class="uploaded-file__icon-container">
-                                              <i class='bx bxs-file-blank uploaded-file__icon'></i>
-                                              <span class="uploaded-file__icon-text"></span> <!-- Data Will be Comes From Js -->
-                                            </div>
-
-                                            <div id="uploadedFileInfo" class="uploaded-file__info">
-                                              <span class="uploaded-file__name">Proejct 1</span>
-                                              <span class="uploaded-file__counter">0%</span>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <!-- End File Details -->
-                                      </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div id="uploadArea2" class="upload-area2">
-                                        <!-- Header -->
-
-                                        <div class="upload-area__header2">
-                                          <p class="upload-area__paragraph2">
-                                            Preview Image 2
-                                            <strong class="upload-area__tooltip2">
-
-                                              <span class="upload-area__tooltip-data2"></span> <!-- Data Will be Comes From Js -->
-                                            </strong>
-                                          </p>
-                                        </div>
-                                        <!-- End Header -->
-
-                                        <!-- Drop Zoon -->
-                                        <div id="dropZoon2" class="upload-area__drop-zoon2 drop-zoon2">
-                                          <span class="yetho">
-                                            <i class=''></i>
-                                          </span>
-                                          <p class="drop-zoon__paragraph2">Drop your file here or Click to browse</p>
-                                          <span id="loadingText2" class="drop-zoon__loading-text2">Please Wait</span>
-                                          <img src="" alt="Preview Image2" id="previewImage2" class="drop-zoon__preview-image2" draggable="false">
-                                          <input type="file" id="fileInput2" name="preimage2" class="drop-zoon__file-input2" accept="image/*">
-                                          <img src="{{ asset('uploads/previewimages/' . $order->image_2) }}" alt="Old Image"
-                                          style="max-width: 100px;">
-                                          <input type="hidden" name="old_images1[]" value="{{ $order->image }}">
-                                        </div>
-                                        <!-- End Drop Zoon -->
-
-                                        <!-- File Details -->
-                                        <div id="fileDetails2" class="upload-area__file-details2 file-details2">
-                                          <h3 class="file-details__title2">Uploaded File</h3>
-
-                                          <div id="uploadedFile2" class="uploaded-file2">
-                                            <div class="uploaded-file__icon-container2">
-                                              <i class='bx bxs-file-blank uploaded-file__icon2'></i>
-                                              <span class="uploaded-file__icon-text2"></span>
-                                            </div>
-
-                                            <div id="uploadedFileInfo2" class="uploaded-file__info2">
-                                              <span class="uploaded-file__name2">Proejct 1</span>
-                                              <span class="uploaded-file__counter2">0%</span>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <!-- End File Details -->
-                                      </div>
+                <form class="form-group" action="{{ url('/' . $order->id . '/update') }}" method="post"
+                    enctype="multipart/form-data">
+                    @csrf
+                    <div class="">
+                        <h2 class="text-center"></h2>
+                        <div class="">
+                            <div class="" style="border-radius: 10px">
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <h6>Product Name</h6>
+                                        <input type="text" class="form-control"name="product_name" id="product_name"
+                                            value="{{ $order->name }}" placeholder="Short Sleeve T-Shirt"
+                                            style="border-radius: 10px">
+                                    </div>
+                                    <div class="mb-1">
+                                        <h6>Product Description</h6>
+                                        <textarea name="product_description" id="editor">{{ strip_tags($order->description) }}&lt;/p&gt;</textarea>
+                                    </div>
                                 </div>
                             </div>
-                            <!-- End Upload Area -->
-                            {{-- <button type="button" class="btn btn-primary" style="margin-top: 20px;">Choose</button> --}}
                         </div>
-
+                    </div>
+            </div>
+        </div>
+    </div>
+    <div class="row  d-flex align-items-center justify-content-center mb-5">
+        <div class="col-md-8 mt-4">
+            <div class="card" style="border-radius:30px">
+                <div class="card-body">
+                    <!-- Upload Area -->
+                    <h6>Product Media</h6>
+                    <div class="mb-3">
+                        <div class="form-label" style="font-size: 13px; font-weight: 600;">Source File</div>
+                        <input type="file" name="productfile" id= "productfile" class="form-control">
+                        <span id="ff1" class="text-danger"></span>
+                        <span style="margin-top: 40px"> Old-file: {{ $order->image }}</span>
+                        <input type="hidden" name="old_productfile[]" value="{{ $order->file }}">
                     </div>
 
-                </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div id="uploadArea" class="upload-area">
+                                <!-- Header -->
 
+                                <div class="upload-area__header">
+                                    <p class="upload-area__paragraph">
+                                        Preview Image 1
+                                        <strong class="upload-area__tooltip">
 
-            </div>
+                                            <span class="upload-area__tooltip-data"></span>
+                                            <!-- Data Will be Comes From Js -->
+                                        </strong>
+                                    </p>
+                                </div>
+                                <!-- End Header -->
 
-            {{-- price card --}}
-            <div class="row row-deck row-cards d-flex align-items-center justify-content-center my-1">
+                                <!-- Drop Zoon -->
+                                <div id="dropZoon" class="upload-area__drop-zoon drop-zoon">
+                                    <span class="drop-zoon__icon">
+                                        <i class="fa-regular fa-file-image" style="font-size: 3rem; color:#3333 "></i>
+                                    </span>
+                                    <p class="drop-zoon__paragraph">Drop your file here or Click to browse</p>
+                                    <span id="loadingText" class="drop-zoon__loading-text">Please Wait</span>
+                                    <img src="" alt="Preview Image" id="previewImage"
+                                        class="drop-zoon__preview-image" draggable="false">
+                                    <input type="file" id="fileInput" name="image" class="drop-zoon__file-input"
+                                        accept="image/*">
 
-                <div class="col-lg-8">
-                    <div class="card" style="border-radius: 10px">
-                        <div class="card-body">
-                            <h4>Product Price</h4>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <label for="name" class="form-label">Price</label>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text"><i
-                                                    class="fa-solid fa-indian-rupee-sign my-1"></i></div>
+                                    <img src="{{ asset('uploads/previewimages/' . $order->image) }}" alt="Old Image"
+                                        style="max-width: 50px;">
+                                    <input type="hidden" name="old_images1[]" value="{{ $order->image }}">
+                                </div>
+                                <!-- End Drop Zoon -->
+
+                                <!-- File Details -->
+                                <div id="fileDetails" class="upload-area__file-details file-details">
+                                    <h3 class="file-details__title">Uploaded File</h3>
+
+                                    <div id="uploadedFile" class="uploaded-file">
+                                        <div class="uploaded-file__icon-container">
+                                            <i class='bx bxs-file-blank uploaded-file__icon'></i>
+                                            <span class="uploaded-file__icon-text"></span>
+                                            <!-- Data Will be Comes From Js -->
                                         </div>
+
+                                        <div id="uploadedFileInfo" class="uploaded-file__info">
+                                            <span class="uploaded-file__name">Proejct 1</span>
+                                            <span class="uploaded-file__counter">0%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End File Details -->
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div id="uploadArea2" class="upload-area2">
+                                <!-- Header -->
+
+                                <div class="upload-area__header2">
+                                    <p class="upload-area__paragraph2">
+                                        Preview Image 2
+                                        <strong class="upload-area__tooltip2">
+
+                                            <span class="upload-area__tooltip-data2"></span>
+                                            <!-- Data Will be Comes From Js -->
+                                        </strong>
+                                    </p>
+                                </div>
+                                <!-- End Header -->
+
+                                <!-- Drop Zoon -->
+                                <div id="dropZoon2" class="upload-area__drop-zoon2 drop-zoon2">
+                                    <span class="yetho">
+                                        <i class="fa-regular fa-file-image" style="font-size: 3rem; color:#3333 "></i>
+                                    </span>
+                                    <p class="drop-zoon__paragraph2">Drop your file here or Click to browse</p>
+                                    <span id="loadingText2" class="drop-zoon__loading-text2">Please Wait</span>
+                                    <img src="" alt="Preview Image2" id="previewImage2"
+                                        class="drop-zoon__preview-image2" draggable="false">
+                                    <input type="file" id="fileInput2" name="preimage2"
+                                        class="drop-zoon__file-input2" accept="image/*">
+                                    <img src="{{ asset('uploads/previewimages/' . $order->image_2) }}" alt="Old Image"
+                                        style="max-width: 100px;">
+                                    <input type="hidden" name="old_images1[]" value="{{ $order->image }}">
+                                </div>
+                                <!-- End Drop Zoon -->
+
+                                <!-- File Details -->
+                                <div id="fileDetails2" class="upload-area__file-details2 file-details2">
+                                    <h3 class="file-details__title2">Uploaded File</h3>
+
+                                    <div id="uploadedFile2" class="uploaded-file2">
+                                        <div class="uploaded-file__icon-container2">
+                                            <i class='bx bxs-file-blank uploaded-file__icon2'></i>
+                                            <span class="uploaded-file__icon-text2"></span>
+                                        </div>
+
+                                        <div id="uploadedFileInfo2" class="uploaded-file__info2">
+                                            <span class="uploaded-file__name2">Proejct 1</span>
+                                            <span class="uploaded-file__counter2">0%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End File Details -->
+                            </div>
+                        </div>
+
+                        <!-- End Upload Area -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row  d-flex align-items-center justify-content-center my-1">
+            <div class="col-lg-8">
+                <div class="card" style="border-radius: 30px">
+                    <div class="card-body">
+                        <h6>Product Price</h6>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label for="name" class="form-label"
+                                    style="font-size: 13px; font-weight: 600;">Price</label>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-text" id=""><i
+                                                class="fa-solid fa-indian-rupee-sign my-1"></i></span>
                                         <input type="text" name="product_price" class="form-control"
                                             id="product_price" value="{{ $order->price }}" placeholder="0.00" required
                                             autocomplete="off" style="border-radius: 0px 10px 10px 0px">
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <label for="name" class="form-label">Comapare-at Price</label>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text"><i
-                                                    class="fa-solid fa-indian-rupee-sign my-1"></i></div>
-                                        </div>
-                                        <input type="text" class="form-control" id="phpename" placeholder="0.00"
-                                             autocomplete="off" style="border-radius: 0px 10px 10px 0px">
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="name" class="form-label"
+                                    style="font-size: 13px; font-weight: 600;">Comapare-at Price</label>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-text" id=""><i
+                                                class="fa-solid fa-indian-rupee-sign my-1"></i></span>
+                                        <input type="number" class="form-control" placeholder="0.00"
+                                            aria-label="Username" aria-describedby="basic-addon1">
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    <label for="name" class="form-label">Cost Per Item</label>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text"><i
-                                                    class="fa-solid fa-indian-rupee-sign my-1"></i></div>
-                                        </div>
-                                        <input type="text" class="form-control" id="phpename" placeholder="0.00"
-                                             autocomplete="off" style="border-radius: 0px 10px 10px 0px">
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <label for="name" class="form-label">Profit</label>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text"><i
-                                                    class="fa-solid fa-indian-rupee-sign my-1"></i></div>
-                                        </div>
-                                        <input type="text" class="form-control" id="phpename" placeholder="0.00"
-                                             autocomplete="off" style="border-radius: 0px 10px 10px 0px">
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <label for="name" class="form-label">Margin</label>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text"><i
-                                                    class="fa-solid fa-indian-rupee-sign my-1"></i></div>
-                                        </div>
-                                        <input type="text" class="form-control" id="phpename" placeholder="0.00"
-                                             autocomplete="off" style="border-radius: 0px 10px 10px 0px">
-                                    </div>
-                                </div>
-                            </div>
-                            <button class="btn btn-primary d-flex float-end" type="submit">SUBMIT</button>
                         </div>
-
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <label for="name" class="form-label" style="font-size: 13px; font-weight: 600;">Cost
+                                    Per Item</label>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-text" id=""><i
+                                                class="fa-solid fa-indian-rupee-sign my-1"></i></span>
+                                        <input type="number" class="form-control" placeholder="0.00"
+                                            aria-label="Username" aria-describedby="basic-addon1">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="name" class="form-label"
+                                    style="font-size: 13px; font-weight: 600;">Profit</label>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-text" id=""><i
+                                                class="fa-solid fa-indian-rupee-sign my-1"></i></span>
+                                        <input type="number" class="form-control" placeholder="0.00"
+                                            aria-label="Username" aria-describedby="basic-addon1">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="name" class="form-label"
+                                    style="font-size: 13px; font-weight: 600;">Margin</label>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-text" id=""><i
+                                                class="fa-solid fa-indian-rupee-sign my-1"></i></span>
+                                        <input type="number" class="form-control" placeholder="0.00"
+                                            aria-label="Username" aria-describedby="basic-addon1">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary d-flex float-end mt-4" type="submit">SUBMIT</button>
                     </div>
 
                 </div>
+
             </div>
-
+        </div>
         </form>
-
-
     </div>
+    </main>
 
-<script src="./dist/libs/tinymce/tinymce.min.js?1692870487" defer></script>
-<!-- Tabler Core -->
-<script src="./dist/js/tabler.min.js?1692870487" defer></script>
-<script src="./dist/js/demo.min.js?1692870487" defer></script>
-<script>
-    // @formatter:off
-    document.addEventListener("DOMContentLoaded", function () {
-      let options = {
-        selector: '#tinymce-mytextarea',
-        height: 200,
-        menubar: false,
-        statusbar: false,
-        plugins: [
-          'advlist autolink lists link image charmap print preview anchor',
-          'searchreplace visualblocks code fullscreen',
-          'insertdatetime media table paste code help wordcount'
-        ],
-        toolbar: 'undo redo | formatselect | ' +
-          'bold italic backcolor | alignleft aligncenter ' +
-          'alignright alignjustify | bullist numlist outdent indent | ' +
-          'removeformat',
-        content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif; font-size: 14px; -webkit-font-smoothing: antialiased; }' +
-                      'textarea { border-radius: 10px; }'
-      }
-      if (localStorage.getItem("tablerTheme") === 'dark') {
-        options.skin = 'oxide-dark';
-        options.content_css = 'dark';
-      }
-      tinyMCE.init(options);
-    })
-    // @formatter:on
-  </script>
+
+
+
+
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
     <script>
         // Design By
         // - https://dribbble.com/shots/13992184-File-Uploader-Drag-Drop
@@ -1099,7 +1087,7 @@
         // :)
     </script>
 
-    {{-- preview 2 script --}}
+
     <script>
         // Design By
         // - https://dribbble.com/shots/13992184-File-Uploader-Drag-Drop
@@ -1312,18 +1300,4 @@
 
         // :)
     </script>
-    <script>
-        document.getElementById('productfile').addEventListener('change', function() {
-
-            const file = this.files[0]; // Get the selected file
-            const maxSize = 100 * 1024 * 1024; // 100MB in bytes
-
-            if (file && file.size > maxSize) {
-                ff1.innerHTML = 'File size exceeds the limit of 100MB.';
-                // alert('File size exceeds the limit of 100MB.');
-
-                this.value = ''; // Clear the file input to allow selecting a different file
-            }
-        });
-        </script>
 @endsection
