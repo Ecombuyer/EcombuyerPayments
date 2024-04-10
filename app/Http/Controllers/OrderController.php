@@ -310,7 +310,9 @@ toastr()->error('Products creation Failed');
     {
         $user = Auth::user();
         $userid =  $user->id;
+
         $paymenttype = Paymenttype::where('status', 1)->get()->first();
+
 
         $form2 = $request->validate([
 
@@ -448,6 +450,7 @@ toastr()->error('Products creation Failed');
                 $response = curl_exec($curl);
 
                 curl_close($curl);
+
                 dd($response);
                 // session()->put('txnid', $txnid);
                 if ($response === false) {
@@ -484,6 +487,10 @@ toastr()->error('Products creation Failed');
                         return view('user.payments', compact('pay', 'userid', 'paymenttype', 'txnid'));
                     }
                 }
+
+            }
+        // }
+
             } else if ($paymenttype->payment_name == 'crizzpay' && $paymenttype->status == '1') {
                 $txnid = "TXN" . time();
                 $orderid = mt_rand(1000, 9000);
