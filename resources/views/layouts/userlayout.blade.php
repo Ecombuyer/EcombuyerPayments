@@ -175,6 +175,26 @@
                         <span class="nav-link-text ms-1">Sign Up</span>
                     </a>
                 </li> --}}
+
+                <li class="nav-item">
+                    {{-- <a class="nav-link " href="{{route('logout')}}">
+                        <div
+                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="ni ni-collection text-info text-sm opacity-10"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Log out</span>
+
+                    </a> --}}
+                    <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                        @csrf
+                        <button type="submit" class="nav-link" style="background: none; border: none;">
+                            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="ni ni-collection text-info text-sm opacity-10"></i>
+                            </div>
+                            <span class="nav-link-text ms-1">Log out</span>
+                        </button>
+                    </form>
+                </li>
             </ul>
         </div>
         <!-- <div class="sidenav-footer mx-3 ">

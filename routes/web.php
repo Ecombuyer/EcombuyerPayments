@@ -67,10 +67,10 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
 
         // Route::GET('/success/{res}', [OrderController::class, 'success'])->name('orders.success');
         Route::get('/success', [OrderController::class, 'success'])->name('orders.success');
-
         Route::GET('/failed', [OrderController::class, 'cancel'])->name('orders.failed');
         Route::get('user/mobileview', [OrderController::class, 'mobileview'])->name('user.mobileview');
         Route::post('user/callback', [OrderController::class,'handleCallback'])->name('payment.callback');
+        Route::post('/filter', [OrderController::class,'filter'])->name('orders.filter');
         Route::GET('/paymentmethod', [PaymentController::class, 'paymentmethod'])->name('user.paymentmethod');
         Route::POST('/paymentactive', [PaymentController::class, 'paymentactive'])->name('user.paymentactive');
     });

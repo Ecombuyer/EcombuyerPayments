@@ -236,13 +236,7 @@
                         </div>
                     </div>
                 </div>
-                @php
-                    $user = Auth::user();
-                    $userid = $user->id;
-                    use App\Models\Product;
-                    $orders = App\Models\Product::where('status', '=', '1')->where('user_id', $userid)->limit(4)->get();
 
-                @endphp
                 <div class="container-fluid py-4">
                     <div class="row">
                         <div class="col-12">
@@ -323,13 +317,10 @@
                                                                 class="text-secondary text-xs font-weight-bold">{{ $order->price }}</span>
                                                         </td>
                                                         <td class="align-middle text-center">
-                                                            <span class="badge rounded-pill"
-                                                                style="font-weight: 500; text-transform: capitalize;"><a
-                                                                    href="{{ route('orders.transaction', $order->product_id) }}"
-                                                                    class="btn btn-no-underline mx-2">
-                                                                    Transaction</a></span>
+                                                            <a class="badge bg-primary" href="{{route('orders.transaction',$order->product_id)}}"  style="font-weight: 500; text-transform: capitalize; text-decoration: underline; background-color: #c9c8c3;">Details</a>
 
-                                                        </td>
+                                                          </td>
+
                                                         <td class="align-middle text-center">
                                                             <div class="">
                                                                 <div>
@@ -358,12 +349,13 @@
                                                                 data-title="{{ $order->name }}"
                                                                 data-text="{{ $order->description }}"
                                                                 data-url="{{ url('/' . $order->product_id . '/' . $order->name . '/show') }}"
-                                                                style=" padding: 7px; border-radius: 10px;">
+                                                                >
                                                                 <template class="is-supported">
                                                                     <a
-                                                                        class="text-white font-weight-bold text-xs mx-1  bg-gradient-success js-share"><i
+                                                                        class="text-white font-weight-bold text-xs mx-1  bg-gradient-success js-share" style="border-radius:10px;padding: 7px;" >
+                                                                        <i
                                                                             class="fa-solid fa-share"
-                                                                            style="margin-right: 5px"></i>Share</a>
+                                                                            style="margin-right: 5px" ></i>Share</a>
                                                                 </template>
                                                                 <template class="not-supported">
                                                                     <pre>@Html.Partial('_Social.html')</pre>

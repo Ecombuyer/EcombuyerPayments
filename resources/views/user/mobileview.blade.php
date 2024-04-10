@@ -56,8 +56,8 @@
 
     $order = App\Models\Product::where('id', $order)->get()->first();
 @endphp
-    <div class="container">
-        <div class="row card w-100 mt-4" style="margin-left: 1px; border-radius: 20px;" >
+    <div class="container-fluid">
+        <div class="row card w-100  mt-4" style="margin-left: 1px; border-radius: 20px;" >
           <div class="col-md-6">
             <img
               class="card-img"
