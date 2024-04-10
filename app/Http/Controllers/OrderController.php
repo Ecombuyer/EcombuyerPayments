@@ -279,6 +279,7 @@ class OrderController extends Controller
         toastr()->error('Product Deleted Successfully');
         return redirect('/index')
             ->with('Orders');
+
     }
 
 
@@ -310,7 +311,9 @@ class OrderController extends Controller
     {
         $user = Auth::user();
         $userid =  $user->id;
+
         $paymenttype = Paymenttype::where('status', 1)->get()->first();
+
 
         $form2 = $request->validate([
 
@@ -400,174 +403,180 @@ class OrderController extends Controller
                     // $paymenttype = Paymenttype::get()->first();
                     return view('user.payments', compact('pay', 'userid', 'paymenttype', 'txnid'));
                 }
-            }
-        } else if ($paymenttype->payment_name == 'haodapay' && $paymenttype->status == 1) {
 
-            // dd($paymenttype->payment_name);
-            // echo 'hoada';
-            $txnid = "TXN" . time();
-            $orderid = mt_rand(1000, 9000);
+            } else if ($paymenttype->payment_name == 'haodapay' && $paymenttype->status == 1) {
 
-            $key = 'xnF20EI173240130015224';
-            $endpoint = 'https://jupiter.haodapayments.com/api/v4/collection';
-            // $paymentverify = ' https://jupiter.haodapayments.com/api/v3/collection/status?txnid=' . $txnid;
+                // dd($paymenttype->payment_name);
+                // echo 'hoada';
+                $txnid = "TXN" . time();
+                $orderid = mt_rand(1000, 9000);
 
-            $callback_url = route('payment.callback');
-            // }
+                $key = 'xnF20EI173240130015224';
+                $endpoint = 'https://jupiter.haodapayments.com/api/v4/collection';
+                // $paymentverify = ' https://jupiter.haodapayments.com/api/v3/collection/status?txnid=' . $txnid;
 
-            $data = json_encode([
-                "name" => $form2['name'],
-                "email" => $form2['email'],
-                "phone" => $form2['mobileno'],
-                "amount" => $request->productprice,
-                "txnid" => $txnid,
-                "return_url" => $callback_url,
-                "token" => $key,
-            ]);
+                $callback_url = route('payment.callback');
+                // }
+
+                $data = json_encode([
+                    "name" => $form2['name'],
+                    "email" => $form2['email'],
+                    "phone" => $form2['mobileno'],
+                    "amount" => $request->productprice,
+                    "txnid" => $txnid,
+                    "return_url" => $callback_url,
+                    "token" => $key,
+                ]);
 
 
 
-            $curl = curl_init();
-            curl_setopt_array($curl, [
-                CURLOPT_URL => $endpoint,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => $data,
-                CURLOPT_HTTPHEADER => [
-                    'Content-Type: application/json',
-                    'x-client-id: bcaAJWUNDs3857',
-                    'x- client-secret: xnF20EI173240130015224'
-                ],
-            ]);
+                $curl = curl_init();
+                curl_setopt_array($curl, [
+                    CURLOPT_URL => $endpoint,
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'POST',
+                    CURLOPT_POSTFIELDS => $data,
+                    CURLOPT_HTTPHEADER => [
+                        'Content-Type: application/json',
+                        'x-client-id: bcaAJWUNDs3857',
+                        'x- client-secret: xnF20EI173240130015224'
+                    ],
+                ]);
 
-            $response = curl_exec($curl);
+                $response = curl_exec($curl);
 
-            curl_close($curl);
-            dd($response);
-            // session()->put('txnid', $txnid);
-            if ($response === false) {
-                echo 'Curl error: ' . curl_error($curl);
-            } else {
-                $response_array = json_decode($response, true);
+                curl_close($curl);
 
-                if (!empty($response_array) && isset($response_array['upi_url']) && !empty($response_array['upi_url'])) {
-                    $upi_url = $response_array['upi_url'];
-                    $orderdetails1 = Order_details::create([
-                        'order_id' => $orderid,
-                        'product_id' => $request->productid,
-                        'seller_id' => $request->selleruserid,
-                        'user_id' => $userid,
-                        'user_name' => $form2['name'],
-                        'user_email' => $form2['email'],
-                        'user_number' => $form2['mobileno'],
-                        'payment_method' => $request->input('payment-group'),
-                        'product_price' => $request->productprice,
-                        'product_name' => $request->productname,
-                        "transaction_id" => $txnid
+                dd($response);
+                // session()->put('txnid', $txnid);
+                if ($response === false) {
+                    echo 'Curl error: ' . curl_error($curl);
+                } else {
+                    $response_array = json_decode($response, true);
 
-                    ]);
-                    /// dd($response_array);
+                    if (!empty($response_array) && isset($response_array['upi_url']) && !empty($response_array['upi_url'])) {
+                        $upi_url = $response_array['upi_url'];
+                        $orderdetails1 = Order_details::create([
+                            'order_id' => $orderid,
+                            'product_id' => $request->productid,
+                            'seller_id' => $request->selleruserid,
+                            'user_id' => $userid,
+                            'user_name' => $form2['name'],
+                            'user_email' => $form2['email'],
+                            'user_number' => $form2['mobileno'],
+                            'payment_method' => $request->input('payment-group'),
+                            'product_price' => $request->productprice,
+                            'product_name' => $request->productname,
+                            "transaction_id" => $txnid
 
-                    $pay = QrCode::size(200)
-                        ->backgroundColor(255, 255, 0)
-                        ->color(0, 0, 255)
-                        ->margin(1)
-                        ->generate(
-                            $upi_url
-                        );
-                    // $paymenttype = Paymenttype::get()->first();
-                    return view('user.payments', compact('pay', 'userid', 'paymenttype', 'txnid'));
+                        ]);
+                        /// dd($response_array);
+
+                        $pay = QrCode::size(200)
+                            ->backgroundColor(255, 255, 0)
+                            ->color(0, 0, 255)
+                            ->margin(1)
+                            ->generate(
+                                $upi_url
+                            );
+                        // $paymenttype = Paymenttype::get()->first();
+                        return view('user.payments', compact('pay', 'userid', 'paymenttype', 'txnid'));
+                    }
                 }
+
             }
-        } else if ($paymenttype->payment_name == 'crizzpay' && $paymenttype->status == '1') {
-            $txnid = "TXN" . time();
-            $orderid = mt_rand(1000, 9000);
+        // }
 
-            $key = 'CP36308010567889670';
-            $paymentmethod = 'PS001';
-            $endpoint = 'https://boapi.cricpayz.io:14442/api/appuser/loginPaymentGateway';
+            else if ($paymenttype->payment_name == 'crizzpay' && $paymenttype->status == '1') {
+                $txnid = "TXN" . time();
+                $orderid = mt_rand(1000, 9000);
 
-            $callback_url = route('payment.callback');
-            // }
+                $key = 'CP36308010567889670';
+                $paymentmethod = 'PS001';
+                $endpoint = 'https://boapi.cricpayz.io:14442/api/appuser/loginPaymentGateway';
 
-            $data = json_encode([
-                'name' => $form2['name'],
-                'phone' => $form2['mobileno'],
-                'userId' => $form2['email'],
-                'amount' => $request->productprice,
-                'txnid' => $txnid,
-                'merchantCode' => $key,
-                'paymentMethod'  => $paymentmethod,
-            ]);
-            // $data = json_encode([
+                $callback_url = route('payment.callback');
+                // }
 
-            //     "email" => $form2['email'],
-            //     "amount" => $request->productprice,
-            //     "txnid" => $txnid,
-            //     "return_url" => $callback_url,
-            //     "token" => $key,
-            // ]);
+                $data = json_encode([
+                    'name' => $form2['name'],
+                    'phone' => $form2['mobileno'],
+                    'userId' => $form2['email'],
+                    'amount' => $request->productprice,
+                    'txnid' => $txnid,
+                    'merchantCode' => $key,
+                    'paymentMethod'  => $paymentmethod,
+                ]);
+                // $data = json_encode([
+
+                //     "email" => $form2['email'],
+                //     "amount" => $request->productprice,
+                //     "txnid" => $txnid,
+                //     "return_url" => $callback_url,
+                //     "token" => $key,
+                // ]);
 
 
 
-            $curl = curl_init();
-            curl_setopt_array($curl, [
-                CURLOPT_URL => $endpoint,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => $data,
-                CURLOPT_HTTPHEADER => [
-                    'Content-Type: application/json',
-                ],
-            ]);
+                $curl = curl_init();
+                curl_setopt_array($curl, [
+                    CURLOPT_URL => $endpoint,
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'POST',
+                    CURLOPT_POSTFIELDS => $data,
+                    CURLOPT_HTTPHEADER => [
+                        'Content-Type: application/json',
+                    ],
+                ]);
 
-            $response = curl_exec($curl);
+                $response = curl_exec($curl);
 
-            curl_close($curl);
-            dd($response);
-            // session()->put('txnid', $txnid);
-            if ($response === false) {
-                echo 'Curl error: ' . curl_error($curl);
-            } else {
-                $response_array = json_decode($response, true);
+                curl_close($curl);
+                dd($response);
+                // session()->put('txnid', $txnid);
+                if ($response === false) {
+                    echo 'Curl error: ' . curl_error($curl);
+                } else {
+                    $response_array = json_decode($response, true);
 
-                if (!empty($response_array) && isset($response_array['upi_url']) && !empty($response_array['upi_url'])) {
-                    $upi_url = $response_array['upi_url'];
-                    $orderdetails1 = Order_details::create([
-                        'order_id' => $orderid,
-                        'product_id' => $request->productid,
-                        'seller_id' => $request->selleruserid,
-                        'user_id' => $userid,
-                        'user_name' => $form2['name'],
-                        'user_email' => $form2['email'],
-                        'user_number' => $form2['mobileno'],
-                        'payment_method' => $request->input('payment-group'),
-                        'product_price' => $request->productprice,
-                        'product_name' => $request->productname,
-                        "transaction_id" => $txnid
+                    if (!empty($response_array) && isset($response_array['upi_url']) && !empty($response_array['upi_url'])) {
+                        $upi_url = $response_array['upi_url'];
+                        $orderdetails1 = Order_details::create([
+                            'order_id' => $orderid,
+                            'product_id' => $request->productid,
+                            'seller_id' => $request->selleruserid,
+                            'user_id' => $userid,
+                            'user_name' => $form2['name'],
+                            'user_email' => $form2['email'],
+                            'user_number' => $form2['mobileno'],
+                            'payment_method' => $request->input('payment-group'),
+                            'product_price' => $request->productprice,
+                            'product_name' => $request->productname,
+                            "transaction_id" => $txnid
 
-                    ]);
-                    /// dd($response_array);
+                        ]);
+                        /// dd($response_array);
 
-                    $pay = QrCode::size(200)
-                        ->backgroundColor(255, 255, 0)
-                        ->color(0, 0, 255)
-                        ->margin(1)
-                        ->generate(
-                            $upi_url
-                        );
-                    // $paymenttype = Paymenttype::get()->first();
-                    return view('user.payments', compact('pay', 'userid', 'paymenttype', 'txnid'));
+                        $pay = QrCode::size(200)
+                            ->backgroundColor(255, 255, 0)
+                            ->color(0, 0, 255)
+                            ->margin(1)
+                            ->generate(
+                                $upi_url
+                            );
+                        // $paymenttype = Paymenttype::get()->first();
+                        return view('user.payments', compact('pay', 'userid', 'paymenttype', 'txnid'));
+                    }
                 }
             }
         }

@@ -13,11 +13,9 @@ class PaymentController extends Controller
     public function paymentmethod()
     {
 
-        $user = Auth::user();
-        $userid =  $user->id;
         $title = 'PaymentMethods';
         $paymenttype = Paymenttype::all();
-        return view('user.paymentsmethod', compact('title', 'userid', 'paymenttype'));
+        return view('admin.paymentsmethod', compact('title','paymenttype'));
     }
 
 

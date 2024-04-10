@@ -41,6 +41,7 @@ class LoginController extends Controller
 
                 $user = Auth::user();
                 $email = $user->email;
+                $name = $user->name;
                 $otp = rand(1000, 9999); // Generate a random 4-digit OTP
 
                 $userOtp = User::find($user->id); // Find the user by ID
@@ -63,7 +64,7 @@ class LoginController extends Controller
 
 
 
-                return redirect()->route('home');
+                return redirect()->route('home')->with('success','Welcome'. $name .'!');
             }
         } else {
             return redirect()->route('login')

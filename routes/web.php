@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Route;
@@ -71,8 +72,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
         Route::get('user/mobileview', [OrderController::class, 'mobileview'])->name('user.mobileview');
         Route::post('user/callback', [OrderController::class,'handleCallback'])->name('payment.callback');
         Route::post('/filter', [OrderController::class,'filter'])->name('orders.filter');
-        Route::GET('/paymentmethod', [PaymentController::class, 'paymentmethod'])->name('user.paymentmethod');
-        Route::POST('/paymentactive', [PaymentController::class, 'paymentactive'])->name('user.paymentactive');
+
     });
 });
 
@@ -84,7 +84,11 @@ All Admin Routes List
 --------------------------------------------*/
 Route::middleware(['auth', 'user-access:admin'])->group(function () {
 
-    Route::get('/admin/home', [HomeController::class, 'adminHome'])->name('admin.home');
+    Route::GET('/admin/home', [HomeController::class, 'adminHome'])->name('admin.home');
+    Route::GET('/admin/profile', [AdminController::class, 'profile'])->name('admin.profile');
+    Route::GET('/admin/paymentmethod', [PaymentController::class, 'paymentmethod'])->name('admin.paymentmethod');
+    Route::POST('/admin/paymentactive', [PaymentController::class, 'paymentactive'])->name('admin.paymentactive');
+    // Route::get('/admin/home', [AdminController::class, 'index'])->name('admin.index');
 });
 
 /*------------------------------------------

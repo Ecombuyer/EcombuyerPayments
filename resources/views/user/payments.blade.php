@@ -252,7 +252,4 @@
         });
     </script>
   @endif
-
-
-
 </html>
