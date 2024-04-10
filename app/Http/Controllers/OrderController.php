@@ -52,7 +52,7 @@ class OrderController extends Controller
     {
 
 
-// dd($request->all());
+        // dd($request->all());
         $user = Auth::user();
         $userid =  $user->id;
         $product_id = $userid . mt_rand(1000, 9999);
@@ -105,13 +105,12 @@ class OrderController extends Controller
 
         // Redirect the user back to the create order page with a success message
         // return redirect()->route('orders.index')->with('success', 'Order created successfully!');
-    if($order == true){
-        toastr()->success('Products Created Succesfully ');
-        return redirect()->route('orders.index');
-    }
-    else{
-        toastr()->error('Products creation Failed');
-}
+        if ($order == true) {
+            toastr()->success('Products Created Succesfully ');
+            return redirect()->route('orders.index');
+        } else {
+            toastr()->error('Products creation Failed');
+        }
     }
 
     /**
@@ -253,12 +252,11 @@ class OrderController extends Controller
             'file' => $form1['productfile'] ?? $order->file
 
         ]);
-        if($order == true){
+        if ($order == true) {
             toastr()->success('Products Updated Succesfully ');
             return redirect()->route('orders.index');
-        }
-        else{
-        toastr()->error('Products Updation Failed');
+        } else {
+            toastr()->error('Products Updation Failed');
         }
 
         return redirect('/index')->with([
@@ -277,9 +275,11 @@ class OrderController extends Controller
         $order = Product::find($id);
 
         $order->update(['status' => '0']);
-        toastr()->warning('Product Deleted Successfully');
+
+        toastr()->error('Product Deleted Successfully');
         return redirect('/index')
-            ->with('title', 'Orders');
+            ->with('Orders');
+
     }
 
 
@@ -326,84 +326,84 @@ class OrderController extends Controller
         // Randomly select a name from the array
         // foreach ($paymenttype as $paymenttype) {
 
-            if ($paymenttype->payment_name == 'indicpay' && $paymenttype->status == 1) {
+        if ($paymenttype->payment_name == 'indicpay' && $paymenttype->status == 1) {
 
-                // dd($paymenttype->payment_name);
-                $txnid = "TXN" . time();
-                $orderid = mt_rand(1000, 9000);
+            // dd($paymenttype->payment_name);
+            $txnid = "TXN" . time();
+            $orderid = mt_rand(1000, 9000);
 
-                $token = '0803b0761771c6d03bc95fc27e6645';
-                $endpoint = 'https://indicpay.in/api/btt/createorder';
-                $paymentverify = 'https://indicpay.in/api/newc/checkstatus?txnid=' . $txnid;
+            $token = '0803b0761771c6d03bc95fc27e6645';
+            $endpoint = 'https://indicpay.in/api/btt/createorder';
+            $paymentverify = 'https://indicpay.in/api/newc/checkstatus?txnid=' . $txnid;
 
-                $callback_url = route('payment.callback');
-                // }
+            $callback_url = route('payment.callback');
+            // }
 
-                $data = json_encode([
-                    "name" => $form2['name'],
-                    "email" => $form2['email'],
-                    "phone" => $form2['mobileno'],
-                    "amount" => $request->productprice,
-                    "txnid" => $txnid,
-                    "return_url" => $callback_url,
-                    "token" => $token,
-                ]);
+            $data = json_encode([
+                "name" => $form2['name'],
+                "email" => $form2['email'],
+                "phone" => $form2['mobileno'],
+                "amount" => $request->productprice,
+                "txnid" => $txnid,
+                "return_url" => $callback_url,
+                "token" => $token,
+            ]);
 
-                $curl = curl_init();
-                curl_setopt_array($curl, [
-                    CURLOPT_URL => $endpoint,
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => '',
-                    CURLOPT_MAXREDIRS => 10,
-                    CURLOPT_TIMEOUT => 0,
-                    CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST => 'POST',
-                    CURLOPT_POSTFIELDS => $data,
-                    CURLOPT_HTTPHEADER => [
-                        'Content-Type: application/json'
-                    ],
-                ]);
+            $curl = curl_init();
+            curl_setopt_array($curl, [
+                CURLOPT_URL => $endpoint,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => $data,
+                CURLOPT_HTTPHEADER => [
+                    'Content-Type: application/json'
+                ],
+            ]);
 
-                $response = curl_exec($curl);
+            $response = curl_exec($curl);
 
-                curl_close($curl);
-                // dd($res);
-                // session()->put('txnid', $txnid);
-                if ($response === false) {
-                    echo 'Curl error: ' . curl_error($curl);
-                } else {
-                    $response_array = json_decode($response, true);
+            curl_close($curl);
+            // dd($res);
+            // session()->put('txnid', $txnid);
+            if ($response === false) {
+                echo 'Curl error: ' . curl_error($curl);
+            } else {
+                $response_array = json_decode($response, true);
 
-                    if (!empty($response_array) && isset($response_array['upi_url']) && !empty($response_array['upi_url'])) {
-                        $upi_url = $response_array['upi_url'];
-                        $orderdetails1 = Order_details::create([
-                            'order_id' => $orderid,
-                            'product_id' => $request->productid,
-                            'seller_id' => $request->selleruserid,
-                            'user_id' => $userid,
-                            'user_name' => $form2['name'],
-                            'user_email' => $form2['email'],
-                            'user_number' => $form2['mobileno'],
-                            'payment_method' => $request->input('payment-group'),
-                            'product_price' => $request->productprice,
-                            'product_name' => $request->productname,
-                            "transaction_id" => $txnid
+                if (!empty($response_array) && isset($response_array['upi_url']) && !empty($response_array['upi_url'])) {
+                    $upi_url = $response_array['upi_url'];
+                    $orderdetails1 = Order_details::create([
+                        'order_id' => $orderid,
+                        'product_id' => $request->productid,
+                        'seller_id' => $request->selleruserid,
+                        'user_id' => $userid,
+                        'user_name' => $form2['name'],
+                        'user_email' => $form2['email'],
+                        'user_number' => $form2['mobileno'],
+                        'payment_method' => $request->input('payment-group'),
+                        'product_price' => $request->productprice,
+                        'product_name' => $request->productname,
+                        "transaction_id" => $txnid
 
-                        ]);
-                        /// dd($response_array);
+                    ]);
+                    /// dd($response_array);
 
-                        $pay = QrCode::size(200)
-                            ->backgroundColor(255, 255, 0)
-                            ->color(0, 0, 255)
-                            ->margin(1)
-                            ->generate(
-                                $upi_url
-                            );
-                        // $paymenttype = Paymenttype::get()->first();
-                        return view('user.payments', compact('pay', 'userid', 'paymenttype', 'txnid'));
-                    }
+                    $pay = QrCode::size(200)
+                        ->backgroundColor(255, 255, 0)
+                        ->color(0, 0, 255)
+                        ->margin(1)
+                        ->generate(
+                            $upi_url
+                        );
+                    // $paymenttype = Paymenttype::get()->first();
+                    return view('user.payments', compact('pay', 'userid', 'paymenttype', 'txnid'));
                 }
+
             } else if ($paymenttype->payment_name == 'haodapay' && $paymenttype->status == 1) {
 
                 // dd($paymenttype->payment_name);
@@ -579,7 +579,7 @@ class OrderController extends Controller
                     }
                 }
             }
-
+        }
     }
     public function transaction(Request $request, $id)
     {
@@ -640,4 +640,25 @@ class OrderController extends Controller
         return "Payment is failed";
     }
 
+
+    public function filter(Request $request)
+    {
+
+        // Initialize query for products
+
+        $pro = Product::when($request->uesrid, function ($query) use ($request) {
+            $query->where('user_id', Auth::id());
+        })
+        ->when($request->productid, function ($query) use ($request) {
+            $query->where('product_id', $request->productid)->where('user_id', Auth::id());
+        })
+        ->when($request->productname, function ($query) use ($request) {
+            $query->where('name', $request->productname)->where('user_id', Auth::id());
+        })
+        ->where('status', 1)
+        ->get();
+
+        // Return the filtered products as JSON response
+        return response()->json($pro);
+    }
 }
