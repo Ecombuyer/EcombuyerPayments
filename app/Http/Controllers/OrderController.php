@@ -268,7 +268,7 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(string $id)
     {
 
 
@@ -646,7 +646,9 @@ class OrderController extends Controller
 
         // Initialize query for products
 
-        $pro = Product::when($request->uesrid, function ($query) use ($request) {
+        $pro = Product::
+
+        when($request->uesrid, function ($query) use ($request) {
             $query->where('user_id', Auth::id());
         })
         ->when($request->productid, function ($query) use ($request) {
@@ -655,9 +657,9 @@ class OrderController extends Controller
         ->when($request->productname, function ($query) use ($request) {
             $query->where('name', $request->productname)->where('user_id', Auth::id());
         })
-        ->where('status', 1)
+        ->where('status', 1)->where('user_id', Auth::id())
         ->get();
-
+        // dd($pro);
         // Return the filtered products as JSON response
         return response()->json($pro);
     }

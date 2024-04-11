@@ -187,11 +187,11 @@
                                                 Submit
                                             </button>
                                             {{-- <button
-                        type="submit"
-                        class="btn btn-primary float-end px-4 mx-2"
-                      >
-                        Reset
-                      </button> --}}
+                                            type="submit"
+                                            class="btn btn-primary float-end px-4 mx-2"
+                                        >
+                                            Reset
+                                        </button> --}}
                                         </div>
                                     </form>
                                 </div>
@@ -258,10 +258,10 @@
                                                         class="text-secondary text-xs font-weight-bold">{{ $order->name }}</span>
                                                 </td>
                                                 <!-- <td class="align-middle text-center">
-                                                      <span class="text-secondary text-xs font-weight-bold"
-                                                        >loremffndsofnon</span
-                                                      >
-                                                    </td> -->
+                                                              <span class="text-secondary text-xs font-weight-bold"
+                                                                >loremffndsofnon</span
+                                                              >
+                                                            </td> -->
                                                 <td class="align-middle text-center">
                                                     <span
                                                         class="text-secondary text-xs font-weight-bold">{{ $order->price }}</span>
@@ -419,17 +419,18 @@
                                 html +=
                                     '<a class="share-module" data-toggle="tooltip" data-original-title="Edit user" data-title="' +
                                     row.name + '" data-text="' + row.description +
-                                    '" data-url="' + '/' + row.product_id + '/' + row
-                                    .name +
+                                    '" data-url="' + row
+                                    .product_id + '/' + row.name +
                                     '/show" style="padding: 7px; border-radius: 10px;">';
                                 html += '<template class="is-supported">';
                                 html +=
-                                    '<a class="text-white font-weight-bold text-xs mx-1 bg-gradient-success js-share"><i class="fa-solid fa-share" style="margin-right: 5px"></i>Share</a>';
+                                    '<a class="text-white font-weight-bold text-xs mx-1  bg-gradient-success js-share"><i class="fa-solid fa-share" style="margin-right: 5px"></i>Share</a>';
                                 html += '</template>';
                                 html += '<template class="not-supported">';
                                 html += '<pre>@Html.Partial(\'_Social.html\')</pre>';
                                 html += '</template>';
                                 html += '</a>';
+
 
                                 // Edit button
                                 html += '<a href="/' + row.id +
@@ -440,7 +441,7 @@
 
                                 // Delete button
                                 html += '<a href="/' + row.id +
-                                    '/destroy" class="text-white font-weight-bold text-xs mx-1 bg-gradient-danger" data-toggle="tooltip" data-original-title="Edit user" style="padding: 7px; border-radius: 10px;">';
+                                    '/destory" class="text-white font-weight-bold text-xs mx-1 bg-gradient-danger" data-toggle="tooltip" data-original-title="Edit user" style="padding: 7px; border-radius: 10px;">';
                                 html +=
                                     '<i class="fa-solid fa-trash-can" style="margin-right: 3px"></i> Delete';
                                 html += '</a>';
@@ -455,6 +456,64 @@
                         // Replace the contents of the existing table body with the newly constructed HTML
                         $('table').find('tbody').remove();
                         $('table').append(html);
+                        class WebShare {
+                            constructor({
+                                success = () => {},
+                                error = (e) => {
+                                    console.log('Web Share API error', e);
+                                }
+                            } = {}) {
+                                this.elements = document.querySelectorAll('.share-module');
+                                this.isSupported = navigator.share !== undefined;
+                                this.success = success;
+                                this.error = error;
+                                this.init();
+                            }
+
+                            init() {
+                                this.elements.forEach(element => {
+                                    const template = this.isSupported ? element
+                                        .querySelector('.is-supported').innerHTML :
+                                        element.querySelector('.not-supported')
+                                        .innerHTML;
+                                    const data = {
+                                        url: element.dataset.url,
+                                        title: element.dataset.title,
+                                        text: element.dataset.text
+                                    };
+                                    element.innerHTML = this.compileTemplate(
+                                        template, data);
+
+                                    if (this.isSupported) {
+                                        element.querySelector('.js-share')
+                                            .addEventListener('click', (e) => {
+                                                e.preventDefault();
+                                                navigator.share({
+                                                    title: data.title,
+                                                    text: data.text,
+                                                    url: data.url
+                                                }).then(() => {
+                                                    this.success();
+                                                }).catch((error) => {
+                                                    this.error(error);
+                                                });
+                                            });
+                                    }
+                                });
+                            }
+
+                            compileTemplate(template, scope) {
+                                return template.replace(/\{\{(\w+)\}\}/g, (match, key) =>
+                                    scope[key]);
+                            }
+                        }
+
+                        new WebShare({
+                            success: () => {
+                                document.getElementById('output').innerHTML =
+                                    'Thanks for sharing!';
+                            }
+                        });
                     },
                     error: function(xhr) {
                         console.error('Error:', xhr);
@@ -464,4 +523,6 @@
             });
         });
     </script>
+
+
 @endsection
