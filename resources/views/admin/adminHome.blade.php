@@ -2,7 +2,6 @@
 @section('content')
 
 <main class="main-content position-relative border-radius-lg ">
-
     <!-- End Navbar -->
     <div class="container-fluid py-4">
         <div class="row">

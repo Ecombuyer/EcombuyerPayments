@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-use App\Models\Product;
+
 class HomeController extends Controller
 {
     /**
@@ -31,6 +33,7 @@ class HomeController extends Controller
         $orders = Product::where('status', '=', '1')->where('user_id', $user->id)->limit(4)->get();
         Session::put('username', $username);  // just example
         $title = "User Dashboard";
+        
 
         return view('user.home')->with(compact('title','orders'));
 
