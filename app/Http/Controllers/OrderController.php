@@ -385,9 +385,10 @@ class OrderController extends Controller
                         'user_name' => $form2['name'],
                         'user_email' => $form2['email'],
                         'user_number' => $form2['mobileno'],
-                        'payment_method' => $request->input('payment-group'),
+                        'payment_method' => $paymenttype->payment_name,
                         'product_price' => $request->productprice,
                         'product_name' => $request->productname,
+                        'payment_status' => $response_array['status'],
                         "transaction_id" => $txnid
 
                     ]);
@@ -470,8 +471,9 @@ class OrderController extends Controller
                             'user_name' => $form2['name'],
                             'user_email' => $form2['email'],
                             'user_number' => $form2['mobileno'],
-                            'payment_method' => $request->input('payment-group'),
+                            'payment_method' => $paymenttype->payment_name,
                             'product_price' => $request->productprice,
+                            'payment_status' => $response_array['status'],
                             'product_name' => $request->productname,
                             "transaction_id" => $txnid
 
@@ -560,8 +562,9 @@ class OrderController extends Controller
                             'user_name' => $form2['name'],
                             'user_email' => $form2['email'],
                             'user_number' => $form2['mobileno'],
-                            'payment_method' => $request->input('payment-group'),
+                            'payment_method' => $paymenttype->payment_name,
                             'product_price' => $request->productprice,
+                            'payment_status' => $response_array['status'],
                             'product_name' => $request->productname,
                             "transaction_id" => $txnid
 
