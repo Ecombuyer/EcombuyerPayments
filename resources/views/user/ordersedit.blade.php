@@ -635,11 +635,23 @@
                         <div class="">
                             <div class="" style="border-radius: 10px">
                                 <div class="card-body">
+
+
+
                                     <div class="mb-3">
                                         <h6>Product Name</h6>
                                         <input type="text" class="form-control"name="product_name" id="product_name"
                                             value="{{ $order->name }}" placeholder="Short Sleeve T-Shirt"
                                             style="border-radius: 10px">
+                                    </div>
+                                    <div class="mb-3">
+                                        <h6>Product Type</h6>
+                                        <select id="type" name="type" class="form-select">
+                                            <option selected disabled>Select State...</option>
+                                            <option value="digitalproduct" {{ ($order->type == 'digitalproduct') ? 'selected' : '' }}>Digital Product</option>
+                                            <option value="physicalproduct" {{ ($order->type == 'physicalproduct') ? 'selected' : '' }}>Physical Product
+                                            </option>
+                                        </select>
                                     </div>
                                     <div class="mb-1">
                                         <h6>Product Description</h6>

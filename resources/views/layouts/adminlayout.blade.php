@@ -4,21 +4,21 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="apple-touch-icon" sizes="76x76" href="{{ env('APP_URL') }}assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="{{ env('APP_URL') }}assets/img/favicon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ env('APP_URL') }}/assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="{{ env('APP_URL') }}/assets/img/favicon.png">
     <title>
        {{$title}}
     </title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     <!-- Nucleo Icons -->
-    <link href="{{ env('APP_URL') }}assets/css/nucleo-icons.css" rel="stylesheet" />
-    <link href="{{ env('APP_URL') }}assets/css/nucleo-svg.css" rel="stylesheet" />
+    <link href="{{ env('APP_URL') }}/assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="{{ env('APP_URL') }}/assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     {{-- <link href="{{ env('APP_URL') }}assets/css/nucleo-svg.css" rel="stylesheet" /> --}}
     <!-- CSS Files -->
-    <link id="pagestyle" href="{{ env('APP_URL') }}assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
+    <link id="pagestyle" href="{{ env('APP_URL') }}/assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
     <style>
     .card {
       border: none;
@@ -93,7 +93,7 @@
                 aria-hidden="true" id="iconSidenav"></i>
             <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/argon-dashboard/pages/dashboard.html "
                 target="_blank">
-                <img src="{{ env('APP_URL') }}assets/img/logo-ct-dark.png" class="navbar-brand-img h-100" alt="main_logo">
+                <img src="{{ env('APP_URL') }}assets/img/logo-ct-dark.png" class="navbar-brand-img h-100" alt="">
                 <span class="ms-1 font-weight-bold">Ecom Buyer Payments</span>
             </a>
         </div>

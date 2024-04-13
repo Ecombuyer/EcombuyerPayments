@@ -72,6 +72,11 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
         Route::get('user/mobileview', [OrderController::class, 'mobileview'])->name('user.mobileview');
         Route::post('user/callback', [OrderController::class,'handleCallback'])->name('payment.callback');
         Route::post('/filter', [OrderController::class,'filter'])->name('orders.filter');
+        Route::post('/transactionfilter', [OrderController::class,'transactionfilter'])->name('orders.transactionfilter');
+
+        Route::get('/profile', [OrderController::class,'profile'])->name('user.profile');
+        Route::post('/addprofile', [OrderController::class,'addprofile'])->name('user.addprofile');
+
 
     });
 });

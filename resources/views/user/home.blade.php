@@ -283,6 +283,10 @@
                                                         Product Image
                                                     </th>
                                                     <th
+                                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                    Product Type
+                                                    </th>
+                                                    <th
                                                         class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                         Action
                                                     </th>
@@ -336,6 +340,10 @@
                                                                 </div>
                                                             </div>
                                                         </td>
+                                                        <td class="align-middle text-center">
+                                                            <span
+                                                                class="text-secondary text-xs font-weight-bold">{{ $order->type }}</span>
+                                                        </td>
                                                         <td class="align-middle text-center w-1">
                                                             <a href="{{ url('/' . $order->product_id . '/' . $order->name . '/show') }}"
                                                                 class="text-white font-weight-bold text-xs mx-1  bg-primary"
@@ -386,7 +394,7 @@
                                         </table>
                                     </div>
                                     <div class="card-footer d-flex align-items-center">
-                                        <a href="{{route('orders.index')}}" class="">Show More...</a>
+                                        <a href="{{route('orders.index')}}" class="font-weight-bold text-xs mx-3 text-decoration-underline">Show More...</a>
                                       </div>
                                 </div>
                             </div>

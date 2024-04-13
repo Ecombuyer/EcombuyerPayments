@@ -4,21 +4,21 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="apple-touch-icon" sizes="76x76" href="{{ env('APP_URL') }}assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="{{ env('APP_URL') }}assets/img/favicon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ env('APP_URL') }}/assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="{{ env('APP_URL') }}/assets/img/favicon.png">
     <title>
        {{$title}}
     </title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     <!-- Nucleo Icons -->
-    <link href="{{ env('APP_URL') }}assets/css/nucleo-icons.css" rel="stylesheet" />
-    <link href="{{ env('APP_URL') }}assets/css/nucleo-svg.css" rel="stylesheet" />
+    <link href="{{ env('APP_URL') }}/assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="{{ env('APP_URL') }}/assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     {{-- <link href="{{ env('APP_URL') }}assets/css/nucleo-svg.css" rel="stylesheet" /> --}}
     <!-- CSS Files -->
-    <link id="pagestyle" href="{{ env('APP_URL') }}assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
+    <link id="pagestyle" href="{{ env('APP_URL') }}/assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
     <style>
     .card {
       border: none;
@@ -136,17 +136,17 @@
                         <span class="nav-link-text ms-1"> New Orders</span>
                     </a>
                 </li>
-                  <li class="nav-item">
-                    <form action="{{ route('logout') }}" method="POST" style="display: inline;">
-                        @csrf
-                        <button type="submit" class="nav-link" style="background: none; border: none;">
-                            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="ni ni-collection text-info text-sm opacity-10"></i>
-                            </div>
-                            <span class="nav-link-text ms-1">Log out</span>
-                        </button>
-                    </form>
+
+                <li class="nav-item">
+                    <a class="nav-link " href="{{route('user.profile')}}">
+                        <div
+                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="ni ni-app text-info text-sm opacity-10"></i>
+                        </div>
+                        <span class="nav-link-text ms-1"> Profile</span>
+                    </a>
                 </li>
+
                 {{-- <li class="nav-item">
                     <a class="nav-link " href="./pages/rtl.html">
                         <div
@@ -361,11 +361,11 @@
         </div>
 
         <!--   Core JS Files   -->
-        <script src="{{ env('APP_URL') }}assets/js/core/popper.min.js"></script>
-        <script src="{{ env('APP_URL') }}assets/js/core/bootstrap.min.js"></script>
-        <script src="{{ env('APP_URL') }}assets/js/plugins/perfect-scrollbar.min.js"></script>
-        <script src="{{ env('APP_URL') }}assets/js/plugins/smooth-scrollbar.min.js"></script>
-        <script src="{{ env('APP_URL') }}assets/js/plugins/chartjs.min.js"></script>
+        <script src="{{ env('APP_URL') }}/assets/js/core/popper.min.js"></script>
+        <script src="{{ env('APP_URL') }}/assets/js/core/bootstrap.min.js"></script>
+        <script src="{{ env('APP_URL') }}/assets/js/plugins/perfect-scrollbar.min.js"></script>
+        <script src="{{ env('APP_URL') }}/assets/js/plugins/smooth-scrollbar.min.js"></script>
+        <script src="{{ env('APP_URL') }}/assets/js/plugins/chartjs.min.js"></script>
         <script>
             var ctx1 = document.getElementById("chart-line").getContext("2d");
 

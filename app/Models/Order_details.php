@@ -17,11 +17,14 @@ class Order_details extends Model
         'user_name',
         'user_email',
         'user_number',
+        'address',
         'order_status',
         'payment_status',
         'transaction_id',
         'payment_method',
         'product_price',
-        'product_name'
+        'product_name',
+        'type'
+
     ];
 }
