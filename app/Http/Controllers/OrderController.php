@@ -383,7 +383,7 @@ class OrderController extends Controller
             $response = curl_exec($curl);
 
             curl_close($curl);
-            //  dd($response);
+            // dd($response);
             // session()->put('txnid', $txnid);
             if ($response === false) {
                 echo 'Curl error: ' . curl_error($curl);
@@ -420,7 +420,7 @@ class OrderController extends Controller
                     $orderdetails1 = Order_details::create($orderdetails1Data);
 
                   //  dd($orderdetails1);
-
+                    $button = $upi_url;
                     $pay = QrCode::size(200)
                         ->backgroundColor(255, 255, 0)
                         ->color(0, 0, 255)
@@ -429,7 +429,7 @@ class OrderController extends Controller
                             $upi_url
                         );
                     // $paymenttype = Paymenttype::get()->first();
-                    return view('user.payments', compact('pay', 'userid', 'paymenttype', 'txnid'));
+                    return view('user.payments', compact('pay', 'userid', 'paymenttype', 'txnid','button'));
                 }
 
 
@@ -509,7 +509,6 @@ class OrderController extends Controller
                             'product_price' => $request->productprice,
                             'payment_status' => $response_array['status'],
                             'product_name' => $request->productname,
-                            'payment_status' =>$response_array['status'],
                             'type' =>$request->type,
                             "transaction_id" => $txnid
 
@@ -606,7 +605,6 @@ class OrderController extends Controller
                             'product_price' => $request->productprice,
                             'payment_status' => $response_array['status'],
                             'product_name' => $request->productname,
-                            'payment_status' =>$response_array['status'],
                             'type' =>$request->type,
                             "transaction_id" => $txnid
 
