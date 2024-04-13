@@ -94,7 +94,9 @@
             <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/argon-dashboard/pages/dashboard.html "
                 target="_blank">
 
-                <img src="{{ env('APP_URL') }}/assets/img/logo-ct-dark.png" class="navbar-brand-img h-100" alt="main_logo">
+                <img src="{{ env('APP_URL') }}/assets/img/logo-ct-dark.png" class="navbar-brand-img h-100" alt="">
+
+
                 <span class="ms-1 font-weight-bold">Ecom Buyer Payments</span>
             </a>
         </div>
@@ -150,7 +152,7 @@
                     <a class="nav-link " href="{{route('admin.transactions')}}">
                         <div
                             class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="fa-solid fa-money-bill-transfer" style="color:cyan"></i> 
+                            <i class="fa-solid fa-money-bill-transfer" style="color:cyan"></i>
                         </div>
                         <span class="nav-link-text ms-1">Transactions</span>
                     </a>
@@ -183,7 +185,7 @@
                             <span class="nav-link-text ms-1">Log out</span>
                         </button>
                     </form>
-                </li>   
+                </li>
                 {{-- <li class="nav-item">
                     <a class="nav-link " href="./pages/rtl.html">
                         <div
