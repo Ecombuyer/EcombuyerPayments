@@ -15,9 +15,7 @@
 
 
     {{ $pay }}
-    {{-- <button name="qrCode" id="PAID">I have Paid</button> --}}
-
-
+    {{-- <a href="{{$button}}" class="btn btn-dark" name="qrCode" id="PAID">Pay</a> --}}
 </body>
 {{-- @foreach ($paymenttype as $paymenttype ) --}}
 

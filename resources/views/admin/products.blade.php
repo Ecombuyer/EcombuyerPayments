@@ -25,7 +25,7 @@
           
           <div class="collapse card-body" id="collapseExample">
             <div class="">
-              <form class="row g-3" action="" id="filter-form" enctype="multipart/form-data">
+              <form class="row g-3" action="" id="filter-form" method ="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="col-md-4">
                   <label for="userid" class="form-label">User ID</label>
@@ -181,12 +181,12 @@
                     </td>
                     <td class="align-middle text-center p-3">
                       <span class="text-secondary text-xs font-weight-bold"
-                        >{{ $product->created_at }}</span
+                        >{{ $product->created_at->format('Y/m/d') }}</span
                       >
                     </td>
                     <td class="align-middle text-center p-3">
                       <span class="text-secondary text-xs font-weight-bold"
-                        >{{ $product->updated_at }}</span
+                        >{{ $product->updated_at->format('Y/m/d') }}</span
                       >
                     </td>
                   
