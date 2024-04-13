@@ -407,6 +407,7 @@ class OrderController extends Controller
                         'product_name' => $request->productname,
                         'payment_status' =>$response_array['status'],
                         'type' =>$request->type,
+
                         "transaction_id" => $txnid
                     ];
 
@@ -432,8 +433,10 @@ class OrderController extends Controller
                 }
 
 
+
             }
         }else if ($paymenttype->payment_name == 'haodapay' && $paymenttype->status == 1) {
+
 
                 // dd($paymenttype->payment_name);
                 // echo 'hoada';

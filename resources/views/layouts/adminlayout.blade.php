@@ -93,7 +93,9 @@
                 aria-hidden="true" id="iconSidenav"></i>
             <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/argon-dashboard/pages/dashboard.html "
                 target="_blank">
-                <img src="{{ env('APP_URL') }}assets/img/logo-ct-dark.png" class="navbar-brand-img h-100" alt="">
+
+                <img src="{{ env('APP_URL') }}/assets/img/logo-ct-dark.png" class="navbar-brand-img h-100" alt="">
+
 
                 <span class="ms-1 font-weight-bold">Ecom Buyer Payments</span>
             </a>
