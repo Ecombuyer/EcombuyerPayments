@@ -431,8 +431,9 @@ class OrderController extends Controller
                     return view('user.payments', compact('pay', 'userid', 'paymenttype', 'txnid'));
                 }
 
+
             }
-         } else if ($paymenttype->payment_name == 'haodapay' && $paymenttype->status == 1) {
+        }else if ($paymenttype->payment_name == 'haodapay' && $paymenttype->status == 1) {
 
                 // dd($paymenttype->payment_name);
                 // echo 'hoada';
@@ -503,6 +504,7 @@ class OrderController extends Controller
                             'user_number' => $form2['mobileno'],
                             'payment_method' => $paymenttype->payment_name,
                             'product_price' => $request->productprice,
+                            'payment_status' => $response_array['status'],
                             'product_name' => $request->productname,
                             'payment_status' =>$response_array['status'],
                             'type' =>$request->type,
@@ -599,6 +601,7 @@ class OrderController extends Controller
                             'user_number' => $form2['mobileno'],
                             'payment_method' => $paymenttype->payment_name,
                             'product_price' => $request->productprice,
+                            'payment_status' => $response_array['status'],
                             'product_name' => $request->productname,
                             'payment_status' =>$response_array['status'],
                             'type' =>$request->type,
