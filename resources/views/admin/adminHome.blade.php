@@ -2,7 +2,6 @@
 @section('content')
 
 <main class="main-content position-relative border-radius-lg ">
-
     <!-- End Navbar -->
     <div class="container-fluid py-4">
         <div class="row">
@@ -39,8 +38,8 @@
                             <div class="col-8">
                                 <div class="numbers">
                                     <p class="text-sm mb-0 text-uppercase font-weight-bold">Today's Users</p>
-                                    <h5 class="font-weight-bolder">
-                                        2,300
+                                    <h5 class="font-weight-bolder" id="usercounts">
+                                        
                                     </h5>
                                     <p class="mb-0">
                                         <span class="text-success text-sm font-weight-bolder">+3%</span>
@@ -92,7 +91,7 @@
                                 <div class="numbers">
                                     <p class="text-sm mb-0 text-uppercase font-weight-bold">Sales</p>
                                     <h5 class="font-weight-bolder">
-                                        $103,430
+                                        ₹<span id="orderdetails"></span>
                                     </h5>
                                     <p class="mb-0">
                                         <span class="text-success text-sm font-weight-bolder">+5%</span> than last month
@@ -185,5 +184,29 @@
     </div>
 </main>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        function ajaxget(){
+            $.ajax({
+        type: "GET",
+        url: "{{route('admin.home')}}",
+        // dataType: "json",
+        headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+        success: function (response) {
+            $('#orderdetails').text(response.orderdetails);
+            $('#usercounts').text(response.countusers);
+
+        }
+
+    });
+        }
+    ajaxget();
+    setInterval(ajaxget, 3000);
+    });
+   
+</script>
     @endsection

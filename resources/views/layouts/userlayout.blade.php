@@ -136,7 +136,6 @@
                         <span class="nav-link-text ms-1"> New Orders</span>
                     </a>
                 </li>
-
                 <li class="nav-item">
                     <a class="nav-link " href="{{route('user.profile')}}">
                         <div
@@ -146,6 +145,7 @@
                         <span class="nav-link-text ms-1"> Profile</span>
                     </a>
                 </li>
+
 
                 {{-- <li class="nav-item">
                     <a class="nav-link " href="./pages/rtl.html">

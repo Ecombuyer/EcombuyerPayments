@@ -123,12 +123,12 @@
           </div>
           <div class="col-md-4">
             <div class="card card-profile">
-              <img src="{{ env('APP_URL') }}assets/img/bg-profile.jpg" alt="Image placeholder" class="card-img-top">
+              <img src="{{ env('APP_URL') }}/assets/img/bg-profile.jpg" alt="Image placeholder" class="card-img-top">
               <div class="row justify-content-center">
                 <div class="col-4 col-lg-4 order-lg-2">
                   <div class="mt-n4 mt-lg-n6 mb-4 mb-lg-0">
                     <a href="javascript:;">
-                      <img src="{{ env('APP_URL') }}assets/img/team-2.jpg" class="rounded-circle img-fluid border border-2 border-white">
+                      <img src="{{ env('APP_URL') }}/assets/img/team-2.jpg" class="rounded-circle img-fluid border border-2 border-white">
                     </a>
                   </div>
                 </div>
@@ -259,7 +259,7 @@
     <!-- Github buttons -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-    <script src="../assets/js/argon-dashboard.min.js?v=2.0.4"></script>
+    <script src="{{ env('APP_URL') }}/assets/js/argon-dashboard.min.js?v=2.0.4"></script>
   </body>
   
   </html>
