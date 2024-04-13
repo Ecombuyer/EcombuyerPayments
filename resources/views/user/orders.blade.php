@@ -4,9 +4,9 @@
         <!-- Navbar -->
 
         <!-- End Navbar -->
-        <div class="container-fluid py-4">
-            <div class="row">
-                <div class="col-12">
+        <div class="container-fluid mt-3">
+            <div class="row pt-5">
+                <div class="col-md-12">
                     <div class="card mb-4">
                         <div class="card-header pb-0">
                             <h4 class="" style="margin-bottom: 20px;"> <span style="color: #0054A6;"> PRODUCT </span>
@@ -48,140 +48,146 @@
                                                 name="productname" placeholder="Enter Product Name" />
                                         </div>
 
+                                        <div class="col-md-4">
+                                            <label for="userid" class="form-label">Product Type</label>
+                                            <input type="text" class="form-control" id="inputEmail4" name="producttype"
+                                                placeholder="Enter Product Type" />
+                                        </div>
+
                                         {{-- <div class="col-md-4">
-                      <label for="payment id" class="form-label"
-                        >Payment ID</label
-                      >
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="inputPassword4"
-                        name=""
-                        placeholder="Enter Payment ID"
-                      />
-                    </div> --}}
+                                            <label for="payment id" class="form-label"
+                                                >Payment ID</label
+                                            >
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                id="inputPassword4"
+                                                name=""
+                                                placeholder="Enter Payment ID"
+                                            />
+                                            </div> --}}
                                         {{-- <div class="col-md-4">
-                      <label for="city" class="form-label">City</label>
-                      <select id="inputState" class="form-select">
-                        <option selected disabled>Select State...</option>
-                        <option value="Andhra Pradesh">Andhra Pradesh</option>
-                        <option value="Arunachal Pradesh">
-                          Arunachal Pradesh
-                        </option>
-                        <option value="Assam">Assam</option>
-                        <option value="Bihar">Bihar</option>
-                        <option value="Chhattisgarh">Chhattisgarh</option>
-                        <option value="Goa">Goa</option>
-                        <option value="Gujarat">Gujarat</option>
-                        <option value="Haryana">Haryana</option>
-                        <option value="Himachal Pradesh">
-                          Himachal Pradesh
-                        </option>
-                        <option value="Jharkhand">Jharkhand</option>
-                        <option value="Karnataka">Karnataka</option>
-                        <option value="Kerala">Kerala</option>
-                        <option value="Madhya Pradesh">Madhya Pradesh</option>
-                        <option value="Maharashtra">Maharashtra</option>
-                        <option value="Manipur">Manipur</option>
-                        <option value="Meghalaya">Meghalaya</option>
-                        <option value="Mizoram">Mizoram</option>
-                        <option value="Nagaland">Nagaland</option>
-                        <option value="Odisha">Odisha</option>
-                        <option value="Punjab">Punjab</option>
-                        <option value="Rajasthan">Rajasthan</option>
-                        <option value="Sikkim">Sikkim</option>
-                        <option value="Tamil Nadu">Tamil Nadu</option>
-                        <option value="Telangana">Telangana</option>
-                        <option value="Tripura">Tripura</option>
-                        <option value="Uttar Pradesh">Uttar Pradesh</option>
-                        <option value="Uttarakhand">Uttarakhand</option>
-                        <option value="West Bengal">West Bengal</option>
-                        <option value="Andaman and Nicobar Islands">
-                          Andaman and Nicobar Islands
-                        </option>
-                        <option value="Chandigarh">Chandigarh</option>
-                        <option
-                          value="Dadra and Nagar Haveli and Daman and Diu"
-                        >
-                          Dadra and Nagar Haveli and Daman and Diu
-                        </option>
-                        <option value="Delhi">Delhi</option>
-                        <option value="Lakshadweep">Lakshadweep</option>
-                        <option value="Puducherry">Puducherry</option>
-                      </select>
-                    </div>
-                    <div class="col-md-4">
-                      <label for="state" class="form-label">State</label>
-                      <select id="inputState" class="form-select">
-                        <option selected disabled>Select State...</option>
-                        <option value="Andhra Pradesh">Andhra Pradesh</option>
-                        <option value="Arunachal Pradesh">
-                          Arunachal Pradesh
-                        </option>
-                        <option value="Assam">Assam</option>
-                        <option value="Bihar">Bihar</option>
-                        <option value="Chhattisgarh">Chhattisgarh</option>
-                        <option value="Goa">Goa</option>
-                        <option value="Gujarat">Gujarat</option>
-                        <option value="Haryana">Haryana</option>
-                        <option value="Himachal Pradesh">
-                          Himachal Pradesh
-                        </option>
-                        <option value="Jharkhand">Jharkhand</option>
-                        <option value="Karnataka">Karnataka</option>
-                        <option value="Kerala">Kerala</option>
-                        <option value="Madhya Pradesh">Madhya Pradesh</option>
-                        <option value="Maharashtra">Maharashtra</option>
-                        <option value="Manipur">Manipur</option>
-                        <option value="Meghalaya">Meghalaya</option>
-                        <option value="Mizoram">Mizoram</option>
-                        <option value="Nagaland">Nagaland</option>
-                        <option value="Odisha">Odisha</option>
-                        <option value="Punjab">Punjab</option>
-                        <option value="Rajasthan">Rajasthan</option>
-                        <option value="Sikkim">Sikkim</option>
-                        <option value="Tamil Nadu">Tamil Nadu</option>
-                        <option value="Telangana">Telangana</option>
-                        <option value="Tripura">Tripura</option>
-                        <option value="Uttar Pradesh">Uttar Pradesh</option>
-                        <option value="Uttarakhand">Uttarakhand</option>
-                        <option value="West Bengal">West Bengal</option>
-                        <option value="Andaman and Nicobar Islands">
-                          Andaman and Nicobar Islands
-                        </option>
-                        <option value="Chandigarh">Chandigarh</option>
-                        <option
-                          value="Dadra and Nagar Haveli and Daman and Diu"
-                        >
-                          Dadra and Nagar Haveli and Daman and Diu
-                        </option>
-                        <option value="Delhi">Delhi</option>
-                        <option value="Lakshadweep">Lakshadweep</option>
-                        <option value="Puducherry">Puducherry</option>
-                      </select>
-                    </div> --}}
+                                            <label for="city" class="form-label">City</label>
+                                            <select id="inputState" class="form-select">
+                                                <option selected disabled>Select State...</option>
+                                                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                                <option value="Arunachal Pradesh">
+                                                Arunachal Pradesh
+                                                </option>
+                                                <option value="Assam">Assam</option>
+                                                <option value="Bihar">Bihar</option>
+                                                <option value="Chhattisgarh">Chhattisgarh</option>
+                                                <option value="Goa">Goa</option>
+                                                <option value="Gujarat">Gujarat</option>
+                                                <option value="Haryana">Haryana</option>
+                                                <option value="Himachal Pradesh">
+                                                Himachal Pradesh
+                                                </option>
+                                                <option value="Jharkhand">Jharkhand</option>
+                                                <option value="Karnataka">Karnataka</option>
+                                                <option value="Kerala">Kerala</option>
+                                                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                                <option value="Maharashtra">Maharashtra</option>
+                                                <option value="Manipur">Manipur</option>
+                                                <option value="Meghalaya">Meghalaya</option>
+                                                <option value="Mizoram">Mizoram</option>
+                                                <option value="Nagaland">Nagaland</option>
+                                                <option value="Odisha">Odisha</option>
+                                                <option value="Punjab">Punjab</option>
+                                                <option value="Rajasthan">Rajasthan</option>
+                                                <option value="Sikkim">Sikkim</option>
+                                                <option value="Tamil Nadu">Tamil Nadu</option>
+                                                <option value="Telangana">Telangana</option>
+                                                <option value="Tripura">Tripura</option>
+                                                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                                <option value="Uttarakhand">Uttarakhand</option>
+                                                <option value="West Bengal">West Bengal</option>
+                                                <option value="Andaman and Nicobar Islands">
+                                                Andaman and Nicobar Islands
+                                                </option>
+                                                <option value="Chandigarh">Chandigarh</option>
+                                                <option
+                                                value="Dadra and Nagar Haveli and Daman and Diu"
+                                                >
+                                                Dadra and Nagar Haveli and Daman and Diu
+                                                </option>
+                                                <option value="Delhi">Delhi</option>
+                                                <option value="Lakshadweep">Lakshadweep</option>
+                                                <option value="Puducherry">Puducherry</option>
+                                            </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                            <label for="state" class="form-label">State</label>
+                                            <select id="inputState" class="form-select">
+                                                <option selected disabled>Select State...</option>
+                                                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                                <option value="Arunachal Pradesh">
+                                                Arunachal Pradesh
+                                                </option>
+                                                <option value="Assam">Assam</option>
+                                                <option value="Bihar">Bihar</option>
+                                                <option value="Chhattisgarh">Chhattisgarh</option>
+                                                <option value="Goa">Goa</option>
+                                                <option value="Gujarat">Gujarat</option>
+                                                <option value="Haryana">Haryana</option>
+                                                <option value="Himachal Pradesh">
+                                                Himachal Pradesh
+                                                </option>
+                                                <option value="Jharkhand">Jharkhand</option>
+                                                <option value="Karnataka">Karnataka</option>
+                                                <option value="Kerala">Kerala</option>
+                                                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                                <option value="Maharashtra">Maharashtra</option>
+                                                <option value="Manipur">Manipur</option>
+                                                <option value="Meghalaya">Meghalaya</option>
+                                                <option value="Mizoram">Mizoram</option>
+                                                <option value="Nagaland">Nagaland</option>
+                                                <option value="Odisha">Odisha</option>
+                                                <option value="Punjab">Punjab</option>
+                                                <option value="Rajasthan">Rajasthan</option>
+                                                <option value="Sikkim">Sikkim</option>
+                                                <option value="Tamil Nadu">Tamil Nadu</option>
+                                                <option value="Telangana">Telangana</option>
+                                                <option value="Tripura">Tripura</option>
+                                                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                                <option value="Uttarakhand">Uttarakhand</option>
+                                                <option value="West Bengal">West Bengal</option>
+                                                <option value="Andaman and Nicobar Islands">
+                                                Andaman and Nicobar Islands
+                                                </option>
+                                                <option value="Chandigarh">Chandigarh</option>
+                                                <option
+                                                value="Dadra and Nagar Haveli and Daman and Diu"
+                                                >
+                                                Dadra and Nagar Haveli and Daman and Diu
+                                                </option>
+                                                <option value="Delhi">Delhi</option>
+                                                <option value="Lakshadweep">Lakshadweep</option>
+                                                <option value="Puducherry">Puducherry</option>
+                                            </select>
+                                            </div> --}}
                                         {{-- <div class="col-md-4">
-                      <label for="from date" class="form-label"
-                        >From Date</label
-                      >
-                      <input
-                        class="form-control datepicker"
-                        placeholder="Please select date"
-                        type="date"
-                        onfocus="focused(this)"
-                        onfocusout="defocused(this)"
-                      />
-                    </div>
-                    <div class="col-md-4">
-                      <label for="to date" class="form-label">To Date</label>
-                      <input
-                        class="form-control datepicker"
-                        placeholder="Please select date"
-                        type="date"
-                        onfocus="focused(this)"
-                        onfocusout="defocused(this)"
-                      />
-                    </div> --}}
+                                            <label for="from date" class="form-label"
+                                                >From Date</label
+                                            >
+                                            <input
+                                                class="form-control datepicker"
+                                                placeholder="Please select date"
+                                                type="date"
+                                                onfocus="focused(this)"
+                                                onfocusout="defocused(this)"
+                                            />
+                                            </div>
+                                            <div class="col-md-4">
+                                            <label for="to date" class="form-label">To Date</label>
+                                            <input
+                                                class="form-control datepicker"
+                                                placeholder="Please select date"
+                                                type="date"
+                                                onfocus="focused(this)"
+                                                onfocusout="defocused(this)"
+                                            />
+                                            </div> --}}
                                         <div class="col-12">
                                             <button type="submit" class="btn btn-primary float-end px-4" id="filter">
                                                 Submit
@@ -233,6 +239,10 @@
                                             </th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                <i class="fa-regular fa-image"></i> Product Type
+                                            </th>
+                                            <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 <i class="fa-regular fa-pen-to-square"></i> Action
                                             </th>
                                         </tr>
@@ -258,10 +268,10 @@
                                                         class="text-secondary text-xs font-weight-bold">{{ $order->name }}</span>
                                                 </td>
                                                 <!-- <td class="align-middle text-center">
-                                                              <span class="text-secondary text-xs font-weight-bold"
-                                                                >loremffndsofnon</span
-                                                              >
-                                                            </td> -->
+                                                                  <span class="text-secondary text-xs font-weight-bold"
+                                                                    >loremffndsofnon</span
+                                                                  >
+                                                                </td> -->
                                                 <td class="align-middle text-center">
                                                     <span
                                                         class="text-secondary text-xs font-weight-bold">{{ $order->price }}</span>
@@ -286,6 +296,11 @@
                                                         </div>
                                                     </div>
                                                 </td>
+                                                <td class="align-middle text-center">
+                                                    <span
+                                                        class="text-secondary text-xs font-weight-bold">{{ $order->type }}</span>
+                                                </td>
+
                                                 <td class="align-middle text-center w-1">
                                                     <a href="{{ url('/' . $order->product_id . '/' . $order->name . '/show') }}"
                                                         class="text-white font-weight-bold text-xs mx-1  bg-primary"
@@ -298,10 +313,10 @@
                                                         data-original-title="Edit user" data-title="{{ $order->name }}"
                                                         data-text="{{ $order->description }}"
                                                         data-url="{{ url('/' . $order->product_id . '/' . $order->name . '/show') }}"
-                                                        style=" padding: 7px; border-radius: 10px;">
+                                                        style="border-radius:10px;padding: 7px;">
                                                         <template class="is-supported">
-                                                            <a
-                                                                class="text-white font-weight-bold text-xs mx-1  bg-gradient-success js-share"><i
+                                                            <a class="text-white font-weight-bold text-xs mx-1  bg-gradient-success js-share"
+                                                                style="border-radius:10px;padding: 7px;"><i
                                                                     class="fa-solid fa-share"
                                                                     style="margin-right: 5px"></i>Share</a>
                                                         </template>
@@ -369,18 +384,29 @@
                             response.forEach(function(row) {
                                 html += '<tr>';
 
-                                html += '<td class="align-middle text-center">' + row
-                                    .id + '</td>';
-                                html += '<td class="align-middle text-center">' + row
-                                    .user_id + '</td>';
-                                html += '<td class="align-middle text-center">' + row
-                                    .product_id + '</td>';
-                                html += '<td class="align-middle text-center">' + row
+                                html +=
+                                    '<td class="align-middle text-center"> <span class="text-secondary text-xs font-weight-bold">' +
+                                    row
+                                    .id + ' </span> </td>';
+                                html +=
+                                    '<td class="align-middle text-center"> <span class="text-secondary text-xs font-weight-bold">' +
+                                    row
+                                    .user_id + ' </span> </td>';
+                                html +=
+                                    '<td class="align-middle text-center"> <span class="text-secondary text-xs font-weight-bold">' +
+                                    row
+                                    .product_id + '  </span> </td>';
+                                html +=
+                                    '<td class="align-middle text-center"> <span class="text-secondary text-xs font-weight-bold">' +
+                                    row
                                     .name +
-                                    '</td>';
-                                html += '<td class="align-middle text-center">' + row
-                                    .price + '</td>';
-                                html += '<td class="align-middle text-center">';
+                                    ' </span> </td>';
+                                html +=
+                                    '<td class="align-middle text-center"> <span class="text-secondary text-xs font-weight-bold">' +
+                                    row
+                                    .price + ' </span>  </td>';
+                                html +=
+                                    '<td class="align-middle text-center" <span class="text-secondary text-xs font-weight-bold">';
                                 // Construct the anchor tag dynamically
                                 html += '<a class="badge" href="/transaction/' +
                                     row.product_id +
@@ -400,6 +426,10 @@
                                     html += '<span>No image found!</span>';
                                 }
                                 html += '</div>';
+                                html +=
+                                    '<td class="align-middle text-center"> <span class="text-secondary text-xs font-weight-bold">' +
+                                    row.type + ' </span>  </td>';
+
                                 html +=
                                     '<div class="d-flex flex-column justify-content-center">';
                                 html += '</div>';
@@ -424,7 +454,7 @@
                                     '/show" style="padding: 7px; border-radius: 10px;">';
                                 html += '<template class="is-supported">';
                                 html +=
-                                    '<a class="text-white font-weight-bold text-xs mx-1  bg-gradient-success js-share"><i class="fa-solid fa-share" style="margin-right: 5px"></i>Share</a>';
+                                    '<a class="text-white font-weight-bold text-xs mx-1  bg-gradient-success js-share" style="border-radius:10px;padding: 7px;"><i class="fa-solid fa-share" style="margin-right: 5px"></i>Share</a>';
                                 html += '</template>';
                                 html += '<template class="not-supported">';
                                 html += '<pre>@Html.Partial(\'_Social.html\')</pre>';
@@ -523,6 +553,4 @@
             });
         });
     </script>
-
-
 @endsection

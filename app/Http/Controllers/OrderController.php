@@ -8,6 +8,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\Order_details;
 use App\Models\Paymenttype;
+use App\Models\UserProfile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -52,7 +53,7 @@ class OrderController extends Controller
     {
 
 
-        // dd($request->all());
+        //  dd($request->all());
         $user = Auth::user();
         $userid =  $user->id;
         $product_id = $userid . mt_rand(1000, 9999);
@@ -60,8 +61,9 @@ class OrderController extends Controller
 
         // Validate the incoming request data
         $validatedData = $request->validate([
-            'product_name' => 'required|string',
 
+            'product_name' => 'required|string',
+            'type'=>'required|string',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'preimage2' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
 
@@ -91,6 +93,7 @@ class OrderController extends Controller
         $order->user_id = $userid;
 
         $order->product_id = $product_id;
+        $order->type = $validatedData['type'];
         $order->name = $validatedData['product_name'];
 
         $order->description = $validatedData['product_description'];
@@ -166,7 +169,7 @@ class OrderController extends Controller
         $form1 = $request->validate([
 
             'product_name' => 'required|string',
-
+            'type'=>'required|string',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'preimage2' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             // 'productfile' => 'required|mimes:pdf,jpg,png|max:2048',
@@ -240,16 +243,18 @@ class OrderController extends Controller
         }
 
 
-        // dd($form1['product_name']);
+        // dd($form1['type']);
         // Update order with form data
         $order->update([
             'name' => $form1['product_name'],
             'description' => $form1['product_description'],
             'price' => $form1['product_price'],
-
+            'type' => $form1['type'],
             'image' => $form1['image'] ?? $order->image, // Use the new image if uploaded, otherwise keep the old one
             'image_2' => $form1['preimage2'] ?? $order->image_2,
-            'file' => $form1['productfile'] ?? $order->file
+            'file' => $form1['productfile'] ?? $order->file,
+
+
 
         ]);
         if ($order == true) {
@@ -320,6 +325,10 @@ class OrderController extends Controller
             'name' => 'required|string',
             'email' => 'required|string',
             'mobileno' => 'required|numeric',
+            'address' => $request->input('type') == 'physicalproduct' ? 'required|string' : '', // Address is required if type is physicalproduct
+        ]
+        , [
+            'address.required' => 'The address field is required for physical products.', // Custom error message for 'address'
         ]);
 
 
@@ -328,7 +337,7 @@ class OrderController extends Controller
 
         if ($paymenttype->payment_name == 'indicpay' && $paymenttype->status == 1) {
 
-            // dd($paymenttype->payment_name);
+             //dd($paymenttype->payment_name);
             $txnid = "TXN" . time();
             $orderid = mt_rand(1000, 9000);
 
@@ -339,7 +348,7 @@ class OrderController extends Controller
             $callback_url = route('payment.callback');
             // }
 
-            $data = json_encode([
+            $data = [
                 "name" => $form2['name'],
                 "email" => $form2['email'],
                 "phone" => $form2['mobileno'],
@@ -347,7 +356,13 @@ class OrderController extends Controller
                 "txnid" => $txnid,
                 "return_url" => $callback_url,
                 "token" => $token,
-            ]);
+            ];
+            // Conditionally include the "address" field based on product type
+            if ($request->input('type') == 'physicalproduct') {
+                $data['address'] = $form2['address'];
+            }
+// dd($data);
+            $data = json_encode($data);
 
             $curl = curl_init();
             curl_setopt_array($curl, [
@@ -368,7 +383,7 @@ class OrderController extends Controller
             $response = curl_exec($curl);
 
             curl_close($curl);
-            // dd($res);
+            //  dd($response);
             // session()->put('txnid', $txnid);
             if ($response === false) {
                 echo 'Curl error: ' . curl_error($curl);
@@ -377,7 +392,9 @@ class OrderController extends Controller
 
                 if (!empty($response_array) && isset($response_array['upi_url']) && !empty($response_array['upi_url'])) {
                     $upi_url = $response_array['upi_url'];
-                    $orderdetails1 = Order_details::create([
+
+
+                    $orderdetails1Data = [
                         'order_id' => $orderid,
                         'product_id' => $request->productid,
                         'seller_id' => $request->selleruserid,
@@ -388,11 +405,21 @@ class OrderController extends Controller
                         'payment_method' => $paymenttype->payment_name,
                         'product_price' => $request->productprice,
                         'product_name' => $request->productname,
-                        'payment_status' => $response_array['status'],
-                        "transaction_id" => $txnid
+                        'payment_status' =>$response_array['status'],
+                        'type' =>$request->type,
 
-                    ]);
-                    /// dd($response_array);
+                        "transaction_id" => $txnid
+                    ];
+
+                    // Conditionally include the "address" field based on product type
+                    if ($request->input('type') == 'physicalproduct') {
+                        $orderdetails1Data['address'] = $form2['address'];
+                    }
+                  //  dd($orderdetails1Data);
+
+                    $orderdetails1 = Order_details::create($orderdetails1Data);
+
+                  //  dd($orderdetails1);
 
                     $pay = QrCode::size(200)
                         ->backgroundColor(255, 255, 0)
@@ -405,8 +432,10 @@ class OrderController extends Controller
                     return view('user.payments', compact('pay', 'userid', 'paymenttype', 'txnid'));
                 }
 
+
             } 
         }else if ($paymenttype->payment_name == 'haodapay' && $paymenttype->status == 1) {
+
 
                 // dd($paymenttype->payment_name);
                 // echo 'hoada';
@@ -420,7 +449,7 @@ class OrderController extends Controller
                 $callback_url = route('payment.callback');
                 // }
 
-                $data = json_encode([
+                $data = [
                     "name" => $form2['name'],
                     "email" => $form2['email'],
                     "phone" => $form2['mobileno'],
@@ -428,9 +457,13 @@ class OrderController extends Controller
                     "txnid" => $txnid,
                     "return_url" => $callback_url,
                     "token" => $key,
-                ]);
+                ];
+                // Conditionally include the "address" field based on product type
+                if ($request->input('type') == 'physicalproduct') {
+                    $data['address'] = $form2['address'];
+                }
 
-
+                $data = json_encode($data);
 
                 $curl = curl_init();
                 curl_setopt_array($curl, [
@@ -463,7 +496,7 @@ class OrderController extends Controller
 
                     if (!empty($response_array) && isset($response_array['upi_url']) && !empty($response_array['upi_url'])) {
                         $upi_url = $response_array['upi_url'];
-                        $orderdetails1 = Order_details::create([
+                        $orderdetails2Data =[
                             'order_id' => $orderid,
                             'product_id' => $request->productid,
                             'seller_id' => $request->selleruserid,
@@ -475,9 +508,16 @@ class OrderController extends Controller
                             'product_price' => $request->productprice,
                             'payment_status' => $response_array['status'],
                             'product_name' => $request->productname,
+                            'payment_status' =>$response_array['status'],
+                            'type' =>$request->type,
                             "transaction_id" => $txnid
 
-                        ]);
+                        ];
+                        // Conditionally include the "address" field based on product type
+                        if ($request->input('type') == 'physicalproduct') {
+                            $orderdetails2Data['address'] = $form2['address'];
+                        }
+                        $orderdetails2 =   Order_details::create($orderdetails2Data);
                         /// dd($response_array);
 
                         $pay = QrCode::size(200)
@@ -506,23 +546,22 @@ class OrderController extends Controller
                 $callback_url = route('payment.callback');
                 // }
 
-                $data = json_encode([
-                    'name' => $form2['name'],
-                    'phone' => $form2['mobileno'],
-                    'userId' => $form2['email'],
-                    'amount' => $request->productprice,
-                    'txnid' => $txnid,
-                    'merchantCode' => $key,
-                    'paymentMethod'  => $paymentmethod,
-                ]);
-                // $data = json_encode([
+                $data = [
+                    "name" => $form2['name'],
+                    "email" => $form2['email'],
+                    "phone" => $form2['mobileno'],
+                    "amount" => $request->productprice,
+                    "txnid" => $txnid,
+                    "return_url" => $callback_url,
+                    "token" => $key,
+                ];
+                // Conditionally include the "address" field based on product type
+                if ($request->input('type') == 'physicalproduct') {
+                    $data['address'] = $form2['address'];
+                }
 
-                //     "email" => $form2['email'],
-                //     "amount" => $request->productprice,
-                //     "txnid" => $txnid,
-                //     "return_url" => $callback_url,
-                //     "token" => $key,
-                // ]);
+                $data = json_encode($data);
+
 
 
 
@@ -545,7 +584,7 @@ class OrderController extends Controller
                 $response = curl_exec($curl);
 
                 curl_close($curl);
-                dd($response);
+                //dd($response);
                 // session()->put('txnid', $txnid);
                 if ($response === false) {
                     echo 'Curl error: ' . curl_error($curl);
@@ -554,7 +593,7 @@ class OrderController extends Controller
 
                     if (!empty($response_array) && isset($response_array['upi_url']) && !empty($response_array['upi_url'])) {
                         $upi_url = $response_array['upi_url'];
-                        $orderdetails1 = Order_details::create([
+                        $orderdetails1 = [
                             'order_id' => $orderid,
                             'product_id' => $request->productid,
                             'seller_id' => $request->selleruserid,
@@ -566,9 +605,16 @@ class OrderController extends Controller
                             'product_price' => $request->productprice,
                             'payment_status' => $response_array['status'],
                             'product_name' => $request->productname,
+                            'payment_status' =>$response_array['status'],
+                            'type' =>$request->type,
                             "transaction_id" => $txnid
 
-                        ]);
+                        ];
+                        // Conditionally include the "address" field based on product type
+                        if ($request->input('type') == 'physicalproduct') {
+                            $orderdetails3Data['address'] = $form2['address'];
+                        }
+                        $orderdetails3 =   Order_details::create($orderdetails3Data);
                         /// dd($response_array);
 
                         $pay = QrCode::size(200)
@@ -584,11 +630,13 @@ class OrderController extends Controller
                 }
             }
         }
+
     public function transaction(Request $request, $id)
     {
 
         $title = 'Transaction';
         $transaction_details = Order_details::where('product_id', $id)->get()->all();
+
         return view('user.transaction', compact('transaction_details', 'title'));
     }
 
@@ -643,7 +691,7 @@ class OrderController extends Controller
         return "Payment is failed";
     }
 
-
+/* product filter */
     public function filter(Request $request)
     {
 
@@ -660,10 +708,106 @@ class OrderController extends Controller
         ->when($request->productname, function ($query) use ($request) {
             $query->where('name', $request->productname)->where('user_id', Auth::id());
         })
+        ->when($request->producttype, function ($query) use ($request) {
+            $query->where('type', $request->producttype)->where('user_id', Auth::id());
+        })
         ->where('status', 1)->where('user_id', Auth::id())
         ->get();
-        // dd($pro);
+         //dd($pro);
         // Return the filtered products as JSON response
         return response()->json($pro);
+    }
+
+    /*End*/
+    public function transactionfilter(Request $request)
+    {
+    //dd($request->all());
+
+        $pro = Order_details::
+
+        when($request->userid !== "null", function ($query) use ($request) {
+            $query->where('user_id', Auth::id());
+        })
+        ->when($request->productid, function ($query) use ($request) {
+            $query->where('product_id', $request->productid)->where('user_id', Auth::id());
+        })
+        ->when($request->transactionid, function ($query) use ($request) {
+            $query->where('transaction_id', $request->transactionid)->where('user_id', Auth::id());
+        })
+        ->when($request->producttype, function ($query) use ($request) {
+            $query->where('type', $request->producttype)->where('user_id', Auth::id());
+        })
+        ->where('user_id', Auth::id())
+        ->get();
+
+
+
+        //  dd($pro);
+        // Return the filtered products as JSON response
+        return response()->json($pro);
+    }
+
+
+    public function profile()
+    {
+        $title='Profile';
+        $userprofile = UserProfile::
+        select('users.name','users.email','users.phone','user_profiles.*')
+        ->join('users','users.id','=','user_profiles.user_id')
+
+        ->where('user_profiles.user_id',Auth::id())->get()->first();
+       // dd($userprofile);
+
+        return view('user.profile',compact('title','userprofile'));
+    }
+
+    public function addprofile(Request $request)
+    {
+
+
+    if (Auth::check()) {
+        // Get the authenticated user's ID
+        $userId = Auth::id();
+
+        // Check if a user profile already exists for the authenticated user
+        $existingProfile = UserProfile::where('user_id', $userId)->first();
+
+        if ($existingProfile) {
+            // If a user profile already exists, update the existing record
+            $existingProfile->update([
+                'name' => $request->username,
+                'country' => $request->country,
+                'state' => $request->state,
+                'city' => $request->city,
+                'pin_code' => $request->postalcode,
+                'address' =>$request->address
+            ]);
+
+            // Optionally, you can return a success message or redirect the user
+            return response()->json(['message' => 'User profile updated successfully']);
+        } else {
+            // If no user profile exists, create a new one
+            $userProfileData = [
+                'user_id' => $userId,
+                'name' => $request->username,
+                'country' => $request->country,
+                'state' => $request->state,
+                'city' => $request->city,
+                'pin_code' => $request->postalcode,
+                'address' =>$request->address
+            ];
+
+            // Insert the user profile data
+            $userProfile = UserProfile::create($userProfileData);
+
+            // Optionally, you can return a success message or redirect the user
+            return response()->json(['message' => 'User profile created successfully']);
+        }
+    } else {
+        // Return an error message or redirect the user
+        return response()->json(['error' => 'User is not authenticated'], 401);
+    }
+
+        // dd($userprofile);
     }
 }

@@ -144,7 +144,15 @@
                                         <span class="text text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
-
+                                @if($order->type =='physicalproduct' )
+                                <div>
+                                    <label>Address</label>
+                                    <input type="text" name="address" id="address" class="form-control">
+                                    @error('address')
+                                        <span class="text text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                @endif
 
                                 <div class="mb-3">
 
@@ -211,6 +219,8 @@
                                     value="{{ $order->name }}">
                                     <input type="hidden" name="productprice" id="productprice"
                                     value="{{ $order->price }}">
+                                    <input type="hidden" name="type" id="type"
+                                    value="{{ $order->type }}">
                                 <button type="submit" class="btn btn-success add-product">Save</button>
                                 <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Close</button>
                             </div>

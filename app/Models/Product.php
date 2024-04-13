@@ -15,6 +15,7 @@ class Product extends Model
         'image',
         'image_2',
         'file',
+        'type',
         'status',
     ];
 }
