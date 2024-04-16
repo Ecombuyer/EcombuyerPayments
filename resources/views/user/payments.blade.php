@@ -20,6 +20,7 @@
 </style>
 <body>
 
+
 <div class="container-fluid pt-5 qr" style="color:black; align:center;">
     {{ $pay }}
 </div>

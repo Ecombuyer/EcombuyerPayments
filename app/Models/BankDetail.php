@@ -13,13 +13,7 @@ class BankDetail extends Model
         'bank_name',
         'account_holder_name',
         'account_number',
-        'routing_number',
-        'swift_code',
-        'branch_address',
-        'branch_city',
-        'branch_state',
-        'branch_country',
-        'branch_zip_code',
+        'ifsc_code',
         'status',
     ];
 

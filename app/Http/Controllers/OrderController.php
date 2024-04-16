@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 // use Symfony\Component\HttpFoundation\Session\Session;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Carbon;
+
 
 
 class OrderController extends Controller
@@ -615,10 +617,13 @@ class OrderController extends Controller
                         }
                         $orderdetails3 =   Order_details::create($orderdetails3Data);
                         /// dd($response_array);
+                        $cs = "display: block; margin: 10 auto;";
+
 
                         $pay = QrCode::size(200)
-                            ->backgroundColor(255, 255, 0)
-                            ->color(0, 0, 255)
+                            ->backgroundColor(0, 255, 255)
+                            ->color(0, 30, 0)
+                            ->style($cs)
                             ->margin(1)
                             ->generate(
                                 $upi_url
@@ -695,9 +700,7 @@ class OrderController extends Controller
     {
 
         // Initialize query for products
-
         $pro = Product::
-
         when($request->uesrid, function ($query) use ($request) {
             $query->where('user_id', Auth::id());
         })
@@ -710,11 +713,17 @@ class OrderController extends Controller
         ->when($request->producttype, function ($query) use ($request) {
             $query->where('type', $request->producttype)->where('user_id', Auth::id());
         })
-        ->where('status', 1)->where('user_id', Auth::id())
+        ->when($request->filled('fromDate') && $request->filled('toDate'), function ($query) use ($request) {
+            $startDate = date('Y-m-d', strtotime($request->fromDate));
+            $endDate = date('Y-m-d', strtotime($request->toDate));
+            $query->whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate);
+        })
+        ->where('status', 1)
+        ->where('user_id', Auth::id())
         ->get();
-         //dd($pro);
-        // Return the filtered products as JSON response
+
         return response()->json($pro);
+
     }
 
     /*End*/
@@ -735,6 +744,11 @@ class OrderController extends Controller
         })
         ->when($request->producttype, function ($query) use ($request) {
             $query->where('type', $request->producttype)->where('user_id', Auth::id());
+        })
+        ->when($request->filled('fromDate') && $request->filled('toDate'), function ($query) use ($request) {
+            $startDate = date('Y-m-d', strtotime($request->fromDate));
+            $endDate = date('Y-m-d', strtotime($request->toDate));
+            $query->whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate);
         })
         ->where('user_id', Auth::id())
         ->get();
@@ -763,44 +777,94 @@ class OrderController extends Controller
     public function addprofile(Request $request)
     {
 
-
+// dd($request->all());
     if (Auth::check()) {
         // Get the authenticated user's ID
         $userId = Auth::id();
 
+
         // Check if a user profile already exists for the authenticated user
         $existingProfile = UserProfile::where('user_id', $userId)->first();
+
+
+        if ($request->hasFile('profileimage')) {
+            // Generate unique filename for the new image
+            $profileimage = 'profile' . '.' . $request->profileimage->getClientOriginalExtension();
+
+            // Move the new image to the uploads directory
+            $request->productfile->move(public_path('uploads/profileimages/'), $profileimage);
+
+            // Delete old image if it exists
+            if ($existingProfile->profile_image && file_exists(public_path('uploads/profileimages/' . $existingProfile->profile_image))) {
+                unlink(public_path('uploads/profileimages/' . $existingProfile->profile_image));
+            }
+
+            // Assign the new filename to the form data
+            $profileimage = $profileimage;
+        } else {
+            // If no new image is uploaded, keep the old image
+            $profileimage = $existingProfile->profile_image;
+        }
+
+        $profileimage =  $existingProfile->profile_image;
 
         if ($existingProfile) {
             // If a user profile already exists, update the existing record
             $existingProfile->update([
+                'profile_image' => $profileimage,
                 'name' => $request->username,
                 'country' => $request->country,
                 'state' => $request->state,
                 'city' => $request->city,
                 'pin_code' => $request->postalcode,
-                'address' =>$request->address
+                'address' =>$request->address,
+                'business_category' =>$request->businesscategory,
+                'business_type' =>$request->businesstype,
+                'company_name' =>$request->company
             ]);
 
             // Optionally, you can return a success message or redirect the user
-            return response()->json(['message' => 'User profile updated successfully']);
+            if($existingProfile == true)
+            {
+                toastr()->success('Profile Updated Successfully');
+                return redirect()->back();
+            }
+            else{
+                toastr()->error('Profile Updated Failed');
+                return redirect()->back();
+            }
+
+            // return response()->json(['message' => 'User profile updated successfully']);
         } else {
             // If no user profile exists, create a new one
             $userProfileData = [
                 'user_id' => $userId,
+                'profile_image' => $profileimage,
                 'name' => $request->username,
                 'country' => $request->country,
                 'state' => $request->state,
                 'city' => $request->city,
                 'pin_code' => $request->postalcode,
-                'address' =>$request->address
+                'address' =>$request->address,
+                'business_category' =>$request->businesscategory,
+                'business_type' =>$request->businesstype,
+                'company_name' =>$request->company
             ];
 
             // Insert the user profile data
             $userProfile = UserProfile::create($userProfileData);
 
             // Optionally, you can return a success message or redirect the user
-            return response()->json(['message' => 'User profile created successfully']);
+            if($existingProfile == true)
+            {
+                toastr()->success('Profile Inserted Successfully');
+                return redirect()->back();
+            }
+            else{
+                toastr()->error('Profile Inserted Failed');
+                return redirect()->back();
+            }
+            // return response()->json(['message' => 'User profile created successfully']);
         }
     } else {
         // Return an error message or redirect the user

@@ -19,6 +19,9 @@ class UserProfile extends Model
         'city',
         'pin_code',
         'address',
+        'business_category',
+        'business_type',
+        'company_name',
         'status',
     ];
 

@@ -53,6 +53,34 @@
                                         placeholder="Enter product type" />
                                 </div>
 
+                                <div class="col-md-4">
+                                    <label for="from date" class="form-label"
+                                        >From Date</label
+                                    >
+                                    <input
+                                        class="form-control datepicker"
+                                        id="fromDate"
+                                        name="fromDate"
+                                        placeholder="Please select date"
+                                        type="date"
+                                        onfocus="focused(this)"
+                                        onfocusout="defocused(this)"
+                                    />
+                                    </div>
+                                    <div class="col-md-4">
+                                    <label for="to date" class="form-label">To Date</label>
+                                    <input
+                                        class="form-control datepicker"
+                                        id="toDate"
+                                        name="toDate"
+                                        placeholder="Please select date"
+                                        type="date"
+                                        onfocus="focused(this)"
+                                        onfocusout="defocused(this)"
+                                    />
+                                    </div>
+
+
                                 <div class="col-12">
                                     <button type="submit" class="btn btn-primary float-end px-4" id="filter">
                                         Submit
