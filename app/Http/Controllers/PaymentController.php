@@ -15,7 +15,7 @@ class PaymentController extends Controller
 
         $title = 'PaymentMethods';
         $paymenttype = Paymenttype::all();
-        return view('admin.paymentsmethod', compact('title','paymenttype'));
+        return view('admin.adminpaymentsmethod', compact('title','paymenttype'));
     }
 
 

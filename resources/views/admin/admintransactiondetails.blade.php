@@ -25,8 +25,8 @@
           
           <div class="collapse card-body" id="collapseExample">
             <div class="">
-              <form class="row g-3">
-                
+              <form class="row g-3 "id="filter-form" method="POST" action="" enctype="multipart/form-data">
+                @csrf
                 <div class="col-md-4">
                   <label for="userid" class="form-label">User ID</label>
                   <input
@@ -34,20 +34,94 @@
                     class="form-control"
                     id="inputEmail4"
                     placeholder="Enter User ID"
+                    name="userid"
                   />
                 </div>
                 <div class="col-md-4">
-                  <label for="payment id" class="form-label"
-                    >Payment ID</label
+                  <label for="name" class="form-label"
+                    >User Name</label
                   >
                   <input
                     type="text"
                     class="form-control"
                     id="inputPassword4"
-                    placeholder="Enter Payment ID"
+                    placeholder="Enter User Name"
+                    name = "name"
                   />
                 </div>
                 <div class="col-md-4">
+                  <label for="productname" class="form-label"
+                    >Product Name</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputPassword4"
+                    placeholder="Enter Product Name"
+                    name = "productname"
+                  />
+                </div>
+                <div class="col-md-4">
+                  <label for="productid" class="form-label"
+                    >Product ID</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputPassword4"
+                    placeholder="Enter Product ID"
+                    name = "productid"
+                  />
+                </div>
+                <div class="col-md-4">
+                  <label for="txnid" class="form-label"
+                    >Transaction ID</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputPassword4"
+                    placeholder="Enter Transaction ID"
+                    name = "txnid"
+                  />
+                </div>
+                <div class="col-md-4">
+                  <label for="email" class="form-label"
+                    >Email ID</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputPassword4"
+                    placeholder="Enter Email"
+                    name = "email"
+                  />
+                </div>
+                <div class="col-md-4">
+                  <label for="phone" class="form-label"
+                    >Phone Number</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputPassword4"
+                    placeholder="Enter Phone Number"
+                    name = "phone"
+                  />
+                </div>
+                <div class="col-md-4">
+                  <label for="status" class="form-label">Transaction Status</label>
+                  <select id="inputState" class="form-select" name="status">
+                    <option selected disabled>Select Status...</option>
+                    <option value="INITIATE">INITIATE</option>
+                    <option value="SUCCESS">
+                      SUCCESS
+                    </option>
+                    <option value="FAILED">FAILED</option>
+                    <option value="ERROR">ERROR</option>
+                  </select>
+                </div>
+                {{-- <div class="col-md-4">
                   <label for="city" class="form-label">City</label>
                   <select id="inputState" class="form-select">
                     <option selected disabled>Select State...</option>
@@ -146,7 +220,7 @@
                     <option value="Lakshadweep">Lakshadweep</option>
                     <option value="Puducherry">Puducherry</option>
                   </select>
-                </div>
+                </div> --}}
                 <div class="col-md-4">
                   <label for="from date" class="form-label"
                     >From Date</label
@@ -157,6 +231,7 @@
                     type="date"
                     onfocus="focused(this)"
                     onfocusout="defocused(this)"
+                    name="fromDate"
                   />
                 </div>
                 <div class="col-md-4">
@@ -167,12 +242,14 @@
                     type="date"
                     onfocus="focused(this)"
                     onfocusout="defocused(this)"
+                    name="toDate"
                   />
                 </div>
                 <div class="col-12">
                   <button
                     type="submit"
                     class="btn btn-primary float-end px-4"
+                    id="filter"
                   >
                     Submit
                   </button>
@@ -246,6 +323,9 @@
                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                       <i class="fa-solid fa-plus mx-1"></i> Created at
                     </th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                      <i class="fa-solid fa-plus mx-1"></i> Updated at
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -316,9 +396,13 @@
                 <td class="align-middle text-center p-3">
                   <span class="badge rounded-pill bg-success text-xs text-secondary font-weight-bold" style="text-transform: capitalize;" >{{ $order->payment_status }}</span>
                 </td>
+                @elseif($order->payment_status == 'FAILED')
+                <td class="align-middle text-center p-3">
+                  <span class="badge rounded-pill bg-warning text-xs text-secondary font-weight-bold" style="text-transform: capitalize;" >{{ $order->payment_status }}</span>
+                </td>
                 @else
                 <td class="align-middle text-center p-3">
-                  <span class="badge rounded-pill bg-success text-xs text-secondary font-weight-bold" style="text-transform: capitalize;" >{{ $order->payment_status }}</span>
+                  <span class="badge rounded-pill bg-warning text-xs text-secondary font-weight-bold" style="text-transform: capitalize;" >{{ $order->payment_status }}</span>
                 </td>
                  @endif
                       <td class="align-middle text-center p-3">
@@ -333,7 +417,12 @@
                       </td>
                       <td class="align-middle text-center p-3">
                         <span class="text-secondary text-xs font-weight-bold"
-                          >{{ $order->created_at }}</span
+                          >{{ $order->created_at->format('Y/m/d') }}</span
+                        >
+                      </td>
+                      <td class="align-middle text-center p-3">
+                        <span class="text-secondary text-xs font-weight-bold"
+                          >{{ $order->updated_at->format('Y/m/d') }}</span
                         >
                       </td>
                       @endforeach
@@ -352,4 +441,165 @@
    
       
     </div>
+  </body>
+  </html>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+    $(document).ready(function() {
+        $('#filter').on('click', function(event) {
+            event.preventDefault(); // Prevent the default form submission behavior
+
+            var formData = $('#filter-form').serialize();
+            console.log('Form data:', formData);
+
+            $.ajax({
+                url: "{{ route('admin.transactionfilters') }}",
+                type: "POST",
+                data: formData,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+
+                    console.log(response);
+                    if (response.length === 0) {
+                        // If no data is found, display a message
+                        var html =
+                            '<tbody><tr><td colspan="5" class="text-center">No data found</td></tr></tbody>';
+                    } else {
+
+                        // Assuming response is an array of objects representing table rows
+                        var html = '<tbody>';
+                        var i=1;
+                        // Iterate through the response data and construct table rows
+                        response.forEach(function(row) {
+                            html += '<tr>';
+                            html += ' <td class="align-middle text-center p-3">';
+                            html += '<span class="text-secondary text-xs font-weight-bold">';
+                            html += i++;
+                            html += '</span></td>';
+
+                            html += ' <td class="align-middle text-center p-3">';
+                            html += '<span class="text-secondary text-xs font-weight-bold">';
+                            html += row.order_id;
+                            html += '</span></td>';
+
+                            html += ' <td class="align-middle text-center p-3">';
+                            html += '<span class="text-secondary text-xs font-weight-bold">';
+                            html += row.product_id;
+                            html += '</span></td>';
+
+                            html += ' <td class="align-middle text-center p-3">';
+                            html += '<span class="text-secondary text-xs font-weight-bold">';
+                            html += row.product_name;
+                            html += '</span></td>';
+
+                            html += ' <td class="align-middle text-center p-3">';
+                            html += '<span class="text-secondary text-xs font-weight-bold">';
+                            html += row.product_price;
+                            html += '</span></td>';
+
+                            html += ' <td class="align-middle text-center p-3">';
+                            html += '<span class="text-secondary text-xs font-weight-bold">';
+                            html += row.user_id;
+                            html += '</span></td>';
+
+                            html += ' <td class="align-middle text-center p-3">';
+                            html += '<span class="text-secondary text-xs font-weight-bold">';
+                            html += row.user_name;
+                            html += '</span></td>';
+
+                            html += ' <td class="align-middle text-center p-3">';
+                            html += '<span class="text-secondary text-xs font-weight-bold">';
+                            html += row.user_email;
+                            html += '</span></td>';
+
+                            html += ' <td class="align-middle text-center p-3">';
+                            html += '<span class="text-secondary text-xs font-weight-bold">';
+                            html += row.user_number;
+                            html += '</span></td>';
+
+                            html += ' <td class="align-middle text-center p-3">';
+                            html += '<span class="text-secondary text-xs font-weight-bold">';
+                            html += row.order_status;
+                            html += '</span></td>';
+                            
+                            if(row.payment_status == 'INITIATE')
+                            {
+                              html += ' <td class="align-middle text-center p-3">';
+                              html += '<span class="badge rounded-pill bg-info text-xs font-weight-bold">';
+                              html += row.payment_status;
+                              html += '</span></td>';
+                            }
+                            else if(row.payment_status == 'SUCCESS')
+                            {
+                              html += ' <td class="align-middle text-center p-3">';
+                              html += '<span class="badge rounded-pill bg-success text-xs text-secondary font-weight-bold">';
+                              html += row.payment_status;
+                              html += '</span></td>';
+                            }
+                            else if(row.payment_status == 'FAILED')
+                            {
+                              html += ' <td class="align-middle text-center p-3">';
+                              html += '<span class="badge rounded-pill bg-warning text-xs text-secondary font-weight-bold">';
+                              html += row.payment_status;
+                              html += '</span></td>';
+                            }
+                            else if(row.payment_status == 'ERROR')
+                            {
+                              html += ' <td class="align-middle text-center p-3">';
+                              html += '<span class="badge rounded-pill bg-danger text-xs  font-weight-bold">';
+                              html += row.payment_status;
+                              html += '</span></td>';
+                            }
+                            else
+                            {
+                              html += ' <td class="align-middle text-center p-3">';
+                              html += '<span class="text-secondary text-xs font-weight-bold">';
+                              html += row.payment_status;
+                              html += '</span></td>';
+                            }
+
+                            html += ' <td class="align-middle text-center p-3">';
+                            html += '<span class="text-secondary text-xs font-weight-bold">';
+                            html += row.transaction_id;
+                            html += '</span></td>';
+
+                            html += ' <td class="align-middle text-center p-3">';
+                            html += '<span class="text-secondary text-xs font-weight-bold">';
+                            html += row.payment_method;
+                            html += '</span></td>';
+
+                            html += ' <td class="align-middle text-center p-3">';
+                            html += '<span class="text-secondary text-xs font-weight-bold">';
+                            html += row.created_at;
+                            html += '</span></td>';
+
+                            html += ' <td class="align-middle text-center p-3">';
+                            html += '<span class="text-secondary text-xs font-weight-bold">';
+                            html += row.updated_at;
+                            html += '</span></td>';
+
+
+                            
+
+                           
+                            // Add more columns as needed
+                            html += '</tr>';
+                        });
+
+                        html += '</tbody>';
+                    }
+                    // Replace the contents of the existing table body with the newly constructed HTML
+                    $('table').find('tbody').remove();
+                    $('table').append(html);
+                },
+                error: function(xhr) {
+                    console.error('Error:', xhr);
+                    // Handle errors
+                }
+            });
+        });
+    });
+</script>
 @endsection

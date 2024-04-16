@@ -38,21 +38,31 @@
                   />
                 </div>
                 <div class="col-md-4">
-                  <label for="payment id" class="form-label"
+                  <label for="productid" class="form-label"
                     >Product ID</label
                   >
                   <input
-                    type="text"
+                    type="number"
                     class="form-control"
                     id="inputPassword4"
-                    placeholder="Enter Payment ID"
+                    placeholder="Enter Product ID"
                     name="productid"
                   />
                 </div>
                 <div class="col-md-4">
-                  <label for="payment id" class="form-label">Product Name</label>
+                  <label for="productname" class="form-label">Product Name</label>
                   <input type="text" class="form-control" id="inputPassword4"
                       name="productname" placeholder="Enter Product Name" />
+              </div>
+              <div class="col-md-4">
+                <label for="Type" class="form-label">Product Type</label>
+                <select id="inputState" class="form-select" name="type">
+                  <option selected disabled>Select Type...</option>
+                  <option value="physicalproduct">Physical Product</option>
+                  <option value="digitalproduct">
+                    Digital Product
+                  </option>
+                </select>
               </div>
                 <div class="col-md-4">
                   <label for="from date" class="form-label"
@@ -64,7 +74,7 @@
                     type="date"
                     onfocus="focused(this)"
                     onfocusout="defocused(this)"
-                    name="createdat"
+                    name="fromDate"
                   />
                 </div>
                 <div class="col-md-4">
@@ -75,7 +85,7 @@
                     type="date"
                     onfocus="focused(this)"
                     onfocusout="defocused(this)"
-                    name="updatedat"
+                    name="toDate"
                   />
                 </div>
                 <div class="col-12">
@@ -128,6 +138,9 @@
                         <i class="fa-solid fa-eye mx-1"></i> Preview Image 2
                     </th>
                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                      <i class="fa-solid fa-eye mx-1"></i> Type
+                  </th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                       <i class="fa-solid fa-plus mx-1"></i> Created at
                     </th>
                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -178,7 +191,11 @@
                           class="avatar avatar-sm me-3" alt="user2" /></span
                         >
                       </td>
-                    </td>
+                      <td class="align-middle text-center p-3">
+                        <span class="text-secondary text-xs font-weight-bold"
+                          >{{ $product->type }}</span
+                        >
+                      </td>
                     <td class="align-middle text-center p-3">
                       <span class="text-secondary text-xs font-weight-bold"
                         >{{ $product->created_at->format('Y/m/d') }}</span
@@ -231,91 +248,63 @@
 
                           // Assuming response is an array of objects representing table rows
                           var html = '<tbody>';
-
+                          var i=1;
                           // Iterate through the response data and construct table rows
                           response.forEach(function(row) {
                               html += '<tr>';
+                              html += '<td class="align-middle text-center p-3">';
+                              html += '<span class="text-secondary text-xs font-weight-bold">';
+                              html += i++
+                              html += '</span></td>';
 
-                              html += '<td class="align-middle text-center">' + row
-                                  .id + '</td>';
-                              html += '<td class="align-middle text-center">' + row
-                                  .user_id + '</td>';
-                              html += '<td class="align-middle text-center">' + row
-                                  .product_id + '</td>';
-                              html += '<td class="align-middle text-center">' + row
-                                  .name +
-                                  '</td>';
-                              html += '<td class="align-middle text-center">' + row
-                                  .price + '</td>';
-                              html += '<td class="align-middle text-center">';
-                              // Construct the anchor tag dynamically
-                              html += '<a class="badge" href="/transaction/' +
-                                  row.product_id +
-                                  '" style="font-weight: 500; text-transform: capitalize; text-decoration: underline; background-color: #c9c8c3;">Details</a>';
-                              html += '</td>';
-                              html += '<td class="align-middle text-center">';
-                              html += '<div class="">';
-                              html += '<div>';
-                              // Check if the order has an image
-                              if (row.image) {
-                                  // If an image exists, construct an <img> tag
-                                  html += '<img src="./uploads/previewimages/' + row
-                                      .image +
-                                      '" class="avatar avatar-sm me-3" alt="user2" />';
-                              } else {
-                                  // If no image exists, display a text message
-                                  html += '<span>No image found!</span>';
-                              }
-                              html += '</div>';
-                              html +=
-                                  '<div class="d-flex flex-column justify-content-center">';
-                              html += '</div>';
-                              html += '</div>';
-                              html += '</td>';
-                              html += '<td class="align-middle text-center w-1">';
-                              // Construct the anchor tag dynamically for previewing the product
-                              html += '<a href="/' + row.product_id + '/' + row
-                                  .name +
-                                  '/show" class="text-white font-weight-bold text-xs mx-1  bg-primary" data-toggle="tooltip" data-original-title="Preview" style=" padding: 7px; border-radius: 10px;">';
-                              html +=
-                                  '<i class="fa-regular fa-eye" style="margin-right: 3px"></i>';
-                              html += 'Preview';
-                              html += '</a>';
+                              html += '<td class="align-middle text-center p-3">';
+                              html += '<span class="text-secondary text-xs font-weight-bold">';
+                              html += row.user_id;
+                              html += '</span></td>';
 
-                              // Share button
-                              html +=
-                                  '<a class="share-module" data-toggle="tooltip" data-original-title="Edit user" data-title="' +
-                                  row.name + '" data-text="' + row.description +
-                                  '" data-url="' + row
-                                  .product_id + '/' + row.name +
-                                  '/show" style="padding: 7px; border-radius: 10px;">';
-                              html += '<template class="is-supported">';
-                              html +=
-                                  '<a class="text-white font-weight-bold text-xs mx-1  bg-gradient-success js-share"><i class="fa-solid fa-share" style="margin-right: 5px"></i>Share</a>';
-                              html += '</template>';
-                              html += '<template class="not-supported">';
-                              html += '<pre>@Html.Partial(\'_Social.html\')</pre>';
-                              html += '</template>';
-                              html += '</a>';
+                              html += '<td class="align-middle text-center p-3">';
+                              html += '<span class="text-secondary text-xs font-weight-bold">';
+                              html += row.product_id;
+                              html += '</span></td>';
+
+                              html += '<td class="align-middle text-center p-3">';
+                              html += '<span class="text-secondary text-xs font-weight-bold">';
+                              html += row.name;
+                              html += '</span></td>';
+
+                              html += '<td class="align-middle text-center p-3">';
+                              html += '<span class="text-secondary text-xs font-weight-bold">';
+                              html += row.price;
+                              html += '</span></td>';
+
+                              html += '<td class="align-middle text-center p-3">';
+                              html += '<span class="text-secondary text-xs font-weight-bold">';
+                                html += '<img src="/uploads/previewimages/' + row.image + '" class="avatar avatar-sm me-3" alt="user2" />';
+                              html += '</span></td>';
+
+                              html += '<td class="align-middle text-center p-3">';
+                              html += '<span class="text-secondary text-xs font-weight-bold">';
+                              html += '<img src="/uploads/previewimages/' + row.image_2 + '" class="avatar avatar-sm me-3" alt="user2" />';
+                              html += '</span></td>';
+
+                              html += '<td class="align-middle text-center p-3">';
+                              html += '<span class="text-secondary text-xs font-weight-bold">';
+                              html += row.type;
+                              html += '</span></td>';
+
+                              html += '<td class="align-middle text-center p-3">';
+                              html += '<span class="text-secondary text-xs font-weight-bold">';
+                              html += row.created_at;
+                              html += '</span></td>';
+
+                              html += '<td class="align-middle text-center p-3">';
+                              html += '<span class="text-secondary text-xs font-weight-bold">';
+                              html += row.updated_at;
+                              html += '</span></td>';
 
 
-                              // Edit button
-                              html += '<a href="/' + row.id +
-                                  '/edit" class="text-white font-weight-bold text-xs mx-1 bg-gradient-warning" data-toggle="tooltip" data-original-title="Edit user" style="padding: 7px; border-radius: 10px;">';
-                              html +=
-                                  '<i class="fa-regular fa-pen-to-square" style="margin-right: 3px"></i> Edit';
-                              html += '</a>';
 
-                              // Delete button
-                              html += '<a href="/' + row.id +
-                                  '/destory" class="text-white font-weight-bold text-xs mx-1 bg-gradient-danger" data-toggle="tooltip" data-original-title="Edit user" style="padding: 7px; border-radius: 10px;">';
-                              html +=
-                                  '<i class="fa-solid fa-trash-can" style="margin-right: 3px"></i> Delete';
-                              html += '</a>';
-
-                              html += '</td>';
-                              // Add more columns as needed
-                              html += '</tr>';
+                              // html += '</tr>';
                           });
 
                           html += '</tbody>';
