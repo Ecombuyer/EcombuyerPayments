@@ -10,16 +10,23 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajaxy/1.6.1/scripts/jquery.ajaxy.min.js"></script>
 </head>
-
+<style>
+    .qr{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 130px;
+    }
+</style>
 <body>
 
-<div class="container">
+
+<div class="container-fluid pt-5 qr" style="color:black; align:center;">
     {{ $pay }}
 </div>
 
-    {{-- <button name="qrCode" id="PAID">I have Paid</button> --}}
-
-
+    
+    {{-- <a href="{{$button}}" class="btn btn-dark" name="qrCode" id="PAID">Pay</a> --}}
 </body>
 {{-- @foreach ($paymenttype as $paymenttype ) --}}
 

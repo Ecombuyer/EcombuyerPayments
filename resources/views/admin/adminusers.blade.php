@@ -25,8 +25,8 @@
           
           <div class="collapse card-body" id="collapseExample">
             <div class="">
-              <form class="row g-3">
-                
+              <form class="row g-3" id="filter-form" action="" method="POST" enctype="multipart/form-data">
+                @csrf
                 <div class="col-md-4">
                   <label for="userid" class="form-label">User ID</label>
                   <input
@@ -34,72 +34,62 @@
                     class="form-control"
                     id="inputEmail4"
                     placeholder="Enter User ID"
+                    name = "userid"
                   />
                 </div>
                 <div class="col-md-4">
-                  <label for="payment id" class="form-label"
-                    >Payment ID</label
-                  >
+                  <label for="name" class="form-label">User Name</label>
                   <input
                     type="text"
                     class="form-control"
-                    id="inputPassword4"
-                    placeholder="Enter Payment ID"
+                    id="inputEmail4"
+                    placeholder="Enter User Name"
+                    name = "name"
                   />
                 </div>
                 <div class="col-md-4">
-                  <label for="city" class="form-label">City</label>
-                  <select id="inputState" class="form-select">
-                    <option selected disabled>Select State...</option>
-                    <option value="Andhra Pradesh">Andhra Pradesh</option>
-                    <option value="Arunachal Pradesh">
-                      Arunachal Pradesh
-                    </option>
-                    <option value="Assam">Assam</option>
-                    <option value="Bihar">Bihar</option>
-                    <option value="Chhattisgarh">Chhattisgarh</option>
-                    <option value="Goa">Goa</option>
-                    <option value="Gujarat">Gujarat</option>
-                    <option value="Haryana">Haryana</option>
-                    <option value="Himachal Pradesh">
-                      Himachal Pradesh
-                    </option>
-                    <option value="Jharkhand">Jharkhand</option>
-                    <option value="Karnataka">Karnataka</option>
-                    <option value="Kerala">Kerala</option>
-                    <option value="Madhya Pradesh">Madhya Pradesh</option>
-                    <option value="Maharashtra">Maharashtra</option>
-                    <option value="Manipur">Manipur</option>
-                    <option value="Meghalaya">Meghalaya</option>
-                    <option value="Mizoram">Mizoram</option>
-                    <option value="Nagaland">Nagaland</option>
-                    <option value="Odisha">Odisha</option>
-                    <option value="Punjab">Punjab</option>
-                    <option value="Rajasthan">Rajasthan</option>
-                    <option value="Sikkim">Sikkim</option>
-                    <option value="Tamil Nadu">Tamil Nadu</option>
-                    <option value="Telangana">Telangana</option>
-                    <option value="Tripura">Tripura</option>
-                    <option value="Uttar Pradesh">Uttar Pradesh</option>
-                    <option value="Uttarakhand">Uttarakhand</option>
-                    <option value="West Bengal">West Bengal</option>
-                    <option value="Andaman and Nicobar Islands">
-                      Andaman and Nicobar Islands
-                    </option>
-                    <option value="Chandigarh">Chandigarh</option>
-                    <option
-                      value="Dadra and Nagar Haveli and Daman and Diu"
-                    >
-                      Dadra and Nagar Haveli and Daman and Diu
-                    </option>
-                    <option value="Delhi">Delhi</option>
-                    <option value="Lakshadweep">Lakshadweep</option>
-                    <option value="Puducherry">Puducherry</option>
-                  </select>
+                  <label for="number" class="form-label">User Number</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputEmail4"
+                    placeholder="Enter User Number"
+                    name = "number"
+                  />
+                </div>
+                <div class="col-md-4">
+                  <label for="email" class="form-label">User Email</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputEmail4"
+                    placeholder="Enter User Email"
+                    name = "email"
+                  />
+                </div>
+                <div class="col-md-4">
+                  <label for="pan" class="form-label">Pan No</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputEmail4"
+                    placeholder="Enter Pan Number"
+                    name = "pan"
+                  />
+                </div>
+                <div class="col-md-4">
+                  <label for="pincode" class="form-label">Pincode</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputEmail4"
+                    placeholder="Enter PinCode"
+                    name = "pincode"
+                  />
                 </div>
                 <div class="col-md-4">
                   <label for="state" class="form-label">State</label>
-                  <select id="inputState" class="form-select">
+                  <select id="inputState" class="form-select" name="state">
                     <option selected disabled>Select State...</option>
                     <option value="Andhra Pradesh">Andhra Pradesh</option>
                     <option value="Arunachal Pradesh">
@@ -157,6 +147,7 @@
                     type="date"
                     onfocus="focused(this)"
                     onfocusout="defocused(this)"
+                    name ="fromDate"
                   />
                 </div>
                 <div class="col-md-4">
@@ -167,12 +158,14 @@
                     type="date"
                     onfocus="focused(this)"
                     onfocusout="defocused(this)"
+                    name ="toDate"
                   />
                 </div>
                 <div class="col-12">
                   <button
                     type="submit"
                     class="btn btn-primary float-end px-4"
+                    id="filter"
                   >
                     Submit
                   </button>
@@ -211,12 +204,12 @@
                     <th
                       class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
                     >
-                    <i class="fa-solid fa-phone mx-1"></i> number
+                    <i class="fa-regular fa-envelope mx-1"></i> Email
                     </th>
                     <th
                       class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
                     >
-                    <i class="fa-regular fa-envelope mx-1"></i> email
+                    <i class="fa-solid fa-phone mx-1"></i> Number
                     </th>
                     <th
                       class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
@@ -230,10 +223,10 @@
                       <i class="fa-solid fa-location-dot mx-1"></i> City
                     </th>
                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                      <i class="fa-solid fa-location-dot mx-1"></i> State
+                      <i class="fa-solid fa-location-dot mx-1"></i> Pincode
                     </th>
                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                      <i class="fa-solid fa-location-dot mx-1"></i> Pincode
+                      <i class="fa-solid fa-location-dot mx-1"></i> State
                     </th>
                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                       <i class="fa-solid fa-earth-americas mx-1"></i> Country
@@ -329,5 +322,124 @@
    
       
     </div>
-   
+  </body>
+  </html>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+    $(document).ready(function() {
+        $('#filter').on('click', function(event) {
+            event.preventDefault(); // Prevent the default form submission behavior
+
+            var formData = $('#filter-form').serialize();
+            console.log('Form data:', formData);
+
+            $.ajax({
+                url: "{{ route('admin.userfilters') }}",
+                type: "POST",
+                data: formData,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+
+                    console.log(response);
+                    if (response.length === 0) {
+                        // If no data is found, display a message
+                        var html =
+                            '<tbody><tr><td colspan="5" class="text-center">No data found</td></tr></tbody>';
+                    } else {
+
+                        // Assuming response is an array of objects representing table rows
+                        var html = '<tbody>';
+                        var i=1;
+                        // Iterate through the response data and construct table rows
+                        response.forEach(function(row) {
+                            html += '<tr>';
+                            html += ' <td class="align-middle text-center p-3">';
+                            html += '<span class="text-secondary text-xs font-weight-bold">';
+                            html += i++;
+                            html += '</span></td>';
+
+                            html += ' <td class="align-middle text-center p-3">';
+                            html += '<span class="text-secondary text-xs font-weight-bold">';
+                            html += row.id;
+                            html += '</span></td>';
+
+                            html += ' <td class="align-middle text-center p-3">';
+                            html += '<span class="text-secondary text-xs font-weight-bold">';
+                            html += row.name;
+                            html += '</span></td>';
+
+                            html += ' <td class="align-middle text-center p-3">';
+                            html += '<span class="text-secondary text-xs font-weight-bold">';
+                            html += row.email;
+                            html += '</span></td>';
+
+                            html += ' <td class="align-middle text-center p-3">';
+                            html += '<span class="text-secondary text-xs font-weight-bold">';
+                            html += row.phone;
+                            html += '</span></td>';
+
+                            html += ' <td class="align-middle text-center p-3">';
+                            html += '<span class="text-secondary text-xs font-weight-bold">';
+                            html += row.pan_no;
+                            html += '</span></td>';
+
+                            html += ' <td class="align-middle text-center p-3">';
+                            html += '<span class="text-secondary text-xs font-weight-bold">';
+                            html += row.address;
+                            html += '</span></td>';
+
+                            html += ' <td class="align-middle text-center p-3">';
+                            html += '<span class="text-secondary text-xs font-weight-bold">';
+                            html += row.city;
+                            html += '</span></td>';
+
+                            html += ' <td class="align-middle text-center p-3">';
+                            html += '<span class="text-secondary text-xs font-weight-bold">';
+                            html += row.pin_code;
+                            html += '</span></td>';
+
+                            html += ' <td class="align-middle text-center p-3">';
+                            html += '<span class="text-secondary text-xs font-weight-bold">';
+                            html += row.state;
+                            html += '</span></td>';
+
+                            html += ' <td class="align-middle text-center p-3">';
+                            html += '<span class="text-secondary text-xs font-weight-bold">';
+                            html += row.country;
+                            html += '</span></td>';
+
+                            html += ' <td class="align-middle text-center p-3">';
+                            html += '<span class="text-secondary text-xs font-weight-bold">';
+                            html += row.created_at;
+                            html += '</span></td>';
+
+                            html += ' <td class="align-middle text-center p-3">';
+                            html += '<span class="text-secondary text-xs font-weight-bold">';
+                            html += row.updated_at;
+                            html += '</span></td>';
+
+
+                            
+
+                           
+                            // Add more columns as needed
+                            html += '</tr>';
+                        });
+
+                        html += '</tbody>';
+                    }
+                    // Replace the contents of the existing table body with the newly constructed HTML
+                    $('table').find('tbody').remove();
+                    $('table').append(html);
+                },
+                error: function(xhr) {
+                    console.error('Error:', xhr);
+                    // Handle errors
+                }
+            });
+        });
+    });
+</script>
 @endsection
