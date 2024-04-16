@@ -82,6 +82,16 @@ class HomeController extends Controller
         $cash = Order_details::whereDate('created_at',$currentmoney)
         ->where('payment_status','SUCCESS')
         ->sum('product_price');
+
+        //product count
+
+        $products = Product::where('status',1)->get()->count();
+        $physicalproduct = Product::where('status',1)
+        ->where('type','physicalproduct')
+        ->get()->count();
+        $digitalproduct = Product::where('status',1)
+        ->where('type','digitalproduct')
+        ->get()->count();
         if ($request->ajax()) {
             return response()->json([
                 'orderdetails' => $orderdetails,
@@ -91,7 +101,10 @@ class HomeController extends Controller
                 'initiate' => $initiate,
                 'failed' => $failed,
                 'error' => $error,
-                'todaysmoney' => $cash
+                'todaysmoney' => $cash,
+                'totalproduct'=> $products,
+                'digitalproducts' => $digitalproduct ,
+                'physicalproducts' => $physicalproduct
             ]);
         }
 
