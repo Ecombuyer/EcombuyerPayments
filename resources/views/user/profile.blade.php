@@ -269,10 +269,10 @@ $("#imageUpload").change(function() {
 });
   </script>
   <!--   Core JS Files   -->
-  <script src="../assets/js/core/popper.min.js"></script>
-  <script src="../assets/js/core/bootstrap.min.js"></script>
-  <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
-  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script src="{{ env('APP_URL') }}/assets/js/core/popper.min.js"></script>
+  <script src="{{ env('APP_URL') }}/assets/js/core/bootstrap.min.js"></script>
+  <script src="{{ env('APP_URL') }}/assets/js/plugins/perfect-scrollbar.min.js"></script>
+  <script src="{{ env('APP_URL') }}/assets/js/plugins/smooth-scrollbar.min.js"></script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -285,7 +285,7 @@ $("#imageUpload").change(function() {
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="../assets/js/argon-dashboard.min.js?v=2.0.4"></script>
+  <script src="{{ env('APP_URL') }}/assets/js/argon-dashboard.min.js?v=2.0.4"></script>
 </body>
 
 </html>

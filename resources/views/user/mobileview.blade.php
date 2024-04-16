@@ -139,7 +139,10 @@
 
                                 <div>
                                     <label>Mobile Number</label>
-                                    <input type="text" name="mobileno" id="mobileno" class="form-control">
+                                    <input type="text" name="mobileno" id="mobileno" oninput="validateFirstDigit()" maxlength="10" class="form-control">
+                                    <div id="error-message" style="color: red;"></div>
+
+
                                     @error('mobileno')
                                         <span class="text text-danger">{{ $message }}</span>
                                     @enderror
@@ -249,5 +252,20 @@
   $('#featured').attr('src', url);
  });
 </script>
+
+
+<script>
+    function validateFirstDigit() {
+        var input = document.getElementById('mobileno');
+        var firstDigit = input.value.charAt(0);
+        if (isNaN(firstDigit) || firstDigit < 6 || firstDigit > 9) {
+            document.getElementById('error-message').textContent = 'The first digit must be in the range 6-9';
+            input.value = ''; // Clear the input field
+        } else {
+            document.getElementById('error-message').textContent = '';
+        }
+    }
+    </script>
+
 
 </html>

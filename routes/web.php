@@ -1,14 +1,16 @@
 <?php
 
-use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Auth;
-
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\HomepageController;
+use App\Http\Controllers\GoogleAuthController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +34,10 @@ Home page Routes
 Route::get('/', [HomepageController::class, 'homepage'])->name('homepage');
 Route::get('/aboutpage', [HomepageController::class, 'aboutpage'])->name('aboutpage');
 
+ /*google api login*/
+ Route::get('auth/google',[GoogleAuthController::class,'redirect'])->name('google-auth');
+ Route::get('auth/google/call-back',[GoogleAuthController::class,'callbackGoogle']);
+ Route::post('/userregister',[GoogleAuthController::class,'userregister'])->name('userregister');
 
 /*------------------------------------------
 --------------------------------------------
@@ -78,6 +84,8 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
         Route::post('/addprofile', [OrderController::class,'addprofile'])->name('user.addprofile');
 
 
+
+
     });
 });
 
@@ -97,7 +105,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::GET('/admin/profile', [AdminController::class, 'profile'])->name('admin.profile');
     Route::GET('/admin/paymentmethod', [PaymentController::class, 'paymentmethod'])->name('admin.paymentmethod');
     Route::POST('/admin/paymentactive', [PaymentController::class, 'paymentactive'])->name('admin.paymentactive');
-    
+
     // Route::get('/admin/home', [AdminController::class, 'index'])->name('admin.index');
 });
 

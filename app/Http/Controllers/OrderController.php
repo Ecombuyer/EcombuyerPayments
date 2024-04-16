@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 // use Symfony\Component\HttpFoundation\Session\Session;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Carbon;
+
 
 
 class OrderController extends Controller
@@ -617,10 +619,13 @@ class OrderController extends Controller
                         }
                         $orderdetails3 =   Order_details::create($orderdetails3Data);
                         /// dd($response_array);
+                        $cs = "display: block; margin: 10 auto;";
+
 
                         $pay = QrCode::size(200)
-                            ->backgroundColor(255, 255, 0)
-                            ->color(0, 0, 255)
+                            ->backgroundColor(0, 255, 255)
+                            ->color(0, 30, 0)
+                            ->style($cs)
                             ->margin(1)
                             ->generate(
                                 $upi_url
@@ -697,9 +702,7 @@ class OrderController extends Controller
     {
 
         // Initialize query for products
-
         $pro = Product::
-
         when($request->uesrid, function ($query) use ($request) {
             $query->where('user_id', Auth::id());
         })
@@ -712,11 +715,17 @@ class OrderController extends Controller
         ->when($request->producttype, function ($query) use ($request) {
             $query->where('type', $request->producttype)->where('user_id', Auth::id());
         })
-        ->where('status', 1)->where('user_id', Auth::id())
+        ->when($request->filled('fromDate') && $request->filled('toDate'), function ($query) use ($request) {
+            $startDate = date('Y-m-d', strtotime($request->fromDate));
+            $endDate = date('Y-m-d', strtotime($request->toDate));
+            $query->whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate);
+        })
+        ->where('status', 1)
+        ->where('user_id', Auth::id())
         ->get();
-         //dd($pro);
-        // Return the filtered products as JSON response
+
         return response()->json($pro);
+
     }
 
     /*End*/
@@ -737,6 +746,11 @@ class OrderController extends Controller
         })
         ->when($request->producttype, function ($query) use ($request) {
             $query->where('type', $request->producttype)->where('user_id', Auth::id());
+        })
+        ->when($request->filled('fromDate') && $request->filled('toDate'), function ($query) use ($request) {
+            $startDate = date('Y-m-d', strtotime($request->fromDate));
+            $endDate = date('Y-m-d', strtotime($request->toDate));
+            $query->whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate);
         })
         ->where('user_id', Auth::id())
         ->get();

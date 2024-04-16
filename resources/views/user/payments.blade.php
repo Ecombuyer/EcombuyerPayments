@@ -13,8 +13,10 @@
 
 <body>
 
-
+<div class="container">
     {{ $pay }}
+</div>
+
     {{-- <button name="qrCode" id="PAID">I have Paid</button> --}}
 
 
