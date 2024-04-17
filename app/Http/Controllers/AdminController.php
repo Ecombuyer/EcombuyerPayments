@@ -14,7 +14,7 @@ class AdminController extends Controller
 {
     public function profile()
     {
-        $user = Auth::user()->orderBy('id','DESC')->limit(4)->get();
+        $user = Auth::user();
         $title = "Profile";
         return view("admin.adminprofile", compact("title", "user"));
 
@@ -124,10 +124,6 @@ class AdminController extends Controller
     public function products()
     {
         $title = "Products";
-        // $date = Carbon::now();
-        // $lastMonth =  $date->subMonth()->format('F');
-    
-        // dd($lastMonth);
         $products = Product::get()->where('status', 1)->all();
         return view("admin.adminproducts", compact("title", "products"));
     }
@@ -146,8 +142,8 @@ class AdminController extends Controller
         ->when($request->productname, function ($query) use ($request) {
             $query->where('name', $request->productname);
         })
-        ->when($request->producttype, function ($query) use ($request) {
-            $query->where('type', $request->producttype);
+        ->when($request->type, function ($query) use ($request) {
+            $query->where('type', $request->type);
         })
         ->when($request->filled('fromDate') && $request->filled('toDate'), function ($query) use ($request) {
             $startDate = date('Y-m-d', strtotime($request->fromDate));
@@ -158,6 +154,13 @@ class AdminController extends Controller
         ->get();
         return response()->json($pro);
 
+    }
+
+    public function usercomplaints()
+    {
+        $title ="Complaints";
+        
+        return view('admin.admincomplaints',compact('title'));
     }
 
 

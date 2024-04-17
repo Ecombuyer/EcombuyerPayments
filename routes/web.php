@@ -102,16 +102,15 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
 
     Route::GET('/admin/home', [HomeController::class, 'adminHome'])->name('admin.home');
     Route::GET('/admin/transactions', [AdminController::class, 'transaction'])->name('admin.transactions');
-    Route::POST('/admin/transactions', [AdminController::class, 'transaction'])->name('admin.transactions');
     Route::POST('/admin/transaction/filters', [AdminController::class,'transactionfilter'])->name('admin.transactionfilters');
     Route::GET('/admin/users', [AdminController::class,'users'])->name('admin.users');
-    Route::POST('/admin/users', [AdminController::class,'users'])->name('admin.users');
     Route::POST('/admin/users/filters', [AdminController::class,'userfilter'])->name('admin.userfilters');
     Route::GET('/admin/products', [AdminController::class,'products'])->name('admin.products');
     Route::POST('/admin/products/filters', [AdminController::class,'productfilters'])->name('admin.productsfilters');
     Route::GET('/admin/profile', [AdminController::class, 'profile'])->name('admin.profile');
     Route::GET('/admin/paymentmethod', [PaymentController::class, 'paymentmethod'])->name('admin.paymentmethod');
     Route::POST('/admin/paymentactive', [PaymentController::class, 'paymentactive'])->name('admin.paymentactive');
+    Route::GET('/admin/complaints', [AdminController::class, 'usercomplaints'])->name('admin.complaints');
 
     // Route::get('/admin/home', [AdminController::class, 'index'])->name('admin.index');
 });
