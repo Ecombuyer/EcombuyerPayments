@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Order_details;
 use App\Models\Paymenttype;
 use App\Models\UserProfile;
+use App\Models\UserComplaints;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -777,7 +778,7 @@ class OrderController extends Controller
     public function addprofile(Request $request)
     {
 
-// dd($request->all());
+//  dd($request->all());
     if (Auth::check()) {
         // Get the authenticated user's ID
         $userId = Auth::id();
@@ -790,9 +791,9 @@ class OrderController extends Controller
         if ($request->hasFile('profileimage')) {
             // Generate unique filename for the new image
             $profileimage = 'profile' . '.' . $request->profileimage->getClientOriginalExtension();
-
+            // dd($profileimage);
             // Move the new image to the uploads directory
-            $request->productfile->move(public_path('uploads/profileimages/'), $profileimage);
+            $request->profileimage->move(public_path('uploads/profileimages/'), $profileimage);
 
             // Delete old image if it exists
             if ($existingProfile->profile_image && file_exists(public_path('uploads/profileimages/' . $existingProfile->profile_image))) {
@@ -806,7 +807,8 @@ class OrderController extends Controller
             $profileimage = $existingProfile->profile_image;
         }
 
-        $profileimage =  $existingProfile->profile_image;
+        // $profileimage =  $existingProfile->profile_image;
+        // dd($profileimage);
 
         if ($existingProfile) {
             // If a user profile already exists, update the existing record
@@ -872,5 +874,73 @@ class OrderController extends Controller
     }
 
         // dd($userprofile);
+    }
+
+    public function usercomplaints()
+    {
+        $title ='User Complaints';
+
+
+        // if (Auth::check()) {
+        //     // Get the authenticated user's ID
+        //     $userId = Auth::id();
+
+
+        //     // Check if a user profile already exists for the authenticated user
+        //     $userprofile = UserProfile::
+        //     select('users.name','users.email','users.id')
+        //     ->join('users','users.id','=','user_profiles.user_id')
+        //     ->where('user_profiles.user_id', $userId)->first();
+
+        // }
+
+      $usercomplaints =  UserComplaints::where('user_id', Auth::id())->get();
+
+
+    return view('user.usercomplaint',compact('title','usercomplaints'));
+
+    }
+
+    public function usercomplaintsform()
+    {
+        $title ='User Complaints Form';
+
+        if (Auth::check()) {
+            // Get the authenticated user's ID
+            $userId = Auth::id();
+
+
+            // Check if a user profile already exists for the authenticated user
+            $userprofile = UserProfile::
+            select('users.name','users.email','users.id')
+            ->join('users','users.id','=','user_profiles.user_id')
+            ->where('user_profiles.user_id', $userId)->first();
+
+        }
+
+
+        return view('user.usercomplaintform',compact('title','userprofile'));
+    }
+
+    public function usercomplaintsbooked(Request $request)
+
+    {
+        $title ='User Complaints';
+
+        $usercomplaints = UserComplaints::create([
+            'user_id'=>$request->userid,
+            'name'=>$request->username,
+            'email'=>$request->useremail,
+            'phone'=>$request->usermobileno,
+            'complaints'=>$request->complaints,
+            'status' => 1,
+            'type'=>$request->complaints_type
+        ]);
+
+       // dd($usercomplaints);
+        // return view('user.usercomplaint',compact('title','userprofile'));
+        $usercomplaints =  UserComplaints::where('user_id', Auth::id())->get();
+
+        return view('user.usercomplaint',compact('title','usercomplaints'));
     }
 }
