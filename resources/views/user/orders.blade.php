@@ -227,8 +227,8 @@
                                                 <i class="fa-solid fa-box mx-1"></i> Product name
                                             </th>
                                             {{-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                        Product Description
-                      </th> --}}
+                                                Product Description
+                                            </th> --}}
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 <i class="fa-solid fa-box mx-1"></i> Product Price

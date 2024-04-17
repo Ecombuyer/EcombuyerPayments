@@ -53,7 +53,7 @@
                                         placeholder="Enter product type" />
                                 </div>
 
-                                <div class="col-md-4">
+                                    <div class="col-md-4">
                                     <label for="from date" class="form-label"
                                         >From Date</label
                                     >

@@ -30,18 +30,6 @@
       box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
     }
 
-    .card-header {
-      background-color: transparent;
-      border-bottom: 1px solid #dee2e6;
-      padding-bottom: 1.25rem;
-    }
-
-    .card-header h6 {
-      font-size: 1.25rem;
-      font-weight: bold;
-      color: #0054A6;
-    }
-
     .badge {
       font-size: 0.8rem;
       border-radius: 0.5rem;
@@ -80,6 +68,11 @@
     .gradient-button:hover {
       background-color: #003C7D;
     }
+
+    .nav-item:hover .d-sm-none {
+    visibility: visible;
+    }
+
     </style>
 </head>
 
@@ -146,6 +139,16 @@
                     </a>
                 </li>
 
+                <li class="nav-item">
+                    <a class="nav-link " href="{{route('user.complaints')}}">
+                        <div
+                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="ni ni-app text-info text-sm opacity-10"></i>
+                        </div>
+                        <span class="nav-link-text ms-1"> Complaints</span>
+                    </a>
+                </li>
+
 
 
                 {{-- <li class="nav-item">
@@ -188,22 +191,16 @@
                     </a>
                 </li> --}}
 
-                <li class="nav-item">
-                    {{-- <a class="nav-link " href="{{route('logout')}}">
-                        <div
-                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="ni ni-collection text-info text-sm opacity-10"></i>
-                        </div>
-                        <span class="nav-link-text ms-1">Log out</span>
-
-                    </a> --}}
+                <li class="nav-item d-flex align-items-center">
                     <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                         @csrf
                         <button type="submit" class="nav-link" style="background: none; border: none;">
-                            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="ni ni-collection text-info text-sm opacity-10"></i>
+                            <div class="nav-link text-white font-weight-bold px-0">
+                                <i class="fa fa-user me-sm-1"></i>
+                                <span class="d-sm-inline d-none">{{ session()->get('username') }}</span>
+                                <span class="d-sm-none" style="visibility: hidden;">Logout</span>
+                                <span class="d-sm-none" style="visibility: hidden;">Logout</span>
                             </div>
-                            <span class="nav-link-text ms-1">Log out</span>
                         </button>
                     </form>
                 </li>
@@ -246,10 +243,19 @@
                     </div>
                     <ul class="navbar-nav  justify-content-end">
                         <li class="nav-item d-flex align-items-center">
-                            <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
-                                <i class="fa fa-user me-sm-1"></i>
-                                <span class="d-sm-inline d-none">{{session()->get('username')}}</span>
-                            </a>
+                            <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                                @csrf
+                                <button type="submit" class="nav-link" style="background: none; border: none;">
+                                    <div class="nav-link text-white font-weight-bold px-0">
+
+
+                                    <i class="fa fa-user me-sm-1"></i>
+                                    <span class="d-sm-inline d-none">{{session()->get('username')}}</span>
+                                    <span class="d-sm-none" style="visibility: hidden;">Logout</span>
+                                </div>
+                                </button>
+                            </form>
+
                         </li>
                         <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
                             <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
