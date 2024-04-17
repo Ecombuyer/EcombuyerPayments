@@ -304,7 +304,7 @@
 
 
 
-                              // html += '</tr>';
+                              html += '</tr>';
                           });
 
                           html += '</tbody>';
@@ -312,64 +312,6 @@
                       // Replace the contents of the existing table body with the newly constructed HTML
                       $('table').find('tbody').remove();
                       $('table').append(html);
-                      class WebShare {
-                          constructor({
-                              success = () => {},
-                              error = (e) => {
-                                  console.log('Web Share API error', e);
-                              }
-                          } = {}) {
-                              this.elements = document.querySelectorAll('.share-module');
-                              this.isSupported = navigator.share !== undefined;
-                              this.success = success;
-                              this.error = error;
-                              this.init();
-                          }
-
-                          init() {
-                              this.elements.forEach(element => {
-                                  const template = this.isSupported ? element
-                                      .querySelector('.is-supported').innerHTML :
-                                      element.querySelector('.not-supported')
-                                      .innerHTML;
-                                  const data = {
-                                      url: element.dataset.url,
-                                      title: element.dataset.title,
-                                      text: element.dataset.text
-                                  };
-                                  element.innerHTML = this.compileTemplate(
-                                      template, data);
-
-                                  if (this.isSupported) {
-                                      element.querySelector('.js-share')
-                                          .addEventListener('click', (e) => {
-                                              e.preventDefault();
-                                              navigator.share({
-                                                  title: data.title,
-                                                  text: data.text,
-                                                  url: data.url
-                                              }).then(() => {
-                                                  this.success();
-                                              }).catch((error) => {
-                                                  this.error(error);
-                                              });
-                                          });
-                                  }
-                              });
-                          }
-
-                          compileTemplate(template, scope) {
-                              return template.replace(/\{\{(\w+)\}\}/g, (match, key) =>
-                                  scope[key]);
-                          }
-                      }
-
-                      new WebShare({
-                          success: () => {
-                              document.getElementById('output').innerHTML =
-                                  'Thanks for sharing!';
-                          }
-                      });
                   },
                   error: function(xhr) {
                       console.error('Error:', xhr);

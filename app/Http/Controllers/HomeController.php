@@ -107,6 +107,7 @@ class HomeController extends Controller
                 'physicalproducts' => $physicalproduct
             ]);
         }
+        // for chart 
 
         return view('admin.adminhome', compact('users', 'title'));
     }
