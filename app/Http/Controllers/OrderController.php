@@ -903,6 +903,8 @@ class OrderController extends Controller
 
     public function usercomplaintsform()
     {
+
+        // dd(1);
         $title ='User Complaints Form';
 
         if (Auth::check()) {
@@ -925,22 +927,37 @@ class OrderController extends Controller
     public function usercomplaintsbooked(Request $request)
 
     {
+
         $title ='User Complaints';
+
+
+        $complaints = $request->validate([
+            'username'=>'required|string',
+            'useremail'=>'required|string',
+            'usermobileno'=>'required|string',
+            'complaints'=>'required|string',
+            'complaints_type'=>'required|string',
+
+        ]);
+
 
         $usercomplaints = UserComplaints::create([
             'user_id'=>$request->userid,
-            'name'=>$request->username,
-            'email'=>$request->useremail,
-            'phone'=>$request->usermobileno,
-            'complaints'=>$request->complaints,
+            'name'=>$complaints['username'],
+            'email'=>$complaints['useremail'],
+            'phone'=>$complaints['usermobileno'],
+            'complaints'=>$complaints['complaints'],
             'status' => 1,
-            'type'=>$request->complaints_type
+            'type'=>$complaints['complaints_type']
         ]);
 
-       // dd($usercomplaints);
-        // return view('user.usercomplaint',compact('title','userprofile'));
-        $usercomplaints =  UserComplaints::where('user_id', Auth::id())->get();
+        return redirect()->route('user.complaints')->with('success', 'Complaint submitted successfully.');
+       // return response()->json($usercomplaints);
+    }
 
-        return view('user.usercomplaint',compact('title','usercomplaints'));
+    public function usercomplaintsstatus()
+    {
+
+
     }
 }

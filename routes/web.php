@@ -87,7 +87,10 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
 
         Route::get('/usercomplaintsform', [OrderController::class,'usercomplaintsform'])->name('user.complaintsform');
 
-        Route::post('/usercomplaintsbooked', [OrderController::class,'usercomplaintsbooked'])->name('user.complaintsbooked');
+        // Route::get('/usercomplaintsbooked', [OrderController::class,'usercomplaintsbooked'])->name('user.complaintsbooked');
+        Route::post('/usercomplaintsbooked', [OrderController::class, 'usercomplaintsbooked'])->name('user.complaintsbooked');
+
+        Route::post('/usercomplaintsstatus', [OrderController::class,'usercomplaintsstatus'])->name('user.complaintsstatus');
 
     });
 });

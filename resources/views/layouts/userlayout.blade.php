@@ -195,12 +195,13 @@
                     <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                         @csrf
                         <button type="submit" class="nav-link" style="background: none; border: none;">
-                            <div class="nav-link text-white font-weight-bold px-0">
-                                <i class="fa fa-user me-sm-1"></i>
-                                <span class="d-sm-inline d-none">{{ session()->get('username') }}</span>
-                                <span class="d-sm-none" style="visibility: hidden;">Logout</span>
-                                <span class="d-sm-none" style="visibility: hidden;">Logout</span>
-                            </div>
+
+                            <div
+                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="ni ni-app text-info text-sm opacity-10"></i>
+                        </div>
+                        <span class="nav-link-text ms-1"> Logout</span>
+
                         </button>
                     </form>
                 </li>
