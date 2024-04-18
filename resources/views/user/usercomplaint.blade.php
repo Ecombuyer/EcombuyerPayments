@@ -14,7 +14,7 @@
 
                                 <a href="{{ route('user.complaintsform') }}" class="btn btn-primary px-3" type="button">
                                     <i class="fa-solid fa-plus" style="margin-right: 5px"></i>
-                                    Add New
+                                    Create
                                 </a>
                         </div>
                         <div class="card-body px-0 pt-0 pb-2">
@@ -52,10 +52,10 @@
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             <i class="fa-regular fa-image"></i> Descriptions
                                         </th>
-                                            {{-- <th
+                                            <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                <i class="fa-regular fa-pen-to-square"></i> Action
-                                            </th> --}}
+                                                <i class="fa-regular fa-pen-to-square"></i> Status
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -91,7 +91,10 @@
                                                     <span
                                                         class="text-secondary text-xs font-weight-bold">{{ $usercomplaint->complaints }}</span>
                                                 </td>
-
+                                                <td class="align-middle text-center">
+                                                    <span
+                                                        class="text-secondary text-xs font-weight-bold">{{ $usercomplaint->status }}</span>
+                                                </td>
 
                                             </tr>
                                         @endforeach
