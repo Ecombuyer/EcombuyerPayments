@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\UserComplaints;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Product;
@@ -92,6 +93,13 @@ class HomeController extends Controller
         $digitalproduct = Product::where('status',1)
         ->where('type','digitalproduct')
         ->get()->count();
+
+        //Complaint Stats
+        $totalcomplaints = UserComplaints::get()->count();
+        $solved = UserComplaints::where('status','Solved')->get()->count();
+        $enquiring = UserComplaints::where('status','Enquiring')->get()->count();
+        $pending = UserComplaints::where('status','Pending')->get()->count();
+        
         if ($request->ajax()) {
             return response()->json([
                 'orderdetails' => $orderdetails,
@@ -104,7 +112,12 @@ class HomeController extends Controller
                 'todaysmoney' => $cash,
                 'totalproduct'=> $products,
                 'digitalproducts' => $digitalproduct ,
-                'physicalproducts' => $physicalproduct
+                'physicalproducts' => $physicalproduct,
+                'totalcomplaints' => $totalcomplaints,
+                'solved' => $solved,
+                'pending' => $pending,
+                'enquiring' => $enquiring,
+
             ]);
         }
         // for chart 
