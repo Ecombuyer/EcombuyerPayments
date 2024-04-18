@@ -87,7 +87,10 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
 
         Route::get('/usercomplaintsform', [OrderController::class,'usercomplaintsform'])->name('user.complaintsform');
 
-        Route::post('/usercomplaintsbooked', [OrderController::class,'usercomplaintsbooked'])->name('user.complaintsbooked');
+        // Route::get('/usercomplaintsbooked', [OrderController::class,'usercomplaintsbooked'])->name('user.complaintsbooked');
+        Route::post('/usercomplaintsbooked', [OrderController::class, 'usercomplaintsbooked'])->name('user.complaintsbooked');
+
+        Route::post('/usercomplaintsstatus', [OrderController::class,'usercomplaintsstatus'])->name('user.complaintsstatus');
 
     });
 });
@@ -102,10 +105,8 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
 
     Route::GET('/admin/home', [HomeController::class, 'adminHome'])->name('admin.home');
     Route::GET('/admin/transactions', [AdminController::class, 'transaction'])->name('admin.transactions');
-    Route::POST('/admin/transactions', [AdminController::class, 'transaction'])->name('admin.transactions');
     Route::POST('/admin/transaction/filters', [AdminController::class,'transactionfilter'])->name('admin.transactionfilters');
     Route::GET('/admin/users', [AdminController::class,'users'])->name('admin.users');
-    Route::POST('/admin/users', [AdminController::class,'users'])->name('admin.users');
     Route::POST('/admin/users/filters', [AdminController::class,'userfilter'])->name('admin.userfilters');
     Route::GET('/admin/products', [AdminController::class,'products'])->name('admin.products');
     Route::POST('/admin/products/filters', [AdminController::class,'productfilters'])->name('admin.productsfilters');
