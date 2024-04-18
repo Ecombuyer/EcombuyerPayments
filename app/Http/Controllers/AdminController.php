@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UserComplaints;
 use Carbon\Carbon;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -156,12 +157,38 @@ class AdminController extends Controller
 
     }
 
-    public function usercomplaints()
+    public function usercomplaints(Request $request)
     {
         $title ="Complaints";
-        
-        return view('admin.admincomplaints',compact('title'));
+        $complaints = UserComplaints::get()->all();
+        return view('admin.admincomplaints',compact('title','complaints'));
     }
 
+    public function complaintsfilter(Request $request)
+    {
+        $pro = UserComplaints::
+        when($request->userid, function ($query) use ($request) {
+            $query->where('user_id', $request->userid);
+        })
+        ->when($request->name, function ($query) use ($request) {
+            $query->where('name', $request->name);
+        })
+        ->when($request->email, function ($query) use ($request) {
+            $query->where('email', $request->email);
+        })
+        ->when($request->phone, function ($query) use ($request) {
+            $query->where('phone', $request->phone);
+        })
+        ->when($request->status, function ($query) use ($request) {
+            $query->where('status', $request->status);
+        })
+        ->when($request->filled('fromDate') && $request->filled('toDate'), function ($query) use ($request) {
+            $startDate = date('Y-m-d', strtotime($request->fromDate));
+            $endDate = date('Y-m-d', strtotime($request->toDate));
+            $query->whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate);
+        })
+        ->get();
 
+        return response()->json($pro);
+    }
 }

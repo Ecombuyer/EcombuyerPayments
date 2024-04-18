@@ -111,6 +111,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::GET('/admin/paymentmethod', [PaymentController::class, 'paymentmethod'])->name('admin.paymentmethod');
     Route::POST('/admin/paymentactive', [PaymentController::class, 'paymentactive'])->name('admin.paymentactive');
     Route::GET('/admin/complaints', [AdminController::class, 'usercomplaints'])->name('admin.complaints');
+    Route::POST('/admin/complaints/filters', [AdminController::class, 'complaintsfilter'])->name('admin.complaintsfilter');
 
     // Route::get('/admin/home', [AdminController::class, 'index'])->name('admin.index');
 });

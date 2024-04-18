@@ -7,7 +7,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="{{ env('APP_URL') }}/assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="{{ env('APP_URL') }}/assets/img/favicon.png">
     <title>
-       {{$title}}
+        {{ $title }}
     </title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -20,59 +20,58 @@
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ env('APP_URL') }}/assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
     <style>
-    .card {
-      border: none;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-      transition: box-shadow 0.3s ease;
-    }
+        .card {
+            border: none;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
 
-    .card:hover {
-      box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
-    }
+        .card:hover {
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+        }
 
-    .badge {
-      font-size: 0.8rem;
-      border-radius: 0.5rem;
-    }
+        .badge {
+            font-size: 0.8rem;
+            border-radius: 0.5rem;
+        }
 
-    .card-body {
-      padding: 1.5rem;
-    }
+        .card-body {
+            padding: 1.5rem;
+        }
 
-    .step-description {
-      margin-bottom: 1.5rem;
-    }
+        .step-description {
+            margin-bottom: 1.5rem;
+        }
 
-    .step-description .badge {
-      margin-right: 0.5rem;
-    }
+        .step-description .badge {
+            margin-right: 0.5rem;
+        }
 
-    .step-description span {
-      vertical-align: middle;
-    }
+        .step-description span {
+            vertical-align: middle;
+        }
 
-    .choose-button {
-      margin-top: 1.5rem;
-    }
+        .choose-button {
+            margin-top: 1.5rem;
+        }
 
-    .gradient-button {
-      background-color: #0054A6;
-      border: none;
-      border-radius: 0.25rem;
-      color: #fff;
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
+        .gradient-button {
+            background-color: #0054A6;
+            border: none;
+            border-radius: 0.25rem;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
-    .gradient-button:hover {
-      background-color: #003C7D;
-    }
+        .gradient-button:hover {
+            background-color: #003C7D;
+        }
 
-    .nav-item:hover .d-sm-none {
-    visibility: visible;
-    }
-
+        .nav-item:hover .d-sm-none {
+            visibility: visible;
+        }
     </style>
 </head>
 
@@ -94,7 +93,7 @@
         <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" href="{{route('home')}}">
+                    <a class="nav-link active" href="{{ route('home') }}">
                         <div
                             class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
@@ -112,7 +111,7 @@
                     </a>
                 </li> --}}
                 <li class="nav-item">
-                    <a class="nav-link " href="{{route('orders.index')}}">
+                    <a class="nav-link " href="{{ route('orders.index') }}">
                         <div
                             class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
@@ -121,7 +120,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="{{route('orders.create')}}">
+                    <a class="nav-link " href="{{ route('orders.create') }}">
                         <div
                             class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="ni ni-app text-info text-sm opacity-10"></i>
@@ -130,7 +129,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="{{route('user.profile')}}">
+                    <a class="nav-link " href="{{ route('user.profile') }}">
                         <div
                             class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="ni ni-app text-info text-sm opacity-10"></i>
@@ -140,7 +139,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link " href="{{route('user.complaints')}}">
+                    <a class="nav-link " href="{{ route('user.complaints') }}">
                         <div
                             class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="ni ni-app text-info text-sm opacity-10"></i>
@@ -198,8 +197,7 @@
                             <div class="nav-link text-white font-weight-bold px-0">
                                 <i class="fa fa-user me-sm-1"></i>
                                 <span class="d-sm-inline d-none">{{ session()->get('username') }}</span>
-                                <span class="d-sm-none" style="visibility: hidden;">Logout</span>
-                                <span class="d-sm-none" style="visibility: hidden;">Logout</span>
+                                <span class="d-sm-none">Logout</span>
                             </div>
                         </button>
                     </form>
@@ -249,10 +247,10 @@
                                     <div class="nav-link text-white font-weight-bold px-0">
 
 
-                                    <i class="fa fa-user me-sm-1"></i>
-                                    <span class="d-sm-inline d-none">{{session()->get('username')}}</span>
-                                    <span class="d-sm-none" style="visibility: hidden;">Logout</span>
-                                </div>
+                                        <i class="fa fa-user me-sm-1"></i>
+                                        <span class="d-sm-inline d-none">{{ session()->get('username') }}</span>
+                                        <span class="d-sm-none" style="visibility: hidden;">Logout</span>
+                                    </div>
                                 </button>
                             </form>
 
@@ -474,7 +472,9 @@
     class WebShare {
         constructor({
             success = () => {},
-            error = (e) => { console.log('Web Share API error', e); }
+            error = (e) => {
+                console.log('Web Share API error', e);
+            }
         } = {}) {
             this.elements = document.querySelectorAll('.share-module');
             this.isSupported = navigator.share !== undefined;
@@ -485,7 +485,8 @@
 
         init() {
             this.elements.forEach(element => {
-                const template = this.isSupported ? element.querySelector('.is-supported').innerHTML : element.querySelector('.not-supported').innerHTML;
+                const template = this.isSupported ? element.querySelector('.is-supported').innerHTML :
+                    element.querySelector('.not-supported').innerHTML;
                 const data = {
                     url: element.dataset.url,
                     title: element.dataset.title,
@@ -521,4 +522,5 @@
         }
     });
 </script>
+
 </html>
