@@ -16,7 +16,9 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 // use Symfony\Component\HttpFoundation\Session\Session;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Carbon;
-
+use App\Mail\RegisterMail;
+use App\Mail\PaymentReceiptMail;
+use Illuminate\Support\Facades\Mail;
 
 
 class OrderController extends Controller
@@ -319,6 +321,8 @@ class OrderController extends Controller
     {
         $user = Auth::user();
         $userid =  $user->id;
+        $txnid = "TXN" . time();
+        $orderid = mt_rand(1000, 9000);
 
         $paymenttype = Paymenttype::where('status', 1)->get()->first();
 
@@ -341,8 +345,7 @@ class OrderController extends Controller
         if ($paymenttype->payment_name == 'indicpay' && $paymenttype->status == 1) {
 
              //dd($paymenttype->payment_name);
-            $txnid = "TXN" . time();
-            $orderid = mt_rand(1000, 9000);
+
 
             $token = '0803b0761771c6d03bc95fc27e6645';
             $endpoint = 'https://indicpay.in/api/btt/createorder';
@@ -364,7 +367,7 @@ class OrderController extends Controller
             if ($request->input('type') == 'physicalproduct') {
                 $data['address'] = $form2['address'];
             }
-// dd($data);
+            // dd($data);
             $data = json_encode($data);
 
             $curl = curl_init();
@@ -441,10 +444,7 @@ class OrderController extends Controller
         }else if ($paymenttype->payment_name == 'haodapay' && $paymenttype->status == 1) {
 
 
-                // dd($paymenttype->payment_name);
-                // echo 'hoada';
-                $txnid = "TXN" . time();
-                $orderid = mt_rand(1000, 9000);
+
 
                 $key = 'xnF20EI173240130015224';
                 $endpoint = 'https://jupiter.haodapayments.com/api/v4/collection';
@@ -539,8 +539,7 @@ class OrderController extends Controller
         // }
 
             else if ($paymenttype->payment_name == 'crizzpay' && $paymenttype->status == '1') {
-                $txnid = "TXN" . time();
-                $orderid = mt_rand(1000, 9000);
+
 
                 $key = 'CP36308010567889670';
                 $paymentmethod = 'PS001';
@@ -649,14 +648,10 @@ class OrderController extends Controller
 
     public function success(Request $request)
     {
-        // dd($request->all());
+
         $user = Auth::user();
         $userid =  $user->id;
-        if ($request->indicpay == 1) {
-            $indicpay = 'indicpay';
-        } else {
-            $indicpay = 'crizpay';
-        }
+
         // $payment = Order_details::where('user_id', $userid)->get()->all();
         $transaction_details = Order_details::where('user_id', $userid)
             ->where('transaction_id', $request->res['txnid'])
@@ -665,8 +660,11 @@ class OrderController extends Controller
         $transaction_details->update([
 
             'payment_status' => $request->res['status'],
-            'payment_method' => $indicpay
+
         ]);
+
+        // dd($transaction_details);
+        Mail::to($transaction_details->user_email)->send(new PaymentReceiptMail($transaction_details));
 
         return "Payment is successful";
     }
@@ -675,11 +673,7 @@ class OrderController extends Controller
         //dd($request->res['txnid']);
         $user = Auth::user();
         $userid =  $user->id;
-        if ($request->indicpay == 1) {
-            $indicpay = 'indicpay';
-        } else {
-            $indicpay = 'crizpay';
-        }
+
 
 
         // $payment = Order_details::where('user_id', $userid)->get()->all();
@@ -690,9 +684,10 @@ class OrderController extends Controller
         $transaction_details->update([
 
             'payment_status' => $request->res['status'],
-            'payment_method' => $indicpay
+
 
         ]);
+        Mail::to($transaction_details->user_email)->send(new PaymentReceiptMail($transaction_details));
         return "Payment is failed";
     }
 
