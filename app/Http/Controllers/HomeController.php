@@ -84,6 +84,9 @@ class HomeController extends Controller
         ->where('payment_status','SUCCESS')
         ->sum('product_price');
 
+        
+        $commissionFee = env('COMMISSION_FEE');        
+        $todaysmoney = $cash * $commissionFee /100;
         //product count
 
         $products = Product::where('status',1)->get()->count();
@@ -117,6 +120,7 @@ class HomeController extends Controller
                 'solved' => $solved,
                 'pending' => $pending,
                 'enquiring' => $enquiring,
+                'revenuetoday' => $todaysmoney
 
             ]);
         }

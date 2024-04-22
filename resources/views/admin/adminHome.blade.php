@@ -14,9 +14,9 @@
                                         <h5 class="font-weight-bolder">
                                             ₹<span id="todaysmoney"></span>
                                         </h5>
-                                        <p class="mb-0">
-                                            <span class="text-success text-sm font-weight-bolder">+55%</span>
-                                            since yesterday
+                                        <p class="mb-0 text-success text-sm font-weight-bolder">
+                                            ₹<span class="text-success text-sm font-weight-bolder" id="revenue"></span>
+                                            Revenue
                                         </p>
                                     </div>
                                 </div>
@@ -399,6 +399,7 @@
                         $('#products').text(response.totalproduct);
                         $('#physical').text(response.physicalproducts);
                         $('#digital').text(response.digitalproducts);
+                        $('#revenue').text(response.todaysmoney);
                     }
 
                 });
