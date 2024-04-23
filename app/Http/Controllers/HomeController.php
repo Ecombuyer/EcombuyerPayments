@@ -52,6 +52,11 @@ class HomeController extends Controller
         $commissionFee = config('comission.commission_key');
         $thismonth = Carbon::now();
         $thismonth = now()->format('m');
+
+        $today = Carbon::now();
+        $today = now()->format('Y/m/d');
+
+
         //counting users
         $users = Auth::user()->where('type', 0)
             ->where('status', 0)
@@ -77,23 +82,19 @@ class HomeController extends Controller
         $failed = Order_details::where('payment_status', 'FAILED')->count();
         $error = Order_details::where('payment_status', 'ERROR')->count();
 
-        //this month usercount   
+        //daily usercount   
         $this_month_user = Auth::user()
             ->where('status', 1)->where('type', 0)
-            ->whereMonth('created_at', $thismonth)->get()->count();
+            ->whereDate('created_at', $today)->get()->count();
 
         //today's money
-        $currentmoney = Carbon::now();
-        $currentmoney = now()->format('Y/m/d');
-
-        $cash = Order_details::whereDate('created_at', $currentmoney)
+        $cash = Order_details::whereDate('created_at', $today)
             ->where('payment_status', 'SUCCESS')
             ->sum('product_price');
         $todaysmoney = $cash * $commissionFee / 100;
 
 
         //product count
-
         $products = Product::where('status', 1)->get()->count();
         $physicalproduct = Product::where('status', 1)
             ->where('type', 'physicalproduct')

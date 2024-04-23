@@ -26,9 +26,16 @@ class PaymentController extends Controller
         $status = $request->input('status');
         $paymentGateway = Paymenttype::find($gatewayId);
         if ($paymentGateway) {
-            $paymentGateway->status = $status;
+            $paymentGateway->status = $status ;
             $paymentGateway->save();
-            return redirect()->back()->with('success', 'Payment gateway status updated successfully');
+            if($paymentGateway->status == 0)
+            {
+                return redirect()->back()->with('error', 'Payment gateway Inactivated');
+            }
+            else if ($paymentGateway->status == 1)
+            {
+                return redirect()->back()->with('success','Payment gateway Activated');
+            }
         }
         return redirect()->back()->with('error', 'Payment gateway not found');
     }

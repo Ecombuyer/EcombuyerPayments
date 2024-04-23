@@ -303,7 +303,7 @@
                                                 <span
                                                     class="text-secondary text-xs font-weight-bold">{{ $order->order_status }}</span>
                                             </td>
-                                            @if ($order->payment_status == 'INITIALIZE')
+                                            @if ($order->payment_status == 'INITIATE')
                                                 <td class="align-middle text-center p-3">
                                                     <span class="badge rounded-pill bg-info text-xs font-weight-bold"
                                                         style="text-transform: capitalize;">{{ $order->payment_status }}</span>
@@ -315,20 +315,17 @@
                                                 </td>
                                             @elseif($order->payment_status == 'SUCCESS')
                                                 <td class="align-middle text-center p-3">
-                                                    <span
-                                                        class="badge rounded-pill bg-success text-xs text-secondary font-weight-bold"
+                                                    <span class="badge rounded-pill bg-success text-xs font-weight-bold"
                                                         style="text-transform: capitalize;">{{ $order->payment_status }}</span>
                                                 </td>
                                             @elseif($order->payment_status == 'FAILED')
                                                 <td class="align-middle text-center p-3">
-                                                    <span
-                                                        class="badge rounded-pill bg-warning text-xs text-secondary font-weight-bold"
+                                                    <span class="badge rounded-pill bg-warning text-xs font-weight-bold"
                                                         style="text-transform: capitalize;">{{ $order->payment_status }}</span>
                                                 </td>
                                             @else
                                                 <td class="align-middle text-center p-3">
-                                                    <span
-                                                        class="badge rounded-pill bg-warning text-xs text-secondary font-weight-bold"
+                                                    <span class="badge rounded-pill bg-warning text-xs  font-weight-bold"
                                                         style="text-transform: capitalize;">{{ $order->payment_status }}</span>
                                                 </td>
                                             @endif
@@ -460,28 +457,27 @@
 
                                 if (row.payment_status == 'INITIATE') {
                                     html +=
-                                    ' <td class="align-middle text-center p-3">';
+                                        ' <td class="align-middle text-center p-3">';
                                     html +=
                                         '<span class="badge rounded-pill bg-info text-xs font-weight-bold">';
                                     html += row.payment_status;
                                     html += '</span></td>';
                                 } else if (row.payment_status == 'SUCCESS') {
                                     html +=
-                                    ' <td class="align-middle text-center p-3">';
+                                        ' <td class="align-middle text-center p-3">';
                                     html +=
-                                        '<span class="badge rounded-pill bg-success text-xs text-secondary font-weight-bold">';
+                                        '<span class="badge rounded-pill bg-success text-xs font-weight-bold">';
                                     html += row.payment_status;
                                     html += '</span></td>';
                                 } else if (row.payment_status == 'FAILED') {
                                     html +=
-                                    ' <td class="align-middle text-center p-3">';
+                                        ' <td class="align-middle text-center p-3">';
                                     html +=
-                                        '<span class="badge rounded-pill bg-warning text-xs text-secondary font-weight-bold">';
+                                        '<span class="badge rounded-pill bg-warning text-xs font-weight-bold">';
                                     html += row.payment_status;
                                     html += '</span></td>';
                                 } else if (row.payment_status == 'ERROR') {
-                                    html +=
-                                    ' <td class="align-middle text-center p-3">';
+                                    html += '<td class="align-middle text-center p-3">';
                                     html +=
                                         '<span class="badge rounded-pill bg-danger text-xs  font-weight-bold">';
                                     html += row.payment_status;
