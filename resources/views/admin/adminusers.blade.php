@@ -130,6 +130,9 @@
                             <table class="table align-items-center mb-0">
                                 <thead>
                                     <tr>
+                                        <th>
+                                            <input type="checkbox" name="checkall" id="ids">
+                                        </th>
                                         <th
                                             class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
                                             S.no
@@ -189,6 +192,12 @@
 
                                     @foreach ($userdetails as $user)
                                         <tr>
+                                            <td class="align-middle text-center p-3">
+                                                <span>
+                                                    <input type="checkbox" name="id" class="checkboxclass"
+                                                        value="{{ $user->id }}">
+                                                </span>
+                                            </td>
                                             <td class="align-middle text-center p-3">
                                                 <span
                                                     class="text-secondary text-xs font-weight-bold">{{ $loop->index + 1 }}</span>
@@ -289,6 +298,13 @@
                             // Iterate through the response data and construct table rows
                             response.forEach(function(row) {
                                 html += '<tr>';
+
+                                html += ' <td class="align-middle text-center p-3">';
+                                html += '<span>';
+                                html += '<input type="checkbox" name="id" class="checkboxclass" value="row.id">';
+                                html += '</span>';
+                                html +='</td>';   
+                                
                                 html += ' <td class="align-middle text-center p-3">';
                                 html +=
                                     '<span class="text-secondary text-xs font-weight-bold">';
@@ -380,6 +396,11 @@
                         // Replace the contents of the existing table body with the newly constructed HTML
                         $('table').find('tbody').remove();
                         $('table').append(html);
+                        $('#ids').click(function() {
+                            $('.checkboxclass').prop('checked', $(this).prop(
+                            'checked'));
+
+                        });
                     },
                     error: function(xhr) {
                         console.error('Error:', xhr);
@@ -387,6 +408,12 @@
                     }
                 });
             });
+        });
+    </script>
+    <script>
+        $('#ids').click(function() {
+            $('.checkboxclass').prop('checked', $(this).prop('checked'));
+
         });
     </script>
 @endsection

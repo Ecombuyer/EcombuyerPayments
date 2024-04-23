@@ -391,7 +391,7 @@
                     success: function(response) {
                         $('#orderdetails').text(response.orderdetails);
                         $('#usercounts').text(response.countusers);
-                        $('#thismonthclients').text(response.this_month_user);
+                        $('#thismonthclients').text(response.thismonthusers);
                         $('#initiate').text(response.initiate);
                         $('#success').text(response.success);
                         $('#failed').text(response.failed);

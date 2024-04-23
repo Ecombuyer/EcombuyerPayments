@@ -191,4 +191,45 @@ class AdminController extends Controller
 
         return response()->json($pro);
     }
+
+    public function revenue()
+    {
+        $title = 'Revenue';
+        $commissionFee = config('comission.commission_key');
+        $revenue = Order_details::where('payment_status', '=', 'SUCCESS')
+            ->where('created_at','>=',Carbon::now()->subMonths(12))
+            ->select('product_price','created_at')
+            ->get();
+        return view('admin.adminrevenue', compact('title','revenue','commissionFee'));
+
+    }
+
+    public function revenuefilter(Request $request)
+    {
+        // $year = Carbon::now()->format('Y');
+        // $month = Carbon::now()->format('m');
+        $rev =Order_details::
+        when($request->userid, function ($query) use ($request) {
+            $query->where('user_id', $request->userid);
+        })
+        ->when($request->filled('year'), function ($query) use ($request) {
+            $year = date('Y', strtotime($request->year));
+            $query->whereYear('created_at','=', $year);
+        })
+        ->when($request->filled('month'), function ($query) use ($request) {
+            $month = date('m', strtotime($request->month));
+            $query->whereYear('created_at','=', $month);
+        })
+        ->when($request->filled('fromDate') && $request->filled('toDate'), function ($query) use ($request) {
+            $startDate = date('Y-m-d', strtotime($request->fromDate));
+            $endDate = date('Y-m-d', strtotime($request->toDate));
+            $query->whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate);
+        })
+        ->select('product_price','created_at')
+        ->get();
+
+    return response()->json($rev);
+    }
+       
+    
 }
