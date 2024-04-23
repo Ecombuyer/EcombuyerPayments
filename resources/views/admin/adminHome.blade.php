@@ -92,8 +92,9 @@
                                         <h5 class="font-weight-bolder">
                                             ₹<span id="orderdetails"></span>
                                         </h5>
-                                        <p class="mb-0">
-                                            <span class="text-success text-sm font-weight-bolder">+5%</span> than last month
+                                        <p class="mb-0 text-success text-sm font-weight-bolder">
+                                            ₹<span class="text-success text-sm font-weight-bolder" id="rev_month"></span>
+                                            Revenue This Month
                                         </p>
                                     </div>
                                 </div>
@@ -400,6 +401,7 @@
                         $('#physical').text(response.physicalproducts);
                         $('#digital').text(response.digitalproducts);
                         $('#revenue').text(response.todaysmoney);
+                        $('#rev_month').text(response.revenuethismonth)
                     }
 
                 });

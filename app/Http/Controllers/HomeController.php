@@ -49,6 +49,9 @@ class HomeController extends Controller
      */
     public function adminHome(Request $request)
     {
+        $commissionFee = config('comission.commission_key');
+        $thismonth = Carbon::now();
+        $thismonth = now()->format('m');
         //counting users
         $users = Auth::user()->where('type', 0)
             ->where('status', 0)
@@ -61,17 +64,20 @@ class HomeController extends Controller
         $username = $currentuser->name;
         Session::put('username', $username);
         $title = "Admin Dashboard";
+
         //sum of the amount
-        $orderdetails = Order_details::where('payment_status', 'SUCCESS')->sum('product_price');
+        $orderdetails = Order_details::where('payment_status', 'SUCCESS')
+            ->whereMonth('created_at', $thismonth)
+            ->sum('product_price');
+        $thismonthrevenue = $orderdetails * $commissionFee / 100;
 
         //payment status 
         $success = Order_details::where('payment_status', 'SUCCESS')->count();
         $initiate = Order_details::where('payment_status', 'INITIATE')->count();
         $failed = Order_details::where('payment_status', 'FAILED')->count();
         $error = Order_details::where('payment_status', 'ERROR')->count();
-        //this month usercount
-        $thismonth = Carbon::now();
-        $thismonth = now()->format('m');
+
+        //this month usercount   
         $this_month_user = Auth::user()
             ->where('status', 1)->where('type', 0)
             ->whereMonth('created_at', $thismonth)->get()->count();
@@ -80,29 +86,28 @@ class HomeController extends Controller
         $currentmoney = Carbon::now();
         $currentmoney = now()->format('Y/m/d');
 
-        $cash = Order_details::whereDate('created_at',$currentmoney)
-        ->where('payment_status','SUCCESS')
-        ->sum('product_price');
+        $cash = Order_details::whereDate('created_at', $currentmoney)
+            ->where('payment_status', 'SUCCESS')
+            ->sum('product_price');
+        $todaysmoney = $cash * $commissionFee / 100;
 
-        
-        $commissionFee = env('COMMISSION_FEE');        
-        $todaysmoney = $cash * $commissionFee /100;
+
         //product count
 
-        $products = Product::where('status',1)->get()->count();
-        $physicalproduct = Product::where('status',1)
-        ->where('type','physicalproduct')
-        ->get()->count();
-        $digitalproduct = Product::where('status',1)
-        ->where('type','digitalproduct')
-        ->get()->count();
+        $products = Product::where('status', 1)->get()->count();
+        $physicalproduct = Product::where('status', 1)
+            ->where('type', 'physicalproduct')
+            ->get()->count();
+        $digitalproduct = Product::where('status', 1)
+            ->where('type', 'digitalproduct')
+            ->get()->count();
 
         //Complaint Stats
         $totalcomplaints = UserComplaints::get()->count();
-        $solved = UserComplaints::where('status','Solved')->get()->count();
-        $enquiring = UserComplaints::where('status','Enquiring')->get()->count();
-        $pending = UserComplaints::where('status','Pending')->get()->count();
-        
+        $solved = UserComplaints::where('status', 'Solved')->get()->count();
+        $enquiring = UserComplaints::where('status', 'Enquiring')->get()->count();
+        $pending = UserComplaints::where('status', 'Pending')->get()->count();
+
         if ($request->ajax()) {
             return response()->json([
                 'orderdetails' => $orderdetails,
@@ -113,14 +118,15 @@ class HomeController extends Controller
                 'failed' => $failed,
                 'error' => $error,
                 'todaysmoney' => $cash,
-                'totalproduct'=> $products,
-                'digitalproducts' => $digitalproduct ,
+                'totalproduct' => $products,
+                'digitalproducts' => $digitalproduct,
                 'physicalproducts' => $physicalproduct,
                 'totalcomplaints' => $totalcomplaints,
                 'solved' => $solved,
                 'pending' => $pending,
                 'enquiring' => $enquiring,
-                'revenuetoday' => $todaysmoney
+                'revenuetoday' => $todaysmoney,
+                'revenuethismonth' => $thismonthrevenue
 
             ]);
         }
