@@ -91,15 +91,6 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
         Route::post('/usercomplaintsbooked', [OrderController::class, 'usercomplaintsbooked'])->name('user.complaintsbooked');
 
         Route::post('/usercomplaintsstatus', [OrderController::class, 'usercomplaintsstatus'])->name('user.complaintsstatus');
-<<<<<<< HEAD
-
-        Route::post('/store-token', [OrderController::class, 'updateDeviceToken'])->name('store.token');
-        Route::post('/send-web-notification', [OrderController::class, 'sendNotification'])->name('send.web-notification');
-
-        Route::GET('/user/notification', [OrderController::class,'usernotification'])->name('user.notification');
-
-=======
->>>>>>> main
 
     });
 });
