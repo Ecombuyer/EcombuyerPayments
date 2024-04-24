@@ -8,7 +8,7 @@
                 <div class="card mb-4">
                     <div class="card-header pb-3 font-weight-bold d-flex justify-content-between">
                         <div>
-                            <span style="color: #0054A6;">PRODUCT</span> DETAILS
+                            <span style="color: #0054A6;">COMPLAINT</span> DETAILS
                         </div>
                         <button class="btn btn-primary px-4" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapseExample" aria-controls="collapseExample">
@@ -29,23 +29,44 @@
                                         name = "userid" />
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="productid" class="form-label">Product ID</label>
-                                    <input type="number" class="form-control" id="inputPassword4"
-                                        placeholder="Enter Product ID" name="productid" />
+                                    <label for="productid" class="form-label">User Name</label>
+                                    <input type="text" class="form-control" id="inputPassword4"
+                                        placeholder="Enter User Name" name="name" />
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="productname" class="form-label">Product Name</label>
+                                    <label for="productname" class="form-label">Email</label>
                                     <input type="text" class="form-control" id="inputPassword4" name="productname"
                                         placeholder="Enter Product Name" />
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="Type" class="form-label">Product Type</label>
-                                    <select id="inputState" class="form-select" name="type">
+                                    <label for="Type" class="form-label">Complaint Status</label>
+                                    <select id="inputState" class="form-select" name="status">
                                         <option selected disabled>Select Type...</option>
-                                        <option value="physicalproduct">Physical Product</option>
-                                        <option value="digitalproduct">
-                                            Digital Product
+                                        <option value="solved">Solved</option>
+                                        <option value="unsolved">
+                                            Unsolved
                                         </option>
+                                        <option value="pending">
+                                            Pending
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Type" class="form-label">Complaint Type</label>
+                                    <select id="inputState" class="form-select" name="type">
+                                        <option selected>Select the Concern About Complaint</option>
+                                        <option value="ProductQuality">Product Quality</option>
+                                        <option value="DeliveryDelays">Delivery Delays</option>
+                                        <option value="Incorrect_or_Incomplete_Orders">Incorrect or Incomplete Orders
+                                        </option>
+                                        <option value="Poor_Customer_Service">Poor Customer Service</option>
+                                        <option value="Shipping_Damage">Shipping Damage</option>
+                                        <option value="Difficulty_in_Returns_or_Exchanges">Difficulty in Returns or
+                                            Exchanges</option>
+                                        <option value="HiddenFees_or_Charges">Hidden Fees or Charges</option>
+                                        <option value="SecurityConcerns">Security Concerns</option>
+                                        <option value="ProductMisrepresentation">Product Misrepresentation</option>
+                                        <option value="TechnicalGlitches">Technical Glitches</option>
                                     </select>
                                 </div>
                                 <div class="col-md-4">
@@ -77,28 +98,32 @@
                                             S.no
                                         </th>
                                         <th
+                                        class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Complaint ID
+                                    </th>
+                                        <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             <i class="fa-regular fa-user mx-1"></i> User Id
                                         </th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            <i class="fa-solid fa-hashtag mx-1"></i> Product Id
+                                            <i class="fa-regular fa-user mx-1"></i> User Name
                                         </th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            <i class="fa-solid fa-phone mx-1"></i> Product Name
+                                            <i class="fa-regular fa-user mx-1"></i> User Email
                                         </th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            <i class="fa-solid fa-tag mx-1"></i> Price
+                                            <i class="fa-regular fa-user mx-1"></i> User Phone
                                         </th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            <i class="fa-solid fa-eye mx-1"></i> Preview Image 1
+                                            <i class="fa-regular fa-user mx-1"></i> Complaint
                                         </th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            <i class="fa-solid fa-eye mx-1"></i> Preview Image 2
+                                            <i class="fa-solid fa-hashtag mx-1"></i> Status
                                         </th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -115,7 +140,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($products as $product)
+                                    @foreach ($complaints as $complaint)
                                         <tr>
                                             <td class="align-middle text-center p-3">
                                                 <span
@@ -123,48 +148,46 @@
                                             </td>
                                             <td class="align-middle text-center p-3">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $product->user_id }}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{ $complaint->id }}</span>
                                             </td>
                                             <td class="align-middle text-center p-3">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $product->product_id }}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{ $complaint->user_id }}</span>
                                             </td>
                                             <td class="align-middle text-center p-3">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $product->name }}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{ $complaint->name }}</span>
                                             </td>
                                             <td class="align-middle text-center p-3">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $product->price }}</span>
-                                            </td>
-
-                                            <td class="align-middle text-center p-3">
-                                                <span class="text-secondary text-xs font-weight-bold"> <img
-                                                        src="{{ asset('uploads/previewimages/' . $product->image) }}"
-                                                        class="avatar avatar-sm me-3" alt="user2" /></span>
-                                            </td>
-
-                                            <td class="align-middle text-center p-3">
-                                                <span class="text-secondary text-xs font-weight-bold"> <img
-                                                        src="{{ asset('uploads/previewimages/' . $product->image_2) }}"
-                                                        class="avatar avatar-sm me-3" alt="user2" /></span>
+                                                    class="text-secondary text-xs font-weight-bold">{{ $complaint->email }}</span>
                                             </td>
                                             <td class="align-middle text-center p-3">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $product->type }}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{ $complaint->phone }}</span>
                                             </td>
                                             <td class="align-middle text-center p-3">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $product->created_at->format('Y/m/d') }}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{ $complaint->complaints }}</span>
                                             </td>
                                             <td class="align-middle text-center p-3">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $product->updated_at->format('Y/m/d') }}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{ $complaint->status }}</span>
                                             </td>
-
+                                            <td class="align-middle text-center p-3">
+                                                <span
+                                                    class="text-secondary text-xs font-weight-bold">{{ $complaint->type }}</span>
+                                            </td>
+                                            <td class="align-middle text-center p-3">
+                                                <span
+                                                    class="text-secondary text-xs font-weight-bold">{{ $complaint->created_at->format('Y/m/d') }}</span>
+                                            </td>
+                                            <td class="align-middle text-center p-3">
+                                                <span
+                                                    class="text-secondary text-xs font-weight-bold">{{ $complaint->updated_at->format('Y/m/d') }}</span>
+                                            </td>
                                         </tr>
                                     @endforeach
-
                                 </tbody>
                             </table>
                         </div>
@@ -185,7 +208,7 @@
                 console.log('Form data:', formData);
 
                 $.ajax({
-                    url: "{{ route('admin.productsfilters') }}",
+                    url: "{{ route('admin.complaintsfilter') }}",
                     type: "POST",
                     data: formData,
                     headers: {
@@ -215,13 +238,13 @@
                                 html += '<td class="align-middle text-center p-3">';
                                 html +=
                                     '<span class="text-secondary text-xs font-weight-bold">';
-                                html += row.user_id;
+                                html += row.id
                                 html += '</span></td>';
 
                                 html += '<td class="align-middle text-center p-3">';
                                 html +=
                                     '<span class="text-secondary text-xs font-weight-bold">';
-                                html += row.product_id;
+                                html += row.user_id;
                                 html += '</span></td>';
 
                                 html += '<td class="align-middle text-center p-3">';
@@ -233,23 +256,25 @@
                                 html += '<td class="align-middle text-center p-3">';
                                 html +=
                                     '<span class="text-secondary text-xs font-weight-bold">';
-                                html += row.price;
+                                html += row.email;
                                 html += '</span></td>';
 
                                 html += '<td class="align-middle text-center p-3">';
                                 html +=
                                     '<span class="text-secondary text-xs font-weight-bold">';
-                                html += '<img src="/uploads/previewimages/' + row
-                                    .image +
-                                    '" class="avatar avatar-sm me-3" alt="user2" />';
+                                html += row.phone;
                                 html += '</span></td>';
 
                                 html += '<td class="align-middle text-center p-3">';
                                 html +=
                                     '<span class="text-secondary text-xs font-weight-bold">';
-                                html += '<img src="/uploads/previewimages/' + row
-                                    .image_2 +
-                                    '" class="avatar avatar-sm me-3" alt="user2" />';
+                                html += row.complaints;
+                                html += '</span></td>';
+
+                                html += '<td class="align-middle text-center p-3">';
+                                html +=
+                                    '<span class="text-secondary text-xs font-weight-bold">';
+                                html += row.status;
                                 html += '</span></td>';
 
                                 html += '<td class="align-middle text-center p-3">';

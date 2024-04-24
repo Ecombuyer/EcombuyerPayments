@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UserComplaints;
 use Carbon\Carbon;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ class AdminController extends Controller
 {
     public function profile()
     {
-        $user = Auth::user()->orderBy('id','DESC')->limit(4)->get();
+        $user = Auth::user();
         $title = "Profile";
         return view("admin.adminprofile", compact("title", "user"));
 
@@ -29,44 +30,44 @@ class AdminController extends Controller
             ->where('user_profiles.status', 1)
             ->select('users.id', 'users.name', 'users.email', 'users.phone', 'user_profiles.pan_no', 'user_profiles.address', 'user_profiles.city', 'user_profiles.pin_code', 'user_profiles.state', 'user_profiles.country', 'user_profiles.created_at', 'user_profiles.updated_at')
             ->get()->all();
-            // dd($userdetails);
+        // dd($userdetails);
         return view("admin.adminusers", compact("title", "userdetails"));
     }
 
     public function userfilter(Request $request)
-    {      
+    {
         $userfilters = DB::table('users')
-        ->join('user_profiles', 'users.id', '=', 'user_profiles.user_id')
-        ->where('users.type', 0)
-        ->where('user_profiles.status', 1)
-        ->select('users.id', 'users.name', 'users.email', 'users.phone', 'user_profiles.pan_no', 'user_profiles.address', 'user_profiles.city', 'user_profiles.pin_code', 'user_profiles.state', 'user_profiles.country', 'user_profiles.created_at', 'user_profiles.updated_at')
-        ->when($request->userid, function ($query) use ($request) {
-            $query->where('users.id', $request->userid);
-        })
-        ->when($request->name, function ($query) use ($request) {
-            $query->where('users.name', $request->name);
-        })
-        ->when($request->number, function ($query) use ($request) {
-            $query->where('users.phone', $request->phone);
-        })
-        ->when($request->email, function ($query) use ($request) {
-            $query->where('users.email', $request->email);
-        })
-        ->when($request->pan, function ($query) use ($request) {
-            $query->where('userprofiles.pan_no', $request->pan);
-        })
-        ->when($request->pincode, function ($query) use ($request) {
-            $query->where('userprofiles.pin_code', $request->pincode);
-        })
-        ->when($request->state, function ($query) use ($request) {
-            $query->where('userprofiles.state', $request->state);
-        })
-        ->when($request->filled('fromDate') && $request->filled('toDate'), function ($query) use ($request) {
-            $startDate = date('Y-m-d', strtotime($request->fromDate));
-            $endDate = date('Y-m-d', strtotime($request->toDate));
-            $query->whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate);
-        })
-        ->get();
+            ->join('user_profiles', 'users.id', '=', 'user_profiles.user_id')
+            ->where('users.type', 0)
+            ->where('user_profiles.status', 1)
+            ->select('users.id', 'users.name', 'users.email', 'users.phone', 'user_profiles.pan_no', 'user_profiles.address', 'user_profiles.city', 'user_profiles.pin_code', 'user_profiles.state', 'user_profiles.country', 'user_profiles.created_at', 'user_profiles.updated_at')
+            ->when($request->userid, function ($query) use ($request) {
+                $query->where('users.id', $request->userid);
+            })
+            ->when($request->name, function ($query) use ($request) {
+                $query->where('users.name', $request->name);
+            })
+            ->when($request->number, function ($query) use ($request) {
+                $query->where('users.phone', $request->phone);
+            })
+            ->when($request->email, function ($query) use ($request) {
+                $query->where('users.email', $request->email);
+            })
+            ->when($request->pan, function ($query) use ($request) {
+                $query->where('userprofiles.pan_no', $request->pan);
+            })
+            ->when($request->pincode, function ($query) use ($request) {
+                $query->where('userprofiles.pin_code', $request->pincode);
+            })
+            ->when($request->state, function ($query) use ($request) {
+                $query->where('userprofiles.state', $request->state);
+            })
+            ->when($request->filled('fromDate') && $request->filled('toDate'), function ($query) use ($request) {
+                $startDate = date('Y-m-d', strtotime($request->fromDate));
+                $endDate = date('Y-m-d', strtotime($request->toDate));
+                $query->whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate);
+            })
+            ->get();
 
         return response()->json($userfilters);
     }
@@ -79,44 +80,44 @@ class AdminController extends Controller
     }
 
     public function transactionfilter(Request $request)
-    {   
-            $pro = Order_details::
-        when($request->userid, function ($query) use ($request) {
-            $query->where('user_id', $request->userid);
-        })
-        ->when($request->name, function ($query) use ($request) {
-            $query->where('user_name', $request->name);
-        })
-        ->when($request->productname, function ($query) use ($request) {
-            $query->where('product_name', $request->productname);
-        })
-        ->when($request->productid, function ($query) use ($request) {
-            $query->where('product_id', $request->productid);
-        })
-        ->when($request->txnid, function ($query) use ($request) {
-            $query->where('transaction_id', $request->txnid);
-        })
-        ->when($request->email, function ($query) use ($request) {
-            $query->where('user_email', $request->email);
-        })
-        ->when($request->phone, function ($query) use ($request) {
-            $query->where('user_number', $request->phone);
-        })
-        ->when($request->status, function ($query) use ($request) {
-            $query->where('payment_status', $request->status);
-        })
-        ->when($request->createdat, function ($query) use ($request) {
-            $query->whereDate('created_at','>=', $request->createdat);
-        })
-        ->when($request->updatedat, function ($query) use ($request) {
-            $query->whereDate('created_at', '<=', $request->updatedat);
-        })
-        ->when($request->filled('fromDate') && $request->filled('toDate'), function ($query) use ($request) {
-            $startDate = date('Y-m-d', strtotime($request->fromDate));
-            $endDate = date('Y-m-d', strtotime($request->toDate));
-            $query->whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate);
-        })
-        ->get();
+    {
+        $pro = Order_details::
+            when($request->userid, function ($query) use ($request) {
+                $query->where('user_id', $request->userid);
+            })
+            ->when($request->name, function ($query) use ($request) {
+                $query->where('user_name', $request->name);
+            })
+            ->when($request->productname, function ($query) use ($request) {
+                $query->where('product_name', $request->productname);
+            })
+            ->when($request->productid, function ($query) use ($request) {
+                $query->where('product_id', $request->productid);
+            })
+            ->when($request->txnid, function ($query) use ($request) {
+                $query->where('transaction_id', $request->txnid);
+            })
+            ->when($request->email, function ($query) use ($request) {
+                $query->where('user_email', $request->email);
+            })
+            ->when($request->phone, function ($query) use ($request) {
+                $query->where('user_number', $request->phone);
+            })
+            ->when($request->status, function ($query) use ($request) {
+                $query->where('payment_status', $request->status);
+            })
+            ->when($request->createdat, function ($query) use ($request) {
+                $query->whereDate('created_at', '>=', $request->createdat);
+            })
+            ->when($request->updatedat, function ($query) use ($request) {
+                $query->whereDate('created_at', '<=', $request->updatedat);
+            })
+            ->when($request->filled('fromDate') && $request->filled('toDate'), function ($query) use ($request) {
+                $startDate = date('Y-m-d', strtotime($request->fromDate));
+                $endDate = date('Y-m-d', strtotime($request->toDate));
+                $query->whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate);
+            })
+            ->get();
 
         return response()->json($pro);
 
@@ -124,41 +125,126 @@ class AdminController extends Controller
     public function products()
     {
         $title = "Products";
-        // $date = Carbon::now();
-        // $lastMonth =  $date->subMonth()->format('F');
-    
-        // dd($lastMonth);
         $products = Product::get()->where('status', 1)->all();
         return view("admin.adminproducts", compact("title", "products"));
     }
 
     public function productfilters(Request $request)
     {
-       
+
         $pro = Product::
 
+            when($request->userid, function ($query) use ($request) {
+                $query->where('user_id', $request->userid);
+            })
+            ->when($request->productid, function ($query) use ($request) {
+                $query->where('product_id', $request->productid);
+            })
+            ->when($request->productname, function ($query) use ($request) {
+                $query->where('name', $request->productname);
+            })
+            ->when($request->type, function ($query) use ($request) {
+                $query->where('type', $request->type);
+            })
+            ->when($request->filled('fromDate') && $request->filled('toDate'), function ($query) use ($request) {
+                $startDate = date('Y-m-d', strtotime($request->fromDate));
+                $endDate = date('Y-m-d', strtotime($request->toDate));
+                $query->whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate);
+            })
+            ->where('status', 1)
+            ->get();
+        return response()->json($pro);
+
+    }
+
+    public function usercomplaints(Request $request)
+    {
+        $title = "Complaints";
+        $complaints = UserComplaints::get()->all();
+        return view('admin.admincomplaints', compact('title', 'complaints'));
+    }
+
+    public function complaintsfilter(Request $request)
+    {
+        $pro = UserComplaints::
+            when($request->userid, function ($query) use ($request) {
+                $query->where('user_id', $request->userid);
+            })
+            ->when($request->name, function ($query) use ($request) {
+                $query->where('name', $request->name);
+            })
+            ->when($request->email, function ($query) use ($request) {
+                $query->where('email', $request->email);
+            })
+            ->when($request->phone, function ($query) use ($request) {
+                $query->where('phone', $request->phone);
+            })
+            ->when($request->type, function ($query) use ($request) {
+                $query->where('type', $request->type);
+            })
+            ->when($request->status, function ($query) use ($request) {
+                $query->where('status', $request->status);
+            })
+            ->when($request->filled('fromDate') && $request->filled('toDate'), function ($query) use ($request) {
+                $startDate = date('Y-m-d', strtotime($request->fromDate));
+                $endDate = date('Y-m-d', strtotime($request->toDate));
+                $query->whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate);
+            })
+            ->get();
+
+        return response()->json($pro);
+    }
+
+    public function revenue()
+    {
+        $title = 'Revenue';
+        $commissionFee = config('comission.commission_key');
+        $revenue = Order_details::where('payment_status', '=', 'SUCCESS')
+            ->where('created_at','>=',Carbon::now()->subMonths(12))
+            ->select('product_price','created_at')
+            ->get();
+        return view('admin.adminrevenue', compact('title','revenue','commissionFee'));
+
+    }
+
+    public function revenuefilter(Request $request)
+    {
+        // $year = Carbon::now()->format('Y');
+        // $month = Carbon::now()->format('m');
+        $rev =Order_details::
         when($request->userid, function ($query) use ($request) {
             $query->where('user_id', $request->userid);
         })
-        ->when($request->productid, function ($query) use ($request) {
-            $query->where('product_id', $request->productid);
+        ->when($request->filled('year'), function ($query) use ($request) {
+            $year = date('Y', strtotime($request->year));
+            $query->whereYear('created_at','=', $year);
         })
-        ->when($request->productname, function ($query) use ($request) {
-            $query->where('name', $request->productname);
-        })
-        ->when($request->producttype, function ($query) use ($request) {
-            $query->where('type', $request->producttype);
+        ->when($request->filled('month'), function ($query) use ($request) {
+            $month = date('m', strtotime($request->month));
+            $query->whereMonth('created_at','=', $month);
         })
         ->when($request->filled('fromDate') && $request->filled('toDate'), function ($query) use ($request) {
             $startDate = date('Y-m-d', strtotime($request->fromDate));
             $endDate = date('Y-m-d', strtotime($request->toDate));
             $query->whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate);
         })
-        ->where('status', 1)
+        ->select('product_price','created_at')
         ->get();
-        return response()->json($pro);
 
+    return response()->json($rev);
     }
-
-
-}
+    
+    public function adminnotification(Request $request)
+    {
+        $notification = UserComplaints::orderByDesc('id')->take(5)->get();
+        // dd($notification);
+        if($request->ajax())
+        {
+        //    $notified = UserComplaints::update([
+        //     'notified' => 1,
+        //     'notified_at' => Carbon::now()
+        //    ]);
+           return response()->json($notification);
+        }
+    }    
+}   

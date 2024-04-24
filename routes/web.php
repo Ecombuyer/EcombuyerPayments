@@ -92,12 +92,6 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
 
         Route::post('/usercomplaintsstatus', [OrderController::class, 'usercomplaintsstatus'])->name('user.complaintsstatus');
 
-        Route::post('/store-token', [OrderController::class, 'updateDeviceToken'])->name('store.token');
-        Route::post('/send-web-notification', [OrderController::class, 'sendNotification'])->name('send.web-notification');
-
-        Route::GET('/user/notification', [OrderController::class,'usernotification'])->name('user.notification');
-
-
     });
 });
 
@@ -119,7 +113,12 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::GET('/admin/profile', [AdminController::class, 'profile'])->name('admin.profile');
     Route::GET('/admin/paymentmethod', [PaymentController::class, 'paymentmethod'])->name('admin.paymentmethod');
     Route::POST('/admin/paymentactive', [PaymentController::class, 'paymentactive'])->name('admin.paymentactive');
-
+    Route::GET('/admin/complaints', [AdminController::class, 'usercomplaints'])->name('admin.complaints');
+    Route::POST('/admin/complaints/filters', [AdminController::class, 'complaintsfilter'])->name('admin.complaintsfilter');
+    Route::post('/admin/revenue', [AdminController::class, 'revenue'])->name('admin.revenue');
+    Route::GET('/admin/revenue', [AdminController::class, 'revenue'])->name('admin.revenue');
+    Route::POST('/admin/revenue/filters', [AdminController::class, 'revenuefilter'])->name('admin.revenuefilter');
+    Route::GET('/admin/notification', [AdminController::class,'adminnotification'])->name('admin.notification');
     // Route::get('/admin/home', [AdminController::class, 'index'])->name('admin.index');
 });
 
