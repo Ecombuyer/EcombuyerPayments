@@ -179,6 +179,9 @@ class AdminController extends Controller
             ->when($request->phone, function ($query) use ($request) {
                 $query->where('phone', $request->phone);
             })
+            ->when($request->type, function ($query) use ($request) {
+                $query->where('type', $request->type);
+            })
             ->when($request->status, function ($query) use ($request) {
                 $query->where('status', $request->status);
             })
@@ -218,7 +221,7 @@ class AdminController extends Controller
         })
         ->when($request->filled('month'), function ($query) use ($request) {
             $month = date('m', strtotime($request->month));
-            $query->whereYear('created_at','=', $month);
+            $query->whereMonth('created_at','=', $month);
         })
         ->when($request->filled('fromDate') && $request->filled('toDate'), function ($query) use ($request) {
             $startDate = date('Y-m-d', strtotime($request->fromDate));
@@ -230,6 +233,18 @@ class AdminController extends Controller
 
     return response()->json($rev);
     }
-       
     
-}
+    public function adminnotification(Request $request)
+    {
+        $notification = UserComplaints::orderByDesc('id')->take(5)->get();
+        // dd($notification);
+        if($request->ajax())
+        {
+        //    $notified = UserComplaints::update([
+        //     'notified' => 1,
+        //     'notified_at' => Carbon::now()
+        //    ]);
+           return response()->json($notification);
+        }
+    }    
+}   

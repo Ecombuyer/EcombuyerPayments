@@ -98,6 +98,10 @@
                                             S.no
                                         </th>
                                         <th
+                                        class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Complaint ID
+                                    </th>
+                                        <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             <i class="fa-regular fa-user mx-1"></i> User Id
                                         </th>
@@ -115,14 +119,12 @@
                                         </th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            <i class="fa-regular fa-user mx-1"></i> Complaint
+                                        </th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             <i class="fa-solid fa-hashtag mx-1"></i> Status
                                         </th>
-                                        <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            <i class="fa-solid fa-phone mx-1"></i> Read_at
-                                        </th>
-                                        <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             <i class="fa-solid fa-eye mx-1"></i> Type
@@ -166,11 +168,11 @@
                                             </td>
                                             <td class="align-middle text-center p-3">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $complaint->status }}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{ $complaint->complaints }}</span>
                                             </td>
                                             <td class="align-middle text-center p-3">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $complaint->read_at->format('Y/m/d') }}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{ $complaint->status }}</span>
                                             </td>
                                             <td class="align-middle text-center p-3">
                                                 <span
@@ -206,7 +208,7 @@
                 console.log('Form data:', formData);
 
                 $.ajax({
-                    url: "{{ route('admin.productsfilters') }}",
+                    url: "{{ route('admin.complaintsfilter') }}",
                     type: "POST",
                     data: formData,
                     headers: {
@@ -236,13 +238,13 @@
                                 html += '<td class="align-middle text-center p-3">';
                                 html +=
                                     '<span class="text-secondary text-xs font-weight-bold">';
-                                html += row.user_id;
+                                html += row.id
                                 html += '</span></td>';
 
                                 html += '<td class="align-middle text-center p-3">';
                                 html +=
                                     '<span class="text-secondary text-xs font-weight-bold">';
-                                html += row.product_id;
+                                html += row.user_id;
                                 html += '</span></td>';
 
                                 html += '<td class="align-middle text-center p-3">';
@@ -254,23 +256,25 @@
                                 html += '<td class="align-middle text-center p-3">';
                                 html +=
                                     '<span class="text-secondary text-xs font-weight-bold">';
-                                html += row.price;
+                                html += row.email;
                                 html += '</span></td>';
 
                                 html += '<td class="align-middle text-center p-3">';
                                 html +=
                                     '<span class="text-secondary text-xs font-weight-bold">';
-                                html += '<img src="/uploads/previewimages/' + row
-                                    .image +
-                                    '" class="avatar avatar-sm me-3" alt="user2" />';
+                                html += row.phone;
                                 html += '</span></td>';
 
                                 html += '<td class="align-middle text-center p-3">';
                                 html +=
                                     '<span class="text-secondary text-xs font-weight-bold">';
-                                html += '<img src="/uploads/previewimages/' + row
-                                    .image_2 +
-                                    '" class="avatar avatar-sm me-3" alt="user2" />';
+                                html += row.complaints;
+                                html += '</span></td>';
+
+                                html += '<td class="align-middle text-center p-3">';
+                                html +=
+                                    '<span class="text-secondary text-xs font-weight-bold">';
+                                html += row.status;
                                 html += '</span></td>';
 
                                 html += '<td class="align-middle text-center p-3">';

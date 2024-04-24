@@ -401,7 +401,11 @@
                         $('#physical').text(response.physicalproducts);
                         $('#digital').text(response.digitalproducts);
                         $('#revenue').text(response.todaysmoney);
-                        $('#rev_month').text(response.revenuethismonth)
+                        $('#rev_month').text(response.revenuethismonth);
+                        $('#tc').text(response.totalcomplaints);
+                        $('#solved').text(response.solved);
+                        $('#pending').text(response.pending);
+                        $('#enquiring').text(response.enquiring);
                     }
 
                 });
