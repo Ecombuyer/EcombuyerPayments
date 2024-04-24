@@ -109,7 +109,7 @@
                 setInterval(makeAjaxGet, 3000);
             });
         </script>
- @elseif($paymenttype->payment_name=='indicpay' && $paymenttype->status=='1')
+@elseif($paymenttype->payment_name=='indicpay' && $paymenttype->status=='1')
     <script>
         // Function to check payment status
         $(document).ready(function() {
@@ -209,7 +209,7 @@
             setInterval(makeAjaxGet, 3000);
         });
     </script>
-     @elseif($paymenttype->payment_name=='crizzpay' && $paymenttype->status=='1')
+@elseif($paymenttype->payment_name=='crizzpay' && $paymenttype->status=='1')
      <script>
         // Function to check payment status
         $(document).ready(function() {
