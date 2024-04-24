@@ -118,6 +118,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::post('/admin/revenue', [AdminController::class, 'revenue'])->name('admin.revenue');
     Route::GET('/admin/revenue', [AdminController::class, 'revenue'])->name('admin.revenue');
     Route::POST('/admin/revenue/filters', [AdminController::class, 'revenuefilter'])->name('admin.revenuefilter');
+    Route::GET('/admin/notification', [AdminController::class,'adminnotification'])->name('admin.notification');
     // Route::get('/admin/home', [AdminController::class, 'index'])->name('admin.index');
 });
 

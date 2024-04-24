@@ -59,7 +59,7 @@ class HomeController extends Controller
 
         //counting users
         $users = Auth::user()->where('type', 0)
-            ->where('status', 0)
+            ->where('status', 1)
             ->get()
             ->all();
         $countusers = count($users);
@@ -104,7 +104,7 @@ class HomeController extends Controller
             ->get()->count();
 
         //Complaint Stats
-        $totalcomplaints = UserComplaints::get()->count();
+        $totalcomplaints = UserComplaints::get('id')->count();
         $solved = UserComplaints::where('status', 'Solved')->get()->count();
         $enquiring = UserComplaints::where('status', 'Enquiring')->get()->count();
         $pending = UserComplaints::where('status', 'Pending')->get()->count();

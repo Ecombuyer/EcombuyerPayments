@@ -193,7 +193,7 @@
                                     @foreach ($userdetails as $user)
                                         <tr>
                                             <td class="align-middle text-center p-3">
-                                                <span>
+                                                <span class="text-secondary text-xs font-weight-bold">
                                                     <input type="checkbox" name="id" class="checkboxclass"
                                                         value="{{ $user->id }}">
                                                 </span>

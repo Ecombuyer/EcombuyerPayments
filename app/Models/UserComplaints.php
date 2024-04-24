@@ -18,6 +18,8 @@ class UserComplaints extends Model
         'status',
         'read_at',
         'type',
+        'notified',
+        'notified_at',
 
     ];
 }

@@ -154,7 +154,7 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
-
+                        var commissionfee = {{$commissionFee}};
                         console.log(response);
                         if (response.length === 0) {
                             // If no data is found, display a message
@@ -177,8 +177,22 @@
                                 html += '<td class="align-middle text-center p-3">';
                                 html +=
                                     '<span class="text-secondary text-xs font-weight-bold">';
-                                html += row.user_id;
+                                html += row.created_at;
                                 html += '</span></td>';
+
+                                html += '<td class="align-middle text-center p-3">';
+                                html +=
+                                    '<span class="text-secondary text-xs font-weight-bold">';
+                                html += row.product_price;
+                                html += '</span></td>';
+
+                                html += '<td class="align-middle text-center p-3">';
+                                html +=
+                                    '<span class="text-secondary text-xs font-weight-bold">';
+                                html += row.product_price * commissionfee / 100;
+                                html += '</span></td>';
+
+
 
                                 html += '</tr>';
                             });
