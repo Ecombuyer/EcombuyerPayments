@@ -34,10 +34,10 @@ Home page Routes
 Route::get('/', [HomepageController::class, 'homepage'])->name('homepage');
 Route::get('/aboutpage', [HomepageController::class, 'aboutpage'])->name('aboutpage');
 
- /*google api login*/
- Route::get('auth/google',[GoogleAuthController::class,'redirect'])->name('google-auth');
- Route::get('auth/google/call-back',[GoogleAuthController::class,'callbackGoogle']);
- Route::post('/userregister',[GoogleAuthController::class,'userregister'])->name('userregister');
+/*google api login*/
+Route::get('auth/google', [GoogleAuthController::class, 'redirect'])->name('google-auth');
+Route::get('auth/google/call-back', [GoogleAuthController::class, 'callbackGoogle']);
+Route::post('/userregister', [GoogleAuthController::class, 'userregister'])->name('userregister');
 
 /*------------------------------------------
 --------------------------------------------
@@ -76,21 +76,27 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
         Route::get('/success', [OrderController::class, 'success'])->name('orders.success');
         Route::GET('/failed', [OrderController::class, 'cancel'])->name('orders.failed');
         Route::get('user/mobileview', [OrderController::class, 'mobileview'])->name('user.mobileview');
-        Route::post('user/callback', [OrderController::class,'handleCallback'])->name('payment.callback');
-        Route::post('/filter', [OrderController::class,'filter'])->name('orders.filter');
-        Route::post('/transactionfilter', [OrderController::class,'transactionfilter'])->name('orders.transactionfilter');
+        Route::post('user/callback', [OrderController::class, 'handleCallback'])->name('payment.callback');
+        Route::post('/filter', [OrderController::class, 'filter'])->name('orders.filter');
+        Route::post('/transactionfilter', [OrderController::class, 'transactionfilter'])->name('orders.transactionfilter');
 
-        Route::get('/profile', [OrderController::class,'profile'])->name('user.profile');
-        Route::post('/addprofile', [OrderController::class,'addprofile'])->name('user.addprofile');
+        Route::get('/profile', [OrderController::class, 'profile'])->name('user.profile');
+        Route::post('/addprofile', [OrderController::class, 'addprofile'])->name('user.addprofile');
 
-        Route::get('/usercomplaints', [OrderController::class,'usercomplaints'])->name('user.complaints');
+        Route::get('/usercomplaints', [OrderController::class, 'usercomplaints'])->name('user.complaints');
 
-        Route::get('/usercomplaintsform', [OrderController::class,'usercomplaintsform'])->name('user.complaintsform');
+        Route::get('/usercomplaintsform', [OrderController::class, 'usercomplaintsform'])->name('user.complaintsform');
 
         // Route::get('/usercomplaintsbooked', [OrderController::class,'usercomplaintsbooked'])->name('user.complaintsbooked');
         Route::post('/usercomplaintsbooked', [OrderController::class, 'usercomplaintsbooked'])->name('user.complaintsbooked');
 
-        Route::post('/usercomplaintsstatus', [OrderController::class,'usercomplaintsstatus'])->name('user.complaintsstatus');
+        Route::post('/usercomplaintsstatus', [OrderController::class, 'usercomplaintsstatus'])->name('user.complaintsstatus');
+
+        Route::post('/store-token', [OrderController::class, 'updateDeviceToken'])->name('store.token');
+        Route::post('/send-web-notification', [OrderController::class, 'sendNotification'])->name('send.web-notification');
+
+        Route::GET('/user/notification', [OrderController::class,'usernotification'])->name('user.notification');
+
 
     });
 });
@@ -105,11 +111,11 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
 
     Route::GET('/admin/home', [HomeController::class, 'adminHome'])->name('admin.home');
     Route::GET('/admin/transactions', [AdminController::class, 'transaction'])->name('admin.transactions');
-    Route::POST('/admin/transaction/filters', [AdminController::class,'transactionfilter'])->name('admin.transactionfilters');
-    Route::GET('/admin/users', [AdminController::class,'users'])->name('admin.users');
-    Route::POST('/admin/users/filters', [AdminController::class,'userfilter'])->name('admin.userfilters');
-    Route::GET('/admin/products', [AdminController::class,'products'])->name('admin.products');
-    Route::POST('/admin/products/filters', [AdminController::class,'productfilters'])->name('admin.productsfilters');
+    Route::POST('/admin/transaction/filters', [AdminController::class, 'transactionfilter'])->name('admin.transactionfilters');
+    Route::GET('/admin/users', [AdminController::class, 'users'])->name('admin.users');
+    Route::POST('/admin/users/filters', [AdminController::class, 'userfilter'])->name('admin.userfilters');
+    Route::GET('/admin/products', [AdminController::class, 'products'])->name('admin.products');
+    Route::POST('/admin/products/filters', [AdminController::class, 'productfilters'])->name('admin.productsfilters');
     Route::GET('/admin/profile', [AdminController::class, 'profile'])->name('admin.profile');
     Route::GET('/admin/paymentmethod', [PaymentController::class, 'paymentmethod'])->name('admin.paymentmethod');
     Route::POST('/admin/paymentactive', [PaymentController::class, 'paymentactive'])->name('admin.paymentactive');
@@ -127,5 +133,3 @@ Route::middleware(['auth', 'user-access:manager'])->group(function () {
 });
 
 // Route::resource('orders', OrderController::class)->names('orders');
-
-

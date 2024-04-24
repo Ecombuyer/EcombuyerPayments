@@ -10,6 +10,7 @@ use App\Models\Order_details;
 use App\Models\Paymenttype;
 use App\Models\UserProfile;
 use App\Models\UserComplaints;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -925,7 +926,6 @@ class OrderController extends Controller
 
         $title ='User Complaints';
 
-
         $complaints = $request->validate([
             'username'=>'required|string',
             'useremail'=>'required|string',
@@ -946,13 +946,10 @@ class OrderController extends Controller
             'type'=>$complaints['complaints_type']
         ]);
 
-        return redirect()->route('user.complaints')->with('success', 'Complaint submitted successfully.');
-       // return response()->json($usercomplaints);
+
+
+        return response()->json($usercomplaints);
     }
 
-    public function usercomplaintsstatus()
-    {
 
-
-    }
 }
