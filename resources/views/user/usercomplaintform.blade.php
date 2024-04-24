@@ -23,16 +23,11 @@
         }
     </style>
 
-
-
-
-
-
     <!-- Navbar -->
 
     <!-- End Navbar -->
     <div class="container-fluid">
-
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
         @if (session('success'))
             <div class="alert alert-success">
@@ -240,46 +235,107 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="{{ env('APP_URL') }}/assets/js/argon-dashboard.min.js?v=2.0.4"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
             document.getElementById("filter-form").reset();
         });
     </script>
-    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-
-<script>
-    $(document).ready(function () {
-        $('#filter').on('click', function(event) {
+    <script>
+        $(document).ready(function() {
+            $('#filter').on('click', function(event) {
                 event.preventDefault(); // Prevent the default form submission behavior
 
                 var formData = $('#filter-form').serialize();
                 console.log('Form data:', formData);
 
-        function ajaxget(){
+                function ajaxget() {
 
-            // var userid = $(document).getElementByid('userid').val;
-            alert(userid)
-            $.ajax({
-        type: "post",
-        url: "{{route('user.complaintsbooked')}}",
-        dataType: "json",
-        data: formData,
-        headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-        success: function (response) {
-            // console.log(response);
+                    // var userid = $(document).getElementByid('userid').val;
+                    // alert(userid)
+                    $.ajax({
+                        type: "post",
+                        url: "{{ route('user.complaintsbooked') }}",
+                        dataType: "json",
+                        data: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response) {
+                            // console.log(response);
 
-            }
-          });
-        }
-    ajaxget();
-    setInterval(ajaxget, 3000);
-    });
+                            var firebaseConfig = {
+                                apiKey: "AIzaSyCRxzoIKVEVUibKRfkGAbfq3u3etj2fekU",
+                                authDomain: "notification-7ebd9.firebaseapp.com",
+                                projectId: "notification-7ebd9",
+                                storageBucket: "notification-7ebd9.appspot.com",
+                                messagingSenderId: "269120193212",
+                                appId: "1:269120193212:web:792d812461e5a6343306b9",
+                                measurementId: "G-G1M8ZEH0HW"
+                            };
+                            firebase.initializeApp(firebaseConfig);
+                            const messaging = firebase.messaging();
 
-});
+                            function startFCM() {
 
-</script> --}}
+                                messaging
+                                    .requestPermission()
+                                    .then(function() {
+                                        return messaging.getToken()
+                                    })
+                                    .then(function(response) {
+
+
+
+                                        $.ajax({
+                                            url: '{{ route('store.token') }}',
+                                            type: 'POST',
+                                            headers: {
+                                                'X-CSRF-TOKEN': $(
+                                                        'meta[name="csrf-token"]')
+                                                    .attr('content')
+                                            },
+                                            data: {
+                                                token: response
+                                            },
+                                            // dataType: 'JSON',
+                                            success: function(response) {
+
+                                            },
+                                            error: function(error) {
+
+                                            },
+                                        });
+                                    }).catch(function(error) {
+
+                                    });
+                            }
+                            messaging.onMessage(function(payload) {
+
+                                // console.log(payload)
+                                const title = payload.notification.title;
+                                const options = {
+                                    username: payload.notification.username,
+                                    usermobileno: payload.notification.usermobileno,
+                                    useremail: payload.notification.useremail,
+                                    complaints_type: payload.notification
+                                        .complaints_type,
+                                    userid: payload.notification.userid,
+                                    complaints: payload.notification.complaints,
+                                };
+                                new Notification(title, options);
+                            });
+
+
+                        }
+                    });
+                }
+                ajaxget();
+                // setInterval(ajaxget, 3000);
+            });
+
+        });
+    </script>
+
+
 @endsection

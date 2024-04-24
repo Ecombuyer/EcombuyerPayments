@@ -74,9 +74,6 @@
     <div class="container">
         <h1 style="color: #ffffff;">Payment Receipt</h1>
         <p>Details:</p>
-        <div class="verification-code">
-            <p>{{ $paymentreceipt }}</p>
-        </div>
         <table>
             <thead>
                 <th>
