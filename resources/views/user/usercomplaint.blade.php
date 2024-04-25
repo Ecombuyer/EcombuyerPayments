@@ -87,7 +87,7 @@
                                                     <span
                                                         class="text-secondary text-xs font-weight-bold">{{ $usercomplaint->type }}</span>
                                                 </td>
-                                                <td class="align-middle text-center">
+                                                <td class="align-middle text-center" >
                                                     <span
                                                         class="text-secondary text-xs font-weight-bold">{{ $usercomplaint->complaints }}</span>
                                                 </td>

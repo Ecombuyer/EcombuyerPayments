@@ -18,7 +18,6 @@ class AdminController extends Controller
         $user = Auth::user();
         $title = "Profile";
         return view("admin.adminprofile", compact("title", "user"));
-
     }
 
     public function users()
@@ -81,8 +80,7 @@ class AdminController extends Controller
 
     public function transactionfilter(Request $request)
     {
-        $pro = Order_details::
-            when($request->userid, function ($query) use ($request) {
+        $pro = Order_details::when($request->userid, function ($query) use ($request) {
                 $query->where('user_id', $request->userid);
             })
             ->when($request->name, function ($query) use ($request) {
@@ -120,7 +118,6 @@ class AdminController extends Controller
             ->get();
 
         return response()->json($pro);
-
     }
     public function products()
     {
@@ -132,9 +129,7 @@ class AdminController extends Controller
     public function productfilters(Request $request)
     {
 
-        $pro = Product::
-
-            when($request->userid, function ($query) use ($request) {
+        $pro = Product::when($request->userid, function ($query) use ($request) {
                 $query->where('user_id', $request->userid);
             })
             ->when($request->productid, function ($query) use ($request) {
@@ -154,7 +149,6 @@ class AdminController extends Controller
             ->where('status', 1)
             ->get();
         return response()->json($pro);
-
     }
 
     public function usercomplaints(Request $request)
@@ -166,8 +160,7 @@ class AdminController extends Controller
 
     public function complaintsfilter(Request $request)
     {
-        $pro = UserComplaints::
-            when($request->userid, function ($query) use ($request) {
+        $pro = UserComplaints::when($request->userid, function ($query) use ($request) {
                 $query->where('user_id', $request->userid);
             })
             ->when($request->name, function ($query) use ($request) {
@@ -204,13 +197,13 @@ class AdminController extends Controller
             ->select('product_price', 'created_at')
             ->get();
         return view('admin.adminrevenue', compact('title', 'revenue', 'commissionFee'));
-
     }
 
     public function revenuefilter(Request $request)
     {
         // $year = Carbon::now()->format('Y');
         // $month = Carbon::now()->format('m');
+
         $rev = Order_details::
             when($request->userid, function ($query) use ($request) {
                 $query->where('user_id', $request->userid);
@@ -237,6 +230,7 @@ class AdminController extends Controller
     public function adminnotification(Request $request)
     {
 
+
         // $notification = UserComplaints::whereTime('created_at','<=',Carbon::now())->orderByDesc('id')->take(5)->get();
         $notification = UserComplaints::whereBetween('created_at', [Carbon::now()->subSeconds(1), Carbon::now()])
             ->orderByDesc('id')
@@ -246,6 +240,7 @@ class AdminController extends Controller
         if ($request->ajax()) {
             return response()->json($notification);
         }
+
 
     }
 }
