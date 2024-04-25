@@ -203,7 +203,9 @@ class AdminController extends Controller
     {
         // $year = Carbon::now()->format('Y');
         // $month = Carbon::now()->format('m');
-        $rev = Order_details::when($request->userid, function ($query) use ($request) {
+
+        $rev = Order_details::
+            when($request->userid, function ($query) use ($request) {
                 $query->where('user_id', $request->userid);
             })
             ->when($request->filled('year'), function ($query) use ($request) {
@@ -227,30 +229,18 @@ class AdminController extends Controller
 
     public function adminnotification(Request $request)
     {
-        // $notification = UserComplaints::orderByDesc('id')->take(5)->get();
-        // dd($notification);
-        // if ($request->ajax()) {
-        //     $notified = UserComplaints::update([
-        //         'notified' => 1,
-        //         // 'notified_at' => Carbon::now()
-        //     ]);
-        //     return response()->json($notification);
-        // }
 
 
-         // Initial load or when page loads for the first time
-        if (!$request->ajax()) {
-            $notifications = UserComplaints::orderByDesc('id')->take(5)->get();
-            return view('admin.notification', compact('notifications'));
+        // $notification = UserComplaints::whereTime('created_at','<=',Carbon::now())->orderByDesc('id')->take(5)->get();
+        $notification = UserComplaints::whereBetween('created_at', [Carbon::now()->subSeconds(1), Carbon::now()])
+            ->orderByDesc('id')
+            ->where('status','!=','Solved')
+            ->take(5)
+            ->get();
+        if ($request->ajax()) {
+            return response()->json($notification);
         }
 
-        // AJAX request to update notifications' notified status
-        $notified = UserComplaints::where('notified', 0)->update(['notified' => 1]);
-
-        // Fetch updated notifications after updating notified status
-        $notifications = UserComplaints::orderByDesc('id')->take(5)->get();
-
-        return response()->json($notifications);
 
     }
 }
