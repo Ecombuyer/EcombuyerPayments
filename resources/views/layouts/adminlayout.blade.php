@@ -393,7 +393,7 @@
         <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
         <script src="{{ env('APP_URL') }}/assets/js/argon-dashboard.min.js?v=2.0.4"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script>
+        {{-- <script>
             function notification() {
                 $.ajax({
                     type: "GET",
@@ -403,17 +403,35 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
+                        var notifiedids = [];
                         Notification.requestPermission().then(perm => {
                             if (perm === "granted") {
                                 console.log(response);
                                 response.forEach(
-                                    row => { // corrected to arrow function and removed extra parentheses
+                                    row => {
                                         const notify = new Notification(row.name, {
                                             body: row.complaints,
                                         });
                                         notify.onclick = function() {
                                             window.open("http://localhost:8000/admin/complaints");
+
                                         }
+                                        notifiedids.push(row.id);
+                                        console.log(notifiedids);
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "{{ route('admin.notified') }}",
+                                            data: {
+                                                arrayData: notifiedids
+                                            },
+                                            headers: {
+                                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]')
+                                                    .attr('content')
+                                            },
+                                            success: function(response) {
+                                                console.log('updated successfully');
+                                            }
+                                        });
                                     });
                             }
                         });
@@ -424,7 +442,48 @@
                 notification();
                 setInterval(notification, 3000);
             });
+        </script> --}}
+        <script>
+            function notification() {
+                $.ajax({
+                    type: "GET",
+                    url: "{{ route('admin.notification') }}",
+                    dataType: "json",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        var notifiedids = [];
+                        Notification.requestPermission().then(perm => {
+                            if (perm === "granted") {
+                                console.log(response);
+                                response.forEach(row => {
+                                    const notify = new Notification(row.name, {
+                                            body: row.complaints,
+                                        });
+                                        notify.onclick = function() {
+                                            window.open(
+                                                "http://localhost:8000/admin/complaints");
+                                        }
+                                        notifiedids.push(row.id);
+                                        console.log(notifiedids);
+
+                                });
+                            }
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText); // Log any error response
+                    }
+                });
+            }
+
+            $(document).ready(function() {
+                notification();
+                setInterval(notification, 5000);
+            });
         </script>
 </body>
+
 
 </html>
