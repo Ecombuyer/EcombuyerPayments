@@ -18,7 +18,6 @@ class AdminController extends Controller
         $user = Auth::user();
         $title = "Profile";
         return view("admin.adminprofile", compact("title", "user"));
-
     }
 
     public function users()
@@ -81,8 +80,7 @@ class AdminController extends Controller
 
     public function transactionfilter(Request $request)
     {
-        $pro = Order_details::
-            when($request->userid, function ($query) use ($request) {
+        $pro = Order_details::when($request->userid, function ($query) use ($request) {
                 $query->where('user_id', $request->userid);
             })
             ->when($request->name, function ($query) use ($request) {
@@ -120,7 +118,6 @@ class AdminController extends Controller
             ->get();
 
         return response()->json($pro);
-
     }
     public function products()
     {
@@ -132,9 +129,7 @@ class AdminController extends Controller
     public function productfilters(Request $request)
     {
 
-        $pro = Product::
-
-            when($request->userid, function ($query) use ($request) {
+        $pro = Product::when($request->userid, function ($query) use ($request) {
                 $query->where('user_id', $request->userid);
             })
             ->when($request->productid, function ($query) use ($request) {
@@ -154,7 +149,6 @@ class AdminController extends Controller
             ->where('status', 1)
             ->get();
         return response()->json($pro);
-
     }
 
     public function usercomplaints(Request $request)
@@ -166,8 +160,7 @@ class AdminController extends Controller
 
     public function complaintsfilter(Request $request)
     {
-        $pro = UserComplaints::
-            when($request->userid, function ($query) use ($request) {
+        $pro = UserComplaints::when($request->userid, function ($query) use ($request) {
                 $query->where('user_id', $request->userid);
             })
             ->when($request->name, function ($query) use ($request) {
@@ -200,51 +193,64 @@ class AdminController extends Controller
         $title = 'Revenue';
         $commissionFee = config('comission.commission_key');
         $revenue = Order_details::where('payment_status', '=', 'SUCCESS')
-            ->where('created_at','>=',Carbon::now()->subMonths(12))
-            ->select('product_price','created_at')
+            ->where('created_at', '>=', Carbon::now()->subMonths(12))
+            ->select('product_price', 'created_at')
             ->get();
-        return view('admin.adminrevenue', compact('title','revenue','commissionFee'));
-
+        return view('admin.adminrevenue', compact('title', 'revenue', 'commissionFee'));
     }
 
     public function revenuefilter(Request $request)
     {
         // $year = Carbon::now()->format('Y');
         // $month = Carbon::now()->format('m');
-        $rev =Order_details::
-        when($request->userid, function ($query) use ($request) {
-            $query->where('user_id', $request->userid);
-        })
-        ->when($request->filled('year'), function ($query) use ($request) {
-            $year = date('Y', strtotime($request->year));
-            $query->whereYear('created_at','=', $year);
-        })
-        ->when($request->filled('month'), function ($query) use ($request) {
-            $month = date('m', strtotime($request->month));
-            $query->whereMonth('created_at','=', $month);
-        })
-        ->when($request->filled('fromDate') && $request->filled('toDate'), function ($query) use ($request) {
-            $startDate = date('Y-m-d', strtotime($request->fromDate));
-            $endDate = date('Y-m-d', strtotime($request->toDate));
-            $query->whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate);
-        })
-        ->select('product_price','created_at')
-        ->get();
+        $rev = Order_details::when($request->userid, function ($query) use ($request) {
+                $query->where('user_id', $request->userid);
+            })
+            ->when($request->filled('year'), function ($query) use ($request) {
+                $year = date('Y', strtotime($request->year));
+                $query->whereYear('created_at', '=', $year);
+            })
+            ->when($request->filled('month'), function ($query) use ($request) {
+                $month = date('m', strtotime($request->month));
+                $query->whereMonth('created_at', '=', $month);
+            })
+            ->when($request->filled('fromDate') && $request->filled('toDate'), function ($query) use ($request) {
+                $startDate = date('Y-m-d', strtotime($request->fromDate));
+                $endDate = date('Y-m-d', strtotime($request->toDate));
+                $query->whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate);
+            })
+            ->select('product_price', 'created_at')
+            ->get();
 
-    return response()->json($rev);
+        return response()->json($rev);
     }
-    
+
     public function adminnotification(Request $request)
     {
-        $notification = UserComplaints::orderByDesc('id')->take(5)->get();
+        // $notification = UserComplaints::orderByDesc('id')->take(5)->get();
         // dd($notification);
-        if($request->ajax())
-        {
-        //    $notified = UserComplaints::update([
-        //     'notified' => 1,
-        //     'notified_at' => Carbon::now()
-        //    ]);
-           return response()->json($notification);
+        // if ($request->ajax()) {
+        //     $notified = UserComplaints::update([
+        //         'notified' => 1,
+        //         // 'notified_at' => Carbon::now()
+        //     ]);
+        //     return response()->json($notification);
+        // }
+
+
+         // Initial load or when page loads for the first time
+        if (!$request->ajax()) {
+            $notifications = UserComplaints::orderByDesc('id')->take(5)->get();
+            return view('admin.notification', compact('notifications'));
         }
-    }    
-}   
+
+        // AJAX request to update notifications' notified status
+        $notified = UserComplaints::where('notified', 0)->update(['notified' => 1]);
+
+        // Fetch updated notifications after updating notified status
+        $notifications = UserComplaints::orderByDesc('id')->take(5)->get();
+
+        return response()->json($notifications);
+
+    }
+}
