@@ -115,7 +115,6 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::POST('/admin/paymentactive', [PaymentController::class, 'paymentactive'])->name('admin.paymentactive');
     Route::GET('/admin/complaints', [AdminController::class, 'usercomplaints'])->name('admin.complaints');
     Route::POST('/admin/complaints/filters', [AdminController::class, 'complaintsfilter'])->name('admin.complaintsfilter');
-    Route::post('/admin/revenue', [AdminController::class, 'revenue'])->name('admin.revenue');
     Route::GET('/admin/revenue', [AdminController::class, 'revenue'])->name('admin.revenue');
     Route::POST('/admin/revenue/filters', [AdminController::class, 'revenuefilter'])->name('admin.revenuefilter');
     Route::GET('/admin/notification', [AdminController::class,'adminnotification'])->name('admin.notification');

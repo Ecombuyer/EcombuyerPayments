@@ -200,10 +200,10 @@ class AdminController extends Controller
         $title = 'Revenue';
         $commissionFee = config('comission.commission_key');
         $revenue = Order_details::where('payment_status', '=', 'SUCCESS')
-            ->where('created_at','>=',Carbon::now()->subMonths(12))
-            ->select('product_price','created_at')
+            ->where('created_at', '>=', Carbon::now()->subMonths(12))
+            ->select('product_price', 'created_at')
             ->get();
-        return view('admin.adminrevenue', compact('title','revenue','commissionFee'));
+        return view('admin.adminrevenue', compact('title', 'revenue', 'commissionFee'));
 
     }
 
@@ -211,40 +211,41 @@ class AdminController extends Controller
     {
         // $year = Carbon::now()->format('Y');
         // $month = Carbon::now()->format('m');
-        $rev =Order_details::
-        when($request->userid, function ($query) use ($request) {
-            $query->where('user_id', $request->userid);
-        })
-        ->when($request->filled('year'), function ($query) use ($request) {
-            $year = date('Y', strtotime($request->year));
-            $query->whereYear('created_at','=', $year);
-        })
-        ->when($request->filled('month'), function ($query) use ($request) {
-            $month = date('m', strtotime($request->month));
-            $query->whereMonth('created_at','=', $month);
-        })
-        ->when($request->filled('fromDate') && $request->filled('toDate'), function ($query) use ($request) {
-            $startDate = date('Y-m-d', strtotime($request->fromDate));
-            $endDate = date('Y-m-d', strtotime($request->toDate));
-            $query->whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate);
-        })
-        ->select('product_price','created_at')
-        ->get();
+        $rev = Order_details::
+            when($request->userid, function ($query) use ($request) {
+                $query->where('user_id', $request->userid);
+            })
+            ->when($request->filled('year'), function ($query) use ($request) {
+                $year = date('Y', strtotime($request->year));
+                $query->whereYear('created_at', '=', $year);
+            })
+            ->when($request->filled('month'), function ($query) use ($request) {
+                $month = date('m', strtotime($request->month));
+                $query->whereMonth('created_at', '=', $month);
+            })
+            ->when($request->filled('fromDate') && $request->filled('toDate'), function ($query) use ($request) {
+                $startDate = date('Y-m-d', strtotime($request->fromDate));
+                $endDate = date('Y-m-d', strtotime($request->toDate));
+                $query->whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate);
+            })
+            ->select('product_price', 'created_at')
+            ->get();
 
-    return response()->json($rev);
+        return response()->json($rev);
     }
-    
+
     public function adminnotification(Request $request)
     {
-        $notification = UserComplaints::orderByDesc('id')->take(5)->get();
-        // dd($notification);
-        if($request->ajax())
-        {
-        //    $notified = UserComplaints::update([
-        //     'notified' => 1,
-        //     'notified_at' => Carbon::now()
-        //    ]);
-           return response()->json($notification);
+
+        // $notification = UserComplaints::whereTime('created_at','<=',Carbon::now())->orderByDesc('id')->take(5)->get();
+        $notification = UserComplaints::whereBetween('created_at', [Carbon::now()->subSeconds(1), Carbon::now()])
+            ->orderByDesc('id')
+            ->where('status','!=','Solved')
+            ->take(5)
+            ->get();
+        if ($request->ajax()) {
+            return response()->json($notification);
         }
-    }    
-}   
+
+    }
+}
