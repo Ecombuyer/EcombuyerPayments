@@ -220,7 +220,7 @@
                                         </th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            <i class="fa-regular fa-user mx-1"></i> User Id
+                                            <i class="fa-solid fa-id-card mx-1"></i> User Id
                                         </th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">

@@ -103,7 +103,7 @@
                                     </th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            <i class="fa-regular fa-user mx-1"></i> User Id
+                                            <i class="fa-solid fa-id-card mx-1"></i> User Id
                                         </th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -111,15 +111,15 @@
                                         </th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            <i class="fa-regular fa-user mx-1"></i> User Email
+                                            <i class="fa-solid fa-envelope mx-1"></i> User Email
                                         </th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            <i class="fa-regular fa-user mx-1"></i> User Phone
+                                            <i class="fa-solid fa-phone mx-1"></i> User Phone
                                         </th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            <i class="fa-regular fa-user mx-1"></i> Complaint
+                                            <i class="fa-regular fa-message mx-1"></i> Complaint
                                         </th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
