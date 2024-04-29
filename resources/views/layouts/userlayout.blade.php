@@ -190,15 +190,15 @@
                     </a>
                 </li> --}}
 
-                <li class="nav-item d-flex align-items-center">
+                <li class="nav-item">
                     <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                         @csrf
                         <button type="submit" class="nav-link" style="background: none; border: none;">
-                            <div class="nav-link text-white font-weight-bold px-0">
-                                <i class="fa fa-user me-sm-1"></i>
-                                <span class="d-sm-inline d-none">{{ session()->get('username') }}</span>
-                                <span class="d-sm-none">Logout</span>
+                            <div
+                                class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="ni ni-collection text-info text-sm opacity-10"></i>
                             </div>
+                            <span class="nav-link-text ms-1">Log out</span>
                         </button>
                     </form>
                 </li>
@@ -249,7 +249,7 @@
 
                                         <i class="fa fa-user me-sm-1"></i>
                                         <span class="d-sm-inline d-none">{{ session()->get('username') }}</span>
-                                        <span class="d-sm-none" style="visibility: hidden;">Logout</span>
+                                        <span class="d-sm-none">Logout</span>
                                     </div>
                                 </button>
                             </form>
@@ -385,6 +385,7 @@
         <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
         <script src="{{ env('APP_URL') }}/assets/js/argon-dashboard.min.js?v=2.0.4"></script>
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     class WebShare {
         constructor({
@@ -439,5 +440,42 @@
         }
     });
 </script>
+{{-- <script>
+    function notification() {
+        $.ajax({
+            type: "GET",
+            url: "{{ route('user.notification') }}",
+            dataType: "json",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+                var notifiedids = [];
+                Notification.requestPermission().then(perm => {
+                    if (perm === "granted") {
+                        console.log(response);
+                        const notify = new Notification(response, {
+                                    body: "this is from user",
+                                });
+                                notify.onclick = function() {
+                                    window.open(
+                                        "http://localhost:8000/admin/complaints");
+                                }
+                                notifiedids.push(row.id);
+                                console.log(notifiedids);
+                    }
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText); // Log any error response
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        notification();
+        setInterval(notification, 4000);
+    });
+</script> --}}
 
 </html>
