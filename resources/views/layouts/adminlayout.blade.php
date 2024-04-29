@@ -393,56 +393,6 @@
         <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
         <script src="{{ env('APP_URL') }}/assets/js/argon-dashboard.min.js?v=2.0.4"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        {{-- <script>
-            function notification() {
-                $.ajax({
-                    type: "GET",
-                    url: "{{ route('admin.notification') }}",
-                    dataType: "json",
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function(response) {
-                        var notifiedids = [];
-                        Notification.requestPermission().then(perm => {
-                            if (perm === "granted") {
-                                console.log(response);
-                                response.forEach(
-                                    row => {
-                                        const notify = new Notification(row.name, {
-                                            body: row.complaints,
-                                        });
-                                        notify.onclick = function() {
-                                            window.open("http://localhost:8000/admin/complaints");
-
-                                        }
-                                        notifiedids.push(row.id);
-                                        console.log(notifiedids);
-                                        $.ajax({
-                                            type: "POST",
-                                            url: "{{ route('admin.notified') }}",
-                                            data: {
-                                                arrayData: notifiedids
-                                            },
-                                            headers: {
-                                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]')
-                                                    .attr('content')
-                                            },
-                                            success: function(response) {
-                                                console.log('updated successfully');
-                                            }
-                                        });
-                                    });
-                            }
-                        });
-                    }
-                });
-            }
-            $(document).ready(function() {
-                notification();
-                setInterval(notification, 3000);
-            });
-        </script> --}}
         <script>
             function notification() {
                 $.ajax({
@@ -453,24 +403,27 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
-                        var notifiedids = [];
-                        Notification.requestPermission().then(perm => {
-                            if (perm === "granted") {
-                                console.log(response);
-                                response.forEach(row => {
-                                    const notify = new Notification(row.name, {
-                                            body: row.complaints,
-                                        });
-                                        notify.onclick = function() {
-                                            window.open(
-                                                "http://localhost:8000/admin/complaints");
-                                        }
-                                        notifiedids.push(row.id);
-                                        console.log(notifiedids);
-
+                        if (Notification.permission === "granted") {
+                            response.complaints.forEach(row => {
+                                const notify = new Notification(`Complaint from ${row.name}`, {
+                                    body: row.complaints,
                                 });
-                            }
-                        });
+                                notify.onclick = () => {
+                                    window.open("http://localhost:8000/admin/complaints");
+                                };
+                            });
+
+                            response.reports.forEach(row2 => {
+                                const notify = new Notification(`Report from ${row2.name}`, {
+                                    body: row2.complaint,
+                                });
+                                notify.onclick = () => {
+                                    window.open("http://localhost:8000/admin/reports");
+                                };
+                            });
+                        } else {
+                            console.log("Notifications are not allowed");
+                        }
                     },
                     error: function(xhr, status, error) {
                         console.error(xhr.responseText); // Log any error response
@@ -480,7 +433,7 @@
 
             $(document).ready(function() {
                 notification();
-                setInterval(notification, 5000);
+                setInterval(notification, 4000);
             });
         </script>
 </body>

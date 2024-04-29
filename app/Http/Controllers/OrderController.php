@@ -3,19 +3,20 @@
 namespace App\Http\Controllers;
 
 use Image;
+use App\Models\User;
 use App\Models\Order;
 use App\Models\Product;
-use Illuminate\Http\Request;
-use App\Models\Order_details;
 use App\Models\Paymenttype;
 use App\Models\UserProfile;
+use Illuminate\Http\Request;
+use App\Models\Order_details;
 use App\Models\UserComplaints;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
 // use Symfony\Component\HttpFoundation\Session\Session;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 
 
@@ -951,13 +952,14 @@ class OrderController extends Controller
             'type'=>$complaints['complaints_type']
         ]);
 
+
         return redirect()->route('user.complaints')->with('success', 'Complaint submitted successfully.');
        // return response()->json($usercomplaints);
     }
 
-    public function usercomplaintsstatus()
-    {
+    // public function usercomplaintsstatus()
+    // {
 
 
-    }
+    // }
 }

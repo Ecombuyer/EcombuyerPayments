@@ -91,7 +91,6 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
         Route::post('/usercomplaintsbooked', [OrderController::class, 'usercomplaintsbooked'])->name('user.complaintsbooked');
 
         Route::post('/usercomplaintsstatus', [OrderController::class, 'usercomplaintsstatus'])->name('user.complaintsstatus');
-
     });
 });
 
