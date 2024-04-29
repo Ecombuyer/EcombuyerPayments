@@ -27,7 +27,8 @@ class User extends Authenticatable
         'Pancard',
         'pin',
         'type',
-        'google_id'
+        'google_id',
+        'device_token'
 
     ];
 

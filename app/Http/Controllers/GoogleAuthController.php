@@ -41,7 +41,7 @@ class GoogleAuthController extends Controller
 
 
             $user_id = $new_user->id;
-// dd($user_id);
+            // dd($user_id);
             Auth::login($new_user);
             return view('auth.register2',compact('user_id'));
         }
