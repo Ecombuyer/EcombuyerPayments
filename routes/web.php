@@ -83,6 +83,9 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
         Route::get('/profile', [OrderController::class, 'profile'])->name('user.profile');
         Route::post('/addprofile', [OrderController::class, 'addprofile'])->name('user.addprofile');
 
+        Route::post('/add_adhar_pan', [OrderController::class, 'add_adhar_pan'])->name('user.add_adhar_pan');
+        Route::post('/bank_details', [OrderController::class, 'bank_details'])->name('user.bank_details');
+
         Route::get('/usercomplaints', [OrderController::class, 'usercomplaints'])->name('user.complaints');
 
         Route::get('/usercomplaintsform', [OrderController::class, 'usercomplaintsform'])->name('user.complaintsform');
