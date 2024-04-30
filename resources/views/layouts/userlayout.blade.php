@@ -193,6 +193,10 @@
                 <li class="nav-item">
                     <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                         @csrf
+
+
+
+
                         <button type="submit" class="nav-link" style="background: none; border: none;">
                             <div
                                 class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -200,6 +204,7 @@
                             </div>
                             <span class="nav-link-text ms-1">Log out</span>
                         </button>
+
                     </form>
                 </li>
             </ul>

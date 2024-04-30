@@ -6,14 +6,19 @@ use Image;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\Product;
+
+use App\Mail\RegisterMail;
+use App\Models\aadhar_pan;
+use App\Models\BankDetail;
 use App\Models\Paymenttype;
 use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use App\Models\Order_details;
 use App\Models\UserComplaints;
 use Illuminate\Support\Carbon;
+use App\Mail\PaymentReceiptMail;
 use Illuminate\Support\Facades\Auth;
-// use Symfony\Component\HttpFoundation\Session\Session;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -67,7 +72,7 @@ class OrderController extends Controller
         $validatedData = $request->validate([
 
             'product_name' => 'required|string',
-            'type'=>'required|string',
+            'type' => 'required|string',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'preimage2' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
 
@@ -173,7 +178,7 @@ class OrderController extends Controller
         $form1 = $request->validate([
 
             'product_name' => 'required|string',
-            'type'=>'required|string',
+            'type' => 'required|string',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'preimage2' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             // 'productfile' => 'required|mimes:pdf,jpg,png|max:2048',
@@ -288,7 +293,6 @@ class OrderController extends Controller
         toastr()->error('Product Deleted Successfully');
         return redirect('/index')
             ->with('Orders');
-
     }
 
 
@@ -318,29 +322,28 @@ class OrderController extends Controller
     }
     public function placeorder(Request $request)
     {
-        // $user = Auth::user();
-        // $userid =  $user->id;
 
         $paymenttype = Paymenttype::where('status', 1)->get()->first();
 
 
-        $form2 = $request->validate([
+        $form2 = $request->validate(
+            [
 
-            'name' => 'required|string',
-            'email' => 'required|string',
-            'mobileno' => 'required|numeric',
-            'address' => $request->input('type') == 'physicalproduct' ? 'required|string' : '', // Address is required if type is physicalproduct
-        ]
-        , [
-            'address.required' => 'The address field is required for physical products.', // Custom error message for 'address'
-        ]);
+                'name' => 'required|string',
+                'email' => 'required|string',
+                'mobileno' => 'required|numeric',
+                'address' => $request->input('type') == 'physicalproduct' ? 'required|string' : '', // Address is required if type is physicalproduct
+            ],
+            [
+                'address.required' => 'The address field is required for physical products.', // Custom error message for 'address'
+            ]
+        );
 
 
         // Randomly select a name from the array
         // foreach ($paymenttype as $paymenttype) {
 
         if ($paymenttype->payment_name == 'indicpay' && $paymenttype->status == 1) {
-
              //dd($paymenttype->payment_name);
             $txnid = "TXN" . time();
             $orderid = mt_rand(1000, 9000);
@@ -409,8 +412,8 @@ class OrderController extends Controller
                         'payment_method' => $paymenttype->payment_name,
                         'product_price' => $request->productprice,
                         'product_name' => $request->productname,
-                        'payment_status' =>$response_array['status'],
-                        'type' =>$request->type,
+                        'payment_status' => $response_array['status'],
+                        'type' => $request->type,
 
                         "transaction_id" => $txnid
                     ];
@@ -419,11 +422,11 @@ class OrderController extends Controller
                     if ($request->input('type') == 'physicalproduct') {
                         $orderdetails1Data['address'] = $form2['address'];
                     }
-                  //  dd($orderdetails1Data);
+                    //  dd($orderdetails1Data);
 
                     $orderdetails1 = Order_details::create($orderdetails1Data);
 
-                  //  dd($orderdetails1);
+                    //  dd($orderdetails1);
                     $button = $upi_url;
                     $pay = QrCode::size(200)
                         ->backgroundColor(255, 255, 0)
@@ -434,12 +437,17 @@ class OrderController extends Controller
                         );
                     // $paymenttype = Paymenttype::get()->first();
                     return view('user.payments', compact('pay', 'paymenttype', 'txnid','button'));
+
                 }
-
-
-
             }
-        }else if ($paymenttype->payment_name == 'haodapay' && $paymenttype->status == 1) {
+        } else if ($paymenttype->payment_name == 'haodapay' && $paymenttype->status == 1) {
+
+
+
+
+            $key = 'xnF20EI173240130015224';
+            $endpoint = 'https://jupiter.haodapayments.com/api/v4/collection';
+            // $paymentverify = ' https://jupiter.haodapayments.com/api/v3/collection/status?txnid=' . $txnid;
 
 
                 // dd($paymenttype->payment_name);
@@ -447,50 +455,46 @@ class OrderController extends Controller
                 $txnid = "TXN" . time();
                 $orderid = mt_rand(1000, 9000);
 
-                $key = 'xnF20EI173240130015224';
-                $endpoint = 'https://jupiter.haodapayments.com/api/v4/collection';
-                // $paymentverify = ' https://jupiter.haodapayments.com/api/v3/collection/status?txnid=' . $txnid;
+            $callback_url = route('payment.callback');
+            // }
 
-                $callback_url = route('payment.callback');
-                // }
+            $data = [
+                "name" => $form2['name'],
+                "email" => $form2['email'],
+                "phone" => $form2['mobileno'],
+                "amount" => $request->productprice,
+                "txnid" => $txnid,
+                "return_url" => $callback_url,
+                "token" => $key,
+            ];
+            // Conditionally include the "address" field based on product type
+            if ($request->input('type') == 'physicalproduct') {
+                $data['address'] = $form2['address'];
+            }
 
-                $data = [
-                    "name" => $form2['name'],
-                    "email" => $form2['email'],
-                    "phone" => $form2['mobileno'],
-                    "amount" => $request->productprice,
-                    "txnid" => $txnid,
-                    "return_url" => $callback_url,
-                    "token" => $key,
-                ];
-                // Conditionally include the "address" field based on product type
-                if ($request->input('type') == 'physicalproduct') {
-                    $data['address'] = $form2['address'];
-                }
+            $data = json_encode($data);
 
-                $data = json_encode($data);
+            $curl = curl_init();
+            curl_setopt_array($curl, [
+                CURLOPT_URL => $endpoint,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => $data,
+                CURLOPT_HTTPHEADER => [
+                    'Content-Type: application/json',
+                    'x-client-id: bcaAJWUNDs3857',
+                    'x- client-secret: xnF20EI173240130015224'
+                ],
+            ]);
 
-                $curl = curl_init();
-                curl_setopt_array($curl, [
-                    CURLOPT_URL => $endpoint,
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => '',
-                    CURLOPT_MAXREDIRS => 10,
-                    CURLOPT_TIMEOUT => 0,
-                    CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST => 'POST',
-                    CURLOPT_POSTFIELDS => $data,
-                    CURLOPT_HTTPHEADER => [
-                        'Content-Type: application/json',
-                        'x-client-id: bcaAJWUNDs3857',
-                        'x- client-secret: xnF20EI173240130015224'
-                    ],
-                ]);
+            $response = curl_exec($curl);
 
-                $response = curl_exec($curl);
-
-                curl_close($curl);
+            curl_close($curl);
 
                 dd($response);
                 // session()->put('txnid', $txnid);
@@ -533,58 +537,71 @@ class OrderController extends Controller
                         // $paymenttype = Paymenttype::get()->first();
                         return view('user.payments', compact('pay', 'paymenttype', 'txnid'));
                     }
-                }
+                    $orderdetails2 =   Order_details::create($orderdetails2Data);
+                    /// dd($response_array);
 
+                    $pay = QrCode::size(200)
+                        ->backgroundColor(255, 255, 0)
+                        ->color(0, 0, 255)
+                        ->margin(1)
+                        ->generate(
+                            $upi_url
+                        );
+                    // $paymenttype = Paymenttype::get()->first();
+                    return view('user.payments', compact('pay', 'userid', 'paymenttype', 'txnid'));
+                }
             }
+        }
         // }
+
 
             else if ($paymenttype->payment_name == 'crizzpay' && $paymenttype->status == '1') {
                 $txnid = "TXN" . time();
                 $orderid = mt_rand(1000, 9000);
 
-                $key = 'CP36308010567889670';
-                $paymentmethod = 'PS001';
-                $endpoint = 'https://boapi.cricpayz.io:14442/api/appuser/loginPaymentGateway';
+            $key = 'CP36308010567889670';
+            $paymentmethod = 'PS001';
+            $endpoint = 'https://boapi.cricpayz.io:14442/api/appuser/loginPaymentGateway';
 
-                $callback_url = route('payment.callback');
-                // }
+            $callback_url = route('payment.callback');
+            // }
 
-                $data = [
-                    "name" => $form2['name'],
-                    "email" => $form2['email'],
-                    "phone" => $form2['mobileno'],
-                    "amount" => $request->productprice,
-                    "txnid" => $txnid,
-                    "return_url" => $callback_url,
-                    "token" => $key,
-                ];
-                // Conditionally include the "address" field based on product type
-                if ($request->input('type') == 'physicalproduct') {
-                    $data['address'] = $form2['address'];
-                }
+            $data = [
+                "name" => $form2['name'],
+                "email" => $form2['email'],
+                "phone" => $form2['mobileno'],
+                "amount" => $request->productprice,
+                "txnid" => $txnid,
+                "return_url" => $callback_url,
+                "token" => $key,
+            ];
+            // Conditionally include the "address" field based on product type
+            if ($request->input('type') == 'physicalproduct') {
+                $data['address'] = $form2['address'];
+            }
 
-                $data = json_encode($data);
-
-
+            $data = json_encode($data);
 
 
-                $curl = curl_init();
-                curl_setopt_array($curl, [
-                    CURLOPT_URL => $endpoint,
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => '',
-                    CURLOPT_MAXREDIRS => 10,
-                    CURLOPT_TIMEOUT => 0,
-                    CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST => 'POST',
-                    CURLOPT_POSTFIELDS => $data,
-                    CURLOPT_HTTPHEADER => [
-                        'Content-Type: application/json',
-                    ],
-                ]);
 
-                $response = curl_exec($curl);
+
+            $curl = curl_init();
+            curl_setopt_array($curl, [
+                CURLOPT_URL => $endpoint,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => $data,
+                CURLOPT_HTTPHEADER => [
+                    'Content-Type: application/json',
+                ],
+            ]);
+
+            $response = curl_exec($curl);
 
                 curl_close($curl);
                 //dd($response);
@@ -631,9 +648,25 @@ class OrderController extends Controller
                         // $paymenttype = Paymenttype::get()->first();
                         return view('user.payments', compact('pay', 'paymenttype', 'txnid'));
                     }
+                    $orderdetails3 =   Order_details::create($orderdetails3Data);
+                    /// dd($response_array);
+                    $cs = "display: block; margin: 10 auto;";
+
+
+                    $pay = QrCode::size(200)
+                        ->backgroundColor(0, 255, 255)
+                        ->color(0, 30, 0)
+                        ->style($cs)
+                        ->margin(1)
+                        ->generate(
+                            $upi_url
+                        );
+                    // $paymenttype = Paymenttype::get()->first();
+                    return view('user.payments', compact('pay', 'userid', 'paymenttype', 'txnid'));
                 }
             }
         }
+    }
 
     public function transaction(Request $request, $id)
     {
@@ -691,63 +724,59 @@ class OrderController extends Controller
         return "Payment is failed";
     }
 
-/* product filter */
+    /* product filter */
     public function filter(Request $request)
     {
 
         // Initialize query for products
-        $pro = Product::
-        when($request->uesrid, function ($query) use ($request) {
+        $pro = Product::when($request->uesrid, function ($query) use ($request) {
             $query->where('user_id', Auth::id());
         })
-        ->when($request->productid, function ($query) use ($request) {
-            $query->where('product_id', $request->productid)->where('user_id', Auth::id());
-        })
-        ->when($request->productname, function ($query) use ($request) {
-            $query->where('name', $request->productname)->where('user_id', Auth::id());
-        })
-        ->when($request->producttype, function ($query) use ($request) {
-            $query->where('type', $request->producttype)->where('user_id', Auth::id());
-        })
-        ->when($request->filled('fromDate') && $request->filled('toDate'), function ($query) use ($request) {
-            $startDate = date('Y-m-d', strtotime($request->fromDate));
-            $endDate = date('Y-m-d', strtotime($request->toDate));
-            $query->whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate);
-        })
-        ->where('status', 1)
-        ->where('user_id', Auth::id())
-        ->get();
+            ->when($request->productid, function ($query) use ($request) {
+                $query->where('product_id', $request->productid)->where('user_id', Auth::id());
+            })
+            ->when($request->productname, function ($query) use ($request) {
+                $query->where('name', $request->productname)->where('user_id', Auth::id());
+            })
+            ->when($request->producttype, function ($query) use ($request) {
+                $query->where('type', $request->producttype)->where('user_id', Auth::id());
+            })
+            ->when($request->filled('fromDate') && $request->filled('toDate'), function ($query) use ($request) {
+                $startDate = date('Y-m-d', strtotime($request->fromDate));
+                $endDate = date('Y-m-d', strtotime($request->toDate));
+                $query->whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate);
+            })
+            ->where('status', 1)
+            ->where('user_id', Auth::id())
+            ->get();
 
         return response()->json($pro);
-
     }
 
     /*End*/
     public function transactionfilter(Request $request)
     {
-    //dd($request->all());
+        //dd($request->all());
 
-        $pro = Order_details::
-
-        when($request->userid !== "null", function ($query) use ($request) {
+        $pro = Order_details::when($request->userid !== "null", function ($query) use ($request) {
             $query->where('user_id', Auth::id());
         })
-        ->when($request->productid, function ($query) use ($request) {
-            $query->where('product_id', $request->productid)->where('user_id', Auth::id());
-        })
-        ->when($request->transactionid, function ($query) use ($request) {
-            $query->where('transaction_id', $request->transactionid)->where('user_id', Auth::id());
-        })
-        ->when($request->producttype, function ($query) use ($request) {
-            $query->where('type', $request->producttype)->where('user_id', Auth::id());
-        })
-        ->when($request->filled('fromDate') && $request->filled('toDate'), function ($query) use ($request) {
-            $startDate = date('Y-m-d', strtotime($request->fromDate));
-            $endDate = date('Y-m-d', strtotime($request->toDate));
-            $query->whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate);
-        })
-        ->where('user_id', Auth::id())
-        ->get();
+            ->when($request->productid, function ($query) use ($request) {
+                $query->where('product_id', $request->productid)->where('user_id', Auth::id());
+            })
+            ->when($request->transactionid, function ($query) use ($request) {
+                $query->where('transaction_id', $request->transactionid)->where('user_id', Auth::id());
+            })
+            ->when($request->producttype, function ($query) use ($request) {
+                $query->where('type', $request->producttype)->where('user_id', Auth::id());
+            })
+            ->when($request->filled('fromDate') && $request->filled('toDate'), function ($query) use ($request) {
+                $startDate = date('Y-m-d', strtotime($request->fromDate));
+                $endDate = date('Y-m-d', strtotime($request->toDate));
+                $query->whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate);
+            })
+            ->where('user_id', Auth::id())
+            ->get();
 
 
 
@@ -759,121 +788,346 @@ class OrderController extends Controller
 
     public function profile()
     {
-        $title='Profile';
-        $userprofile = UserProfile::
-        select('users.name','users.email','users.phone','user_profiles.*')
-        ->join('users','users.id','=','user_profiles.user_id')
+        $title = 'Profile';
+        $userprofile = UserProfile::select('users.name', 'users.email', 'users.phone', 'user_profiles.*')
+            ->join('users', 'users.id', '=', 'user_profiles.user_id')
 
-        ->where('user_profiles.user_id',Auth::id())->get()->first();
-       // dd($userprofile);
+            ->where('user_profiles.user_id', Auth::id())->get()->first();
+        // dd($userprofile);
 
-        return view('user.profile',compact('title','userprofile'));
+        return view('user.profile', compact('title', 'userprofile'));
+        // return view('user.aadharverify',compact('title'));
     }
 
     public function addprofile(Request $request)
     {
 
-//  dd($request->all());
-    if (Auth::check()) {
-        // Get the authenticated user's ID
-        $userId = Auth::id();
+
+        $title = 'Profile';
+        //  dd($request->all());
+        $aadhar_pan = aadhar_pan::select('users.name', 'users.email', 'users.phone', 'aadhar_pans.*')
+        ->join('users', 'users.id', '=', 'aadhar_pans.user_id')
+
+        ->where('aadhar_pans.user_id', Auth::id())->get()->first();
+
+        if (Auth::check()) {
+            // Get the authenticated user's ID
+            $userId = Auth::id();
 
 
-        // Check if a user profile already exists for the authenticated user
-        $existingProfile = UserProfile::where('user_id', $userId)->first();
+            // Check if a user profile already exists for the authenticated user
+            $existingProfile = UserProfile::where('user_id', $userId)->first();
 
 
-        if ($request->hasFile('profileimage')) {
-            // Generate unique filename for the new image
-            $profileimage = 'profile' . '.' . $request->profileimage->getClientOriginalExtension();
+            if ($request->hasFile('profileimage')) {
+                // Generate unique filename for the new image
+                $profileimage = 'profile' . '.' . $request->profileimage->getClientOriginalExtension();
+                // dd($profileimage);
+                // Move the new image to the uploads directory
+                $request->profileimage->move(public_path('uploads/profileimages/'), $profileimage);
+
+                // Delete old image if it exists
+                if ($existingProfile->profile_image && file_exists(public_path('uploads/profileimages/' . $existingProfile->profile_image))) {
+                    unlink(public_path('uploads/profileimages/' . $existingProfile->profile_image));
+                }
+
+                // Assign the new filename to the form data
+                $profileimage = $profileimage;
+            } else {
+                // If no new image is uploaded, keep the old image
+                $profileimage = $existingProfile->profile_image;
+            }
+
+            // $profileimage =  $existingProfile->profile_image;
             // dd($profileimage);
-            // Move the new image to the uploads directory
-            $request->profileimage->move(public_path('uploads/profileimages/'), $profileimage);
 
-            // Delete old image if it exists
-            if ($existingProfile->profile_image && file_exists(public_path('uploads/profileimages/' . $existingProfile->profile_image))) {
-                unlink(public_path('uploads/profileimages/' . $existingProfile->profile_image));
+            if ($existingProfile) {
+                // If a user profile already exists, update the existing record
+                $existingProfile->update([
+                    'profile_image' => $profileimage,
+                    'name' => $request->username,
+                    'country' => $request->country,
+                    'state' => $request->state,
+                    'city' => $request->city,
+                    'pin_code' => $request->postalcode,
+                    'address' => $request->address,
+                    'business_category' => $request->businesscategory,
+                    'business_type' => $request->businesstype,
+                    'company_name' => $request->company
+                ]);
+
+                // Optionally, you can return a success message or redirect the user
+                if ($existingProfile == true) {
+                    toastr()->success('Profile Updated Successfully');
+                    // return redirect()->back();
+                    return view('user.aadharverify', compact('title','aadhar_pan'));
+                } else {
+                    toastr()->error('Profile Updated Failed');
+                    return redirect()->back();
+                }
+
+                // return response()->json(['message' => 'User profile updated successfully']);
+            } else {
+                // If no user profile exists, create a new one
+                $userProfileData = [
+                    'user_id' => $userId,
+                    'profile_image' => $profileimage,
+                    'name' => $request->username,
+                    'country' => $request->country,
+                    'state' => $request->state,
+                    'city' => $request->city,
+                    'pin_code' => $request->postalcode,
+                    'address' => $request->address,
+                    'business_category' => $request->businesscategory,
+                    'business_type' => $request->businesstype,
+                    'company_name' => $request->company
+                ];
+
+                // Insert the user profile data
+                $userProfile = UserProfile::create($userProfileData);
+
+                // Optionally, you can return a success message or redirect the user
+                if ($existingProfile == true) {
+                    toastr()->success('Profile Inserted Successfully');
+                    // return redirect()->back();
+                    return view('user.aadharverify',compact('title','aadhar_pan'));
+                } else {
+                    toastr()->error('Profile Inserted Failed');
+                    return redirect()->back();
+                }
+                // return response()->json(['message' => 'User profile created successfully']);
             }
-
-            // Assign the new filename to the form data
-            $profileimage = $profileimage;
         } else {
-            // If no new image is uploaded, keep the old image
-            $profileimage = $existingProfile->profile_image;
+            // Return an error message or redirect the user
+            return response()->json(['error' => 'User is not authenticated'], 401);
         }
-
-        // $profileimage =  $existingProfile->profile_image;
-        // dd($profileimage);
-
-        if ($existingProfile) {
-            // If a user profile already exists, update the existing record
-            $existingProfile->update([
-                'profile_image' => $profileimage,
-                'name' => $request->username,
-                'country' => $request->country,
-                'state' => $request->state,
-                'city' => $request->city,
-                'pin_code' => $request->postalcode,
-                'address' =>$request->address,
-                'business_category' =>$request->businesscategory,
-                'business_type' =>$request->businesstype,
-                'company_name' =>$request->company
-            ]);
-
-            // Optionally, you can return a success message or redirect the user
-            if($existingProfile == true)
-            {
-                toastr()->success('Profile Updated Successfully');
-                return redirect()->back();
-            }
-            else{
-                toastr()->error('Profile Updated Failed');
-                return redirect()->back();
-            }
-
-            // return response()->json(['message' => 'User profile updated successfully']);
-        } else {
-            // If no user profile exists, create a new one
-            $userProfileData = [
-                'user_id' => $userId,
-                'profile_image' => $profileimage,
-                'name' => $request->username,
-                'country' => $request->country,
-                'state' => $request->state,
-                'city' => $request->city,
-                'pin_code' => $request->postalcode,
-                'address' =>$request->address,
-                'business_category' =>$request->businesscategory,
-                'business_type' =>$request->businesstype,
-                'company_name' =>$request->company
-            ];
-
-            // Insert the user profile data
-            $userProfile = UserProfile::create($userProfileData);
-
-            // Optionally, you can return a success message or redirect the user
-            if($existingProfile == true)
-            {
-                toastr()->success('Profile Inserted Successfully');
-                return redirect()->back();
-            }
-            else{
-                toastr()->error('Profile Inserted Failed');
-                return redirect()->back();
-            }
-            // return response()->json(['message' => 'User profile created successfully']);
-        }
-    } else {
-        // Return an error message or redirect the user
-        return response()->json(['error' => 'User is not authenticated'], 401);
-    }
 
         // dd($userprofile);
     }
 
+
+    /*Aadhar details*/
+
+    public function add_adhar_pan(Request $request)
+    {
+
+        $title = 'Profile';
+
+        $bank_details = BankDetail::select('users.name', 'users.email', 'users.phone', 'bank_details.*')
+        ->join('users', 'users.id', '=', 'bank_details.user_id')
+
+        ->where('bank_details.user_id', Auth::id())->get()->first();
+
+
+        if (Auth::check()) {
+            // Get the authenticated user's ID
+            $userId = Auth::id();
+            // Check if a user profile already exists for the authenticated user
+            $existingProfile = aadhar_pan::where('user_id', $userId)->first();
+            if ($request->hasFile('aadhar_front_page')) {
+                // Generate unique filename for the new image
+                $aadhar_front_page = 'aadhar_front_page' . '.' . $request->aadhar_front_page->getClientOriginalExtension();
+                //  dd($aadhar_front_page);
+                // Move the new image to the uploads directory
+                $request->aadhar_front_page->move(public_path('uploads/aadhar_pan/'), $aadhar_front_page);
+
+                // Delete old image if it exists
+                if ($existingProfile != null) {
+                    if ($existingProfile->aadhar_front_page && file_exists(public_path('uploads/aadhar_pan/' . $existingProfile->aadhar_front_page))) {
+                        unlink(public_path('uploads/aadhar_pan/' . $existingProfile->aadhar_front_page));
+                    }
+                }
+
+                // Assign the new filename to the form data
+                $aadhar_front_page = $aadhar_front_page;
+            } else {
+                // If no new image is uploaded, keep the old image
+                $aadhar_front_page = $existingProfile->aadhar_front_page;
+            }
+
+
+            /*Aathar images back*/
+            if ($request->hasFile('aadhar_back_page')) {
+                // Generate unique filename for the new image
+                $aadhar_back_page = 'aadhar_back_page' . '.' . $request->aadhar_back_page->getClientOriginalExtension();
+
+                // Move the new image to the uploads directory
+                $request->aadhar_back_page->move(public_path('uploads/aadhar_pan/'), $aadhar_back_page);
+
+                // Delete old image if it exists
+                if ($existingProfile != null) {
+                    if ($existingProfile->aadhar_back_page && file_exists(public_path('uploads/aadhar_pan/' . $existingProfile->aadhar_back_page))) {
+                        unlink(public_path('uploads/aadhar_pan/' . $existingProfile->aadhar_back_page));
+                    }
+                }
+                // Assign the new filename to the form data
+                $aadhar_back_page = $aadhar_back_page;
+            } else {
+                // If no new image is uploaded, keep the old image
+                $aadhar_back_page = $existingProfile->aadhar_back_page;
+            }
+            /*End*/
+
+            if ($request->hasFile('pan_image')) {
+                // Generate unique filename for the new image
+                $pan_image = 'pan_image' . '.' . $request->pan_image->getClientOriginalExtension();
+
+                // Move the new image to the uploads directory
+                $request->pan_image->move(public_path('uploads/aadhar_pan/'), $pan_image);
+
+                // Delete old image if it exists
+                if ($existingProfile != null) {
+                    if ($existingProfile->pan_image && file_exists(public_path('uploads/aadhar_pan/' . $existingProfile->pan_image))) {
+                        unlink(public_path('uploads/aadhar_pan/' . $existingProfile->pan_image));
+                    }
+                }
+                // Assign the new filename to the form data
+                $pan_image = $pan_image;
+            } else {
+                // If no new image is uploaded, keep the old image
+                $pan_image = $existingProfile->pan_image;
+            }
+
+
+            if ($existingProfile) {
+                // If a user profile already exists, update the existing record
+                $existingProfile->update([
+                    'user_id' => $userId,
+                    'aadhar_no' => $request->aadharno,
+                    'aadhar_front_page' => $aadhar_front_page,
+                    'aadhar_back_page' => $aadhar_back_page,
+                    'pan_no' => $request->panno,
+                    'status' => 1,
+                    'pan_image' => $pan_image,
+
+
+                ]);
+
+                // Optionally, you can return a success message or redirect the user
+                if ($existingProfile == true) {
+                    toastr()->success('Aadhar Updated Successfully');
+                    // return redirect()->back();
+                    return view('user.bankinfopage', compact('title','bank_details'));
+                } else {
+                    toastr()->error('Aadhar Updated Failed');
+                    return redirect()->back();
+                }
+
+                // return response()->json(['message' => 'User profile updated successfully']);
+            } else {
+                // If no user profile exists, create a new one
+
+                // dd($userId);
+                $userProfileData = [
+                    'user_id' => $userId,
+                    'aadhar_no' => $request->aadharno,
+                    'aadhar_front_page' => $aadhar_front_page,
+                    'aadhar_back_page' => $aadhar_back_page,
+                    'pan_no' => $request->panno,
+                    'status' => 1,
+                    'pan_image' => $pan_image,
+                ];
+                // dd($userProfileData);
+                // Insert the user profile data
+                $userProfile = aadhar_pan::create($userProfileData);
+
+                // Optionally, you can return a success message or redirect the user
+                if ($existingProfile == true) {
+                    toastr()->success('Aadhar Inserted Successfully');
+                    // return redirect()->back();
+                    return view('user.bankinfopage',compact('title','bank_details'));
+                } else {
+                    toastr()->error('Aadhar Inserted Failed');
+                    return redirect()->back();
+                }
+                // return response()->json(['message' => 'User profile created successfully']);
+            }
+        } else {
+            // Return an error message or redirect the user
+            return response()->json(['error' => 'User is not authenticated'], 401);
+        }
+
+        // dd($userprofile);
+    }
+    /*End*/
+    /*Bank Details*/
+    public function bank_details(Request $request)
+    {
+
+        $title = 'Profile';
+
+        if (Auth::check()) {
+            // Get the authenticated user's ID
+            $userId = Auth::id();
+            // Check if a user profile already exists for the authenticated user
+            $existingbankdetails = BankDetail::where('user_id', $userId)->first();
+
+            if ($existingbankdetails) {
+                // If a user profile already exists, update the existing record
+                $existingbankdetails->update([
+                    'user_id' => $userId,
+                    'bank_name' => $request->bankname,
+                    'account_holder_name' => $request->acc_holder_name,
+                    'account_number' => $request->acc_number,
+                    'ifsc_code' => $request->ifsc_code,
+                    'status' => 1,
+
+
+
+                ]);
+
+                // dd($existingbankdetails);
+                // Optionally, you can return a success message or redirect the user
+                if ($existingbankdetails == true) {
+                    toastr()->success('Bank Details Updated Successfully');
+                    // return redirect()->back();
+                    return view('user.bankinfopage', compact('title'));
+                } else {
+                    toastr()->error('Bank Details Updated Failed');
+                    return redirect()->back();
+                }
+
+                // return response()->json(['message' => 'User profile updated successfully']);
+            } else {
+                // If no user profile exists, create a new one
+
+                // dd($userId);
+                $existingbankdetails = [
+                    'user_id' => $userId,
+                    'bank_name' => $request->bankname,
+                    'account_holder_name' => $request->acc_holder_name,
+                    'account_number' => $request->acc_number,
+                    'ifsc_code' => $request->ifsc_code,
+                    'status' => 1,
+                ];
+                // dd($userProfileData);
+                // Insert the user profile data
+                $userProfile = BankDetail::create($existingbankdetails);
+
+                // Optionally, you can return a success message or redirect the user
+                if ($existingbankdetails == true) {
+                    toastr()->success('Bank Details Inserted Successfully');
+                    // return redirect()->back();
+                    return view('user.bankinfopage');
+                } else {
+                    toastr()->error('Bank Details Inserted Failed');
+                    return redirect()->back();
+                }
+                // return response()->json(['message' => 'User profile created successfully']);
+            }
+        } else {
+            // Return an error message or redirect the user
+            return response()->json(['error' => 'User is not authenticated'], 401);
+        }
+
+        // dd($userprofile);
+    }
+    /*End*/
+
+
     public function usercomplaints()
     {
-        $title ='User Complaints';
+        $title = 'User Complaints';
 
 
         // if (Auth::check()) {
@@ -889,18 +1143,17 @@ class OrderController extends Controller
 
         // }
 
-      $usercomplaints =  UserComplaints::where('user_id', Auth::id())->get();
+        $usercomplaints =  UserComplaints::where('user_id', Auth::id())->get();
 
 
-    return view('user.usercomplaint',compact('title','usercomplaints'));
-
+        return view('user.usercomplaint', compact('title', 'usercomplaints'));
     }
 
     public function usercomplaintsform()
     {
 
         // dd(1);
-        $title ='User Complaints Form';
+        $title = 'User Complaints Form';
 
         if (Auth::check()) {
             // Get the authenticated user's ID
@@ -908,42 +1161,40 @@ class OrderController extends Controller
 
 
             // Check if a user profile already exists for the authenticated user
-            $userprofile = UserProfile::
-            select('users.name','users.email','users.id')
-            ->join('users','users.id','=','user_profiles.user_id')
-            ->where('user_profiles.user_id', $userId)->first();
-
+            $userprofile = UserProfile::select('users.name', 'users.email', 'users.id')
+                ->join('users', 'users.id', '=', 'user_profiles.user_id')
+                ->where('user_profiles.user_id', $userId)->first();
         }
 
 
-        return view('user.usercomplaintform',compact('title','userprofile'));
+        return view('user.usercomplaintform', compact('title', 'userprofile'));
     }
 
     public function usercomplaintsbooked(Request $request)
 
     {
 
-        $title ='User Complaints';
+        $title = 'User Complaints';
 
 
         $complaints = $request->validate([
-            'username'=>'required|string',
-            'useremail'=>'required|string',
-            'usermobileno'=>'required|string',
-            'complaints'=>'required|string',
-            'complaints_type'=>'required|string',
+            'username' => 'required|string',
+            'useremail' => 'required|string',
+            'usermobileno' => 'required|string',
+            'complaints' => 'required|string',
+            'complaints_type' => 'required|string',
 
         ]);
 
 
         $usercomplaints = UserComplaints::create([
-            'user_id'=>$request->userid,
-            'name'=>$complaints['username'],
-            'email'=>$complaints['useremail'],
-            'phone'=>$complaints['usermobileno'],
-            'complaints'=>$complaints['complaints'],
+            'user_id' => $request->userid,
+            'name' => $complaints['username'],
+            'email' => $complaints['useremail'],
+            'phone' => $complaints['usermobileno  '],
+            'complaints' => $complaints['complaints'],
             'status' => 1,
-            'type'=>$complaints['complaints_type']
+            'type' => $complaints['complaints_type']
         ]);
 
 
