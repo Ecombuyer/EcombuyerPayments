@@ -236,6 +236,7 @@ class AdminController extends Controller
         $complaints = UserComplaints::whereBetween('created_at', [Carbon::now()->subSeconds(4), Carbon::now()])
             ->orderByDesc('id')
             ->get();
+        // $complaints = UserComplaints::get()->all();
 
         $reports = Report::whereBetween('created_at', [Carbon::now()->subSeconds(4), Carbon::now()])
             ->orderByDesc('id')->where('status', '!=', 'Solved')

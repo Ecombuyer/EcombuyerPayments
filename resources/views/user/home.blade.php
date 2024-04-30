@@ -445,4 +445,43 @@
     </main>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        script>
+        $(document).ready(function() {
+            function userdashboard() {
+                $.ajax({
+                    type: "GET",
+                    url: "{{ route('admin.home') }}",
+                    dataType: "json",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        $('#orderdetails').text(response.orderdetails);
+                        $('#usercounts').text(response.countusers);
+                        $('#thismonthclients').text(response.thismonthusers);
+                        $('#initiate').text(response.initiate);
+                        $('#success').text(response.success);
+                        $('#failed').text(response.failed);
+                        $('#error').text(response.error);
+                        $('#todaysmoney').text(response.todaysmoney);
+                        $('#products').text(response.totalproduct);
+                        $('#physical').text(response.physicalproducts);
+                        $('#digital').text(response.digitalproducts);
+                        $('#revenue').text(response.todaysmoney);
+                        $('#rev_month').text(response.revenuethismonth);
+                        $('#tc').text(response.totalcomplaints);
+                        $('#solved').text(response.solved);
+                        $('#pending').text(response.pending);
+                        $('#enquiring').text(response.enquiring);
+                    }
+
+                });
+            }
+           
+            userdashboard();
+            setInterval(userdashboard, 3000);
+        });
+    </script>
+    </script>
 @endsection
