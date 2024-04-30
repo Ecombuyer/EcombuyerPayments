@@ -23,8 +23,6 @@
             </div>
 
             <div class="mb-3">
-
-                <input type="hidden" name="s" id="userid" value="{{$userid}}">
                 <input type="hidden" name="selleruserid" id="seeleruserid" value="{{$order->user_id}}">
                 <input type="hidden" name="productid" id="productid" value="{{$order->product_id}}">
 
