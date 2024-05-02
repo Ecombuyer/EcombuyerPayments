@@ -126,9 +126,9 @@ class OrderController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * PREVIEW PRODUCT.
      */
-    public function show(string $id, $name)
+     public function show(string $id, $name)
     {
         $banks = ['Paypal', 'stripe', 'indicash'];
 
@@ -310,16 +310,16 @@ class OrderController extends Controller
     // }
 
 
-    public function buynow($productid)
-    {
+    // public function buynow($productid)
+    // {
 
-        // $user = Auth::user();
-        // $userid =  $user->id;
-        $order = Product::where('product_id', $productid)->get()->first();
+    //     // $user = Auth::user();
+    //     // $userid =  $user->id;
+    //     $order = Product::where('product_id', $productid)->get()->first();
 
-        $title = "BuyNow";
-        return view('user.placeorder', compact('title', 'order'));
-    }
+    //     $title = "BuyNow";
+    //     return view('user.placeorder', compact('title', 'order'));
+    // }
     public function placeorder(Request $request)
     {
 
@@ -1161,7 +1161,7 @@ class OrderController extends Controller
             'user_id' => $request->userid,
             'name' => $complaints['username'],
             'email' => $complaints['useremail'],
-            'phone' => $complaints['usermobileno  '],
+            'phone' => $complaints['usermobileno'],
             'complaints' => $complaints['complaints'],
             'status' => 1,
             'type' => $complaints['complaints_type']

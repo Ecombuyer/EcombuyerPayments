@@ -36,6 +36,9 @@ class HomeController extends Controller
         $orders = Product::where('status', '=', '1')->where('user_id', $user->id)->limit(4)->get();
         Session::put('username', $username);
         $title = "User Dashboard";
+
+        //notifications 
+        $complaints_status = UserComplaints::where('status','=','solved')->get();
         
 
         return view('user.home')->with(compact('title', 'orders'));
@@ -131,9 +134,7 @@ class HomeController extends Controller
 
             ]);
         }
-        // for chart 
-
-        return view('admin.adminhome', compact('users', 'title'));
+        return view('admin.adminHome', compact('users', 'title'));
     }
 
     /**
