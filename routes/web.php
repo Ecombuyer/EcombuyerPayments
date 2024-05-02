@@ -68,7 +68,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
         Route::GET('/index', [OrderController::class, 'index'])->name('orders.index');
         Route::GET('/create', [OrderController::class, 'create'])->name('orders.create');
         Route::GET('/{product_id}/{name}/show', [OrderController::class, 'show'])->name('orders.show');
-        Route::GET('/buynow/{id}', [OrderController::class, 'buynow'])->name('orders.buynow');
+        // Route::GET('/buynow/{id}', [OrderController::class, 'buynow'])->name('orders.buynow');
         Route::POST('/placeorder', [OrderController::class, 'placeorder'])->name('orders.placeorder');
         Route::GET('/transaction/{id}', [OrderController::class, 'transaction'])->name('orders.transaction');
 
@@ -120,6 +120,8 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::GET('/admin/revenue', [AdminController::class, 'revenue'])->name('admin.revenue');
     Route::POST('/admin/revenue/filters', [AdminController::class, 'revenuefilter'])->name('admin.revenuefilter');
     Route::GET('/admin/notification', [AdminController::class,'adminnotification'])->name('admin.notification');
+    Route::GET('/admin/reports', [AdminController::class,'reports'])->name('admin.reports');
+    Route::POST('/admin/reports/filters', [AdminController::class,'reportsfilter'])->name('admin.reportsfilter');
     // Route::get('/admin/home', [AdminController::class, 'index'])->name('admin.index');
 });
 

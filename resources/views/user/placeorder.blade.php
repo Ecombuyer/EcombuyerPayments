@@ -1,4 +1,4 @@
-@extends('layouts.userlayout')
+{{-- @extends('layouts.userlayout')
 @section('content')
     <div class="card-body createcountry">
 
@@ -32,4 +32,4 @@
         </form>
     </div>
 
-@endsection
+@endsection --}}

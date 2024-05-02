@@ -445,42 +445,4 @@
         }
     });
 </script>
-{{-- <script>
-    function notification() {
-        $.ajax({
-            type: "GET",
-            url: "{{ route('user.notification') }}",
-            dataType: "json",
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            success: function(response) {
-                var notifiedids = [];
-                Notification.requestPermission().then(perm => {
-                    if (perm === "granted") {
-                        console.log(response);
-                        const notify = new Notification(response, {
-                                    body: "this is from user",
-                                });
-                                notify.onclick = function() {
-                                    window.open(
-                                        "http://localhost:8000/admin/complaints");
-                                }
-                                notifiedids.push(row.id);
-                                console.log(notifiedids);
-                    }
-                });
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText); // Log any error response
-            }
-        });
-    }
-
-    $(document).ready(function() {
-        notification();
-        setInterval(notification, 4000);
-    });
-</script> --}}
-
 </html>

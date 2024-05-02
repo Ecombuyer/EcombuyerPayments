@@ -8,7 +8,7 @@
                 <div class="card mb-4">
                     <div class="card-header pb-3 font-weight-bold d-flex justify-content-between">
                         <div>
-                            <span style="color: #0054A6;">USER</span> DETAILS
+                            <span style="color: #0054A6;">REPORTS</span>
                         </div>
                         <button class="btn btn-primary px-4" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapseExample" aria-controls="collapseExample">
@@ -138,6 +138,10 @@
                                             S.no
                                         </th>
                                         <th
+                                            class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Complaint ID 
+                                        </th>
+                                        <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             <i class="fa-solid fa-hashtag mx-1"></i> User Id
                                         </th>
@@ -155,27 +159,19 @@
                                         </th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            <i class="fa-solid fa-id-card mx-1"></i> Pan NO
+                                            <i class="fa-solid fa-id-card mx-1"></i> Complaint Type
                                         </th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            <i class="fa-regular fa-user mx-1"></i> Address
+                                            <i class="fa-regular fa-user mx-1"></i> Product ID
                                         </th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            <i class="fa-regular fa-envelope mx-1"></i>City
+                                            <i class="fa-regular fa-envelope mx-1"></i>Complaint
                                         </th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            <i class="fa-solid fa-phone mx-1"></i> Pincode
-                                        </th>
-                                        <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            <i class="fa-solid fa-eye mx-1"></i> State
-                                        </th>
-                                        <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            <i class="fa-solid fa-money-bill-transfer"></i> Country
+                                            <i class="fa-solid fa-phone mx-1"></i>Status
                                         </th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -188,12 +184,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($userdetails as $user)
+                                    @foreach ($reports as $report)
                                         <tr>
                                             <td class="align-middle text-center p-3">
                                                 <span class="text-secondary text-xs font-weight-bold">
                                                     <input type="checkbox" name="id" class="checkboxclass"
-                                                        value="{{ $user->id }}">
+                                                        value="{{ $report->user_id }}">
                                                 </span>
                                             </td>
                                             <td class="align-middle text-center p-3">
@@ -202,51 +198,47 @@
                                             </td>
                                             <td class="align-middle text-center p-3">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $user->id }}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{ $report->id }}</span>
                                             </td>
                                             <td class="align-middle text-center p-3">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $user->name }}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{ $report->user_id }}</span>
                                             </td>
                                             <td class="align-middle text-center p-3">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $user->email }}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{ $report->name }}</span>
                                             </td>
                                             <td class="align-middle text-center p-3">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $user->phone }}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{ $report->email }}</span>
                                             </td>
                                             <td class="align-middle text-center p-3">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $user->pan_no }}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{ $report->phone_number }}</span>
                                             </td>
                                             <td class="align-middle text-center p-3">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $user->address }}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{ $report->complaint_type }}</span>
                                             </td>
                                             <td class="align-middle text-center p-3">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $user->city }}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{ $report->product_id }}</span>
                                             </td>
                                             <td class="align-middle text-center p-3">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $user->pin_code }}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{ $report->complaint }}</span>
                                             </td>
                                             <td class="align-middle text-center p-3">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $user->state }}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{ $report->status }}</span>
                                             </td>
                                             <td class="align-middle text-center p-3">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $user->country }}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{ $report->created_at }}</span>
                                             </td>
                                             <td class="align-middle text-center p-3">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $user->created_at }}</span>
-                                            </td>
-                                            <td class="align-middle text-center p-3">
-                                                <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $user->updated_at }}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{ $report->updated_at }}</span>
                                             </td>
                                     @endforeach
                                     </tr>
@@ -277,7 +269,7 @@
                 console.log('Form data:', formData);
 
                 $.ajax({
-                    url: "{{ route('admin.userfilters') }}",
+                    url: "{{ route('admin.reportsfilter') }}",
                     type: "POST",
                     data: formData,
                     headers: {
@@ -321,6 +313,13 @@
                                 html += ' <td class="align-middle text-center p-3">';
                                 html +=
                                     '<span class="text-secondary text-xs font-weight-bold">';
+                                html += row.user_id;
+                                html += '</span></td>';
+
+
+                                html += ' <td class="align-middle text-center p-3">';
+                                html +=
+                                    '<span class="text-secondary text-xs font-weight-bold">';
                                 html += row.name;
                                 html += '</span></td>';
 
@@ -333,43 +332,31 @@
                                 html += ' <td class="align-middle text-center p-3">';
                                 html +=
                                     '<span class="text-secondary text-xs font-weight-bold">';
-                                html += row.phone;
+                                html += row.phone_number;
                                 html += '</span></td>';
 
                                 html += ' <td class="align-middle text-center p-3">';
                                 html +=
                                     '<span class="text-secondary text-xs font-weight-bold">';
-                                html += row.pan_no;
+                                html += row.complaint_type;
                                 html += '</span></td>';
 
                                 html += ' <td class="align-middle text-center p-3">';
                                 html +=
                                     '<span class="text-secondary text-xs font-weight-bold">';
-                                html += row.address;
+                                html += row.product_id;
                                 html += '</span></td>';
 
                                 html += ' <td class="align-middle text-center p-3">';
                                 html +=
                                     '<span class="text-secondary text-xs font-weight-bold">';
-                                html += row.city;
+                                html += row.complaint;
                                 html += '</span></td>';
 
                                 html += ' <td class="align-middle text-center p-3">';
                                 html +=
                                     '<span class="text-secondary text-xs font-weight-bold">';
-                                html += row.pin_code;
-                                html += '</span></td>';
-
-                                html += ' <td class="align-middle text-center p-3">';
-                                html +=
-                                    '<span class="text-secondary text-xs font-weight-bold">';
-                                html += row.state;
-                                html += '</span></td>';
-
-                                html += ' <td class="align-middle text-center p-3">';
-                                html +=
-                                    '<span class="text-secondary text-xs font-weight-bold">';
-                                html += row.country;
+                                html += row.status;
                                 html += '</span></td>';
 
                                 html += ' <td class="align-middle text-center p-3">';
