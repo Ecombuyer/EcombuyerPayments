@@ -55,7 +55,9 @@ class LoginController extends Controller
                         $usernewOtp = User::where('pin', $userOtp->pin)->first();
                         // dd($usernewOtp);
                         // Send OTP to user's email
-                        Mail::to($email)->send(new RegisterMail($usernewOtp));
+                        // Mail::to($email)->send(new RegisterMail($usernewOtp));
+                        Mail::to($email)->queue(new RegisterMail($usernewOtp));
+
                     }
                 } else {
                     // Handle case where user is not found
