@@ -368,7 +368,6 @@ class OrderController extends Controller
             if ($request->input('type') == 'physicalproduct') {
                 $data['address'] = $form2['address'];
             }
-// dd($data);
             $data = json_encode($data);
 
             $curl = curl_init();
@@ -396,7 +395,7 @@ class OrderController extends Controller
                 echo 'Curl error: ' . curl_error($curl);
             } else {
                 $response_array = json_decode($response, true);
-
+            
                 if (!empty($response_array) && isset($response_array['upi_url']) && !empty($response_array['upi_url'])) {
                     $upi_url = $response_array['upi_url'];
 
@@ -439,12 +438,9 @@ class OrderController extends Controller
                     return view('user.payments', compact('pay', 'paymenttype', 'txnid','button'));
 
                 }
-            }
-        } else if ($paymenttype->payment_name == 'haodapay' && $paymenttype->status == 1) {
-
-
-
-
+        }
+        } 
+        else if ($paymenttype->payment_name == 'haodapay' && $paymenttype->status == 1) {
             $key = 'xnF20EI173240130015224';
             $endpoint = 'https://jupiter.haodapayments.com/api/v4/collection';
             // $paymentverify = ' https://jupiter.haodapayments.com/api/v3/collection/status?txnid=' . $txnid;
@@ -534,27 +530,11 @@ class OrderController extends Controller
                             ->generate(
                                 $upi_url
                             );
-                        // $paymenttype = Paymenttype::get()->first();
                         return view('user.payments', compact('pay', 'paymenttype', 'txnid'));
-                    }
-                    $orderdetails2 =   Order_details::create($orderdetails2Data);
-                    /// dd($response_array);
-
-                    $pay = QrCode::size(200)
-                        ->backgroundColor(255, 255, 0)
-                        ->color(0, 0, 255)
-                        ->margin(1)
-                        ->generate(
-                            $upi_url
-                        );
-                    // $paymenttype = Paymenttype::get()->first();
-                    return view('user.payments', compact('pay', 'userid', 'paymenttype', 'txnid'));
+                   
                 }
             }
-        }
-        // }
-
-
+            }
             else if ($paymenttype->payment_name == 'crizzpay' && $paymenttype->status == '1') {
                 $txnid = "TXN" . time();
                 $orderid = mt_rand(1000, 9000);
@@ -606,9 +586,12 @@ class OrderController extends Controller
                 curl_close($curl);
                 //dd($response);
                 // session()->put('txnid', $txnid);
-                if ($response === false) {
+                if ($response === false) 
+                {
                     echo 'Curl error: ' . curl_error($curl);
-                } else {
+                } 
+                else 
+                {
                     $response_array = json_decode($response, true);
 
                     if (!empty($response_array) && isset($response_array['upi_url']) && !empty($response_array['upi_url'])) {
@@ -647,24 +630,11 @@ class OrderController extends Controller
                             );
                         // $paymenttype = Paymenttype::get()->first();
                         return view('user.payments', compact('pay', 'paymenttype', 'txnid'));
+                
                     }
-                    $orderdetails3 =   Order_details::create($orderdetails3Data);
-                    /// dd($response_array);
-                    $cs = "display: block; margin: 10 auto;";
-
-
-                    $pay = QrCode::size(200)
-                        ->backgroundColor(0, 255, 255)
-                        ->color(0, 30, 0)
-                        ->style($cs)
-                        ->margin(1)
-                        ->generate(
-                            $upi_url
-                        );
-                    // $paymenttype = Paymenttype::get()->first();
-                    return view('user.payments', compact('pay', 'userid', 'paymenttype', 'txnid'));
                 }
-            }
+            
+      
         }
     }
 
@@ -821,10 +791,10 @@ class OrderController extends Controller
 
             if ($request->hasFile('profileimage')) {
                 // Generate unique filename for the new image
-                $profileimage = 'profile' . '.' . $request->profileimage->getClientOriginalExtension();
+                $newprofileimage = 'profile' . '.' . $request->profileimage->getClientOriginalExtension();
                 // dd($profileimage);
                 // Move the new image to the uploads directory
-                $request->profileimage->move(public_path('uploads/profileimages/'), $profileimage);
+                $request->profileimage->move(public_path('uploads/profileimages/'), $newprofileimage);
 
                 // Delete old image if it exists
                 if ($existingProfile->profile_image && file_exists(public_path('uploads/profileimages/' . $existingProfile->profile_image))) {
@@ -832,7 +802,7 @@ class OrderController extends Controller
                 }
 
                 // Assign the new filename to the form data
-                $profileimage = $profileimage;
+                $profileimage = $newprofileimage;
             } else {
                 // If no new image is uploaded, keep the old image
                 $profileimage = $existingProfile->profile_image;
@@ -926,10 +896,10 @@ class OrderController extends Controller
             $existingProfile = aadhar_pan::where('user_id', $userId)->first();
             if ($request->hasFile('aadhar_front_page')) {
                 // Generate unique filename for the new image
-                $aadhar_front_page = 'aadhar_front_page' . '.' . $request->aadhar_front_page->getClientOriginalExtension();
+                $newaadhar_front_page = 'aadhar_front_page' . '.' . $request->aadhar_front_page->getClientOriginalExtension();
                 //  dd($aadhar_front_page);
                 // Move the new image to the uploads directory
-                $request->aadhar_front_page->move(public_path('uploads/aadhar_pan/'), $aadhar_front_page);
+                $request->aadhar_front_page->move(public_path('uploads/aadhar_pan/'), $newaadhar_front_page);
 
                 // Delete old image if it exists
                 if ($existingProfile != null) {
@@ -939,7 +909,7 @@ class OrderController extends Controller
                 }
 
                 // Assign the new filename to the form data
-                $aadhar_front_page = $aadhar_front_page;
+                $aadhar_front_page = $newaadhar_front_page;
             } else {
                 // If no new image is uploaded, keep the old image
                 $aadhar_front_page = $existingProfile->aadhar_front_page;
@@ -949,10 +919,10 @@ class OrderController extends Controller
             /*Aathar images back*/
             if ($request->hasFile('aadhar_back_page')) {
                 // Generate unique filename for the new image
-                $aadhar_back_page = 'aadhar_back_page' . '.' . $request->aadhar_back_page->getClientOriginalExtension();
+                $newaadhar_back_page = 'aadhar_back_page' . '.' . $request->aadhar_back_page->getClientOriginalExtension();
 
                 // Move the new image to the uploads directory
-                $request->aadhar_back_page->move(public_path('uploads/aadhar_pan/'), $aadhar_back_page);
+                $request->aadhar_back_page->move(public_path('uploads/aadhar_pan/'), $newaadhar_back_page);
 
                 // Delete old image if it exists
                 if ($existingProfile != null) {
@@ -961,7 +931,7 @@ class OrderController extends Controller
                     }
                 }
                 // Assign the new filename to the form data
-                $aadhar_back_page = $aadhar_back_page;
+                $aadhar_back_page = $newaadhar_back_page;
             } else {
                 // If no new image is uploaded, keep the old image
                 $aadhar_back_page = $existingProfile->aadhar_back_page;
@@ -970,10 +940,10 @@ class OrderController extends Controller
 
             if ($request->hasFile('pan_image')) {
                 // Generate unique filename for the new image
-                $pan_image = 'pan_image' . '.' . $request->pan_image->getClientOriginalExtension();
+                $newpan_image = 'pan_image' . '.' . $request->pan_image->getClientOriginalExtension();
 
                 // Move the new image to the uploads directory
-                $request->pan_image->move(public_path('uploads/aadhar_pan/'), $pan_image);
+                $request->pan_image->move(public_path('uploads/aadhar_pan/'), $newpan_image);
 
                 // Delete old image if it exists
                 if ($existingProfile != null) {
@@ -982,7 +952,7 @@ class OrderController extends Controller
                     }
                 }
                 // Assign the new filename to the form data
-                $pan_image = $pan_image;
+                $pan_image = $newpan_image;
             } else {
                 // If no new image is uploaded, keep the old image
                 $pan_image = $existingProfile->pan_image;
