@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\UserComplaints;
+use App\Models\Report;
 use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\Order_details;
+use App\Models\UserComplaints;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -231,14 +233,20 @@ class AdminController extends Controller
     {
 
 
-        // $notification = UserComplaints::whereTime('created_at','<=',Carbon::now())->orderByDesc('id')->take(5)->get();
-        $notification = UserComplaints::whereBetween('created_at', [Carbon::now()->subSeconds(1), Carbon::now()])
+        $complaints = UserComplaints::whereBetween('created_at', [Carbon::now()->subSeconds(4), Carbon::now()])
             ->orderByDesc('id')
-            ->where('status','!=','Solved')
-            ->take(5)
             ->get();
+
+        $reports = Report::whereBetween('created_at', [Carbon::now()->subSeconds(4), Carbon::now()])
+            ->orderByDesc('id')->where('status', '!=', 'Solved')
+            ->get();
+
+
         if ($request->ajax()) {
-            return response()->json($notification);
+            return response()->json([
+                'complaints' => $complaints,
+                'reports'=> $reports
+            ]);
         }
 
 

@@ -6,6 +6,7 @@ use Image;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\Product;
+
 use App\Mail\RegisterMail;
 use App\Models\aadhar_pan;
 use App\Models\BankDetail;
@@ -14,6 +15,7 @@ use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use App\Models\Order_details;
 use App\Models\UserComplaints;
+
 use Illuminate\Support\Carbon;
 // use Symfony\Component\HttpFoundation\Session\Session;
 use App\Mail\PaymentReceiptMail;
@@ -26,6 +28,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
 use BaconQrCode\Writer;
+
 
 class OrderController extends Controller
 {
@@ -1228,8 +1231,7 @@ class OrderController extends Controller
             'type' => $complaints['complaints_type']
         ]);
 
-
-
-        return response()->json($usercomplaints);
+        return redirect()->route('user.complaints')->with('success', 'Complaint submitted successfully.');
     }
+
 }
