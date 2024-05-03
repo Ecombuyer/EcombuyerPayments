@@ -69,6 +69,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
         Route::GET('/create', [OrderController::class, 'create'])->name('orders.create');
         Route::GET('/{product_id}/{name}/show', [OrderController::class, 'show'])->name('orders.show');
         // Route::GET('/buynow/{id}', [OrderController::class, 'buynow'])->name('orders.buynow');
+        Route::POST('/buynow', [OrderController::class, 'buynow'])->name('orders.buynow');
         Route::POST('/placeorder', [OrderController::class, 'placeorder'])->name('orders.placeorder');
         Route::GET('/transaction/{id}', [OrderController::class, 'transaction'])->name('orders.transaction');
 
