@@ -34,6 +34,7 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'phone' => ['required', 'string', 'regex:/^[0-9]{10}$/'],
             'Pancard' => ['required', 'string', 'regex:/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/'],
+            'remember' => 'required'
         ]);
     }
 

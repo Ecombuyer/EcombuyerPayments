@@ -141,6 +141,15 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link " href="{{ route('admin.reports') }}">
+                        <div
+                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="fa-solid fa-flag text-dark text-sm opacity-10"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Reports</span>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link " href="{{ route('admin.paymentmethod') }}">
                         <div
                             class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -393,7 +402,7 @@
         <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
         <script src="{{ env('APP_URL') }}/assets/js/argon-dashboard.min.js?v=2.0.4"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script>
+        {{-- <script>
             function notification() {
                 $.ajax({
                     type: "GET",
@@ -435,6 +444,64 @@
                 notification();
                 setInterval(notification, 4000);
             });
+        </script> --}}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            function notification() {
+                $.ajax({
+                    type: "GET",
+                    url: "{{ route('admin.notification') }}",
+                    dataType: "json",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        if (Notification.permission === "granted") {
+                            response.complaints.forEach(row => {
+                                const notify = new Notification(`Complaint from ${row.name}`, {
+                                    body: row.complaints,
+                                });
+                                notify.onclick = () => {
+                                    window.open("http://localhost:8000/admin/complaints");
+                                };
+                            });
+
+                            response.reports.forEach(row2 => {
+                                const notify = new Notification(`Report from ${row2.name}`, {
+                                    body: row2.complaint,
+                                });
+                                notify.onclick = () => {
+                                    window.open("http://localhost:8000/admin/reports");
+                                };
+                            });
+                        } else {
+                            console.log("Notifications are not allowed");
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText); // Log any error response
+                    }
+                });
+            }
+
+           $(document).ready(function() {
+    // Check if the browser supports notifications
+    if ("Notification" in window) {
+        // Request permission to show notifications
+        Notification.requestPermission().then(function(result) {
+            if (result === "granted") {
+                console.log("Notifications allowed");
+                // Now you can proceed with displaying notifications
+                notification();
+                setInterval(notification, 4000);
+            } else {
+                console.log("Notifications not allowed");
+            }
+        });
+    } else {
+        console.log("Notifications not supported in this browser");
+    }
+});
         </script>
 </body>
 

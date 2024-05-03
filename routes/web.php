@@ -69,11 +69,9 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
         Route::GET('/create', [OrderController::class, 'create'])->name('orders.create');
         Route::GET('/{product_id}/{name}/show', [OrderController::class, 'show'])->name('orders.show');
         // Route::GET('/buynow/{id}', [OrderController::class, 'buynow'])->name('orders.buynow');
-
         Route::POST('/buynow', [OrderController::class, 'buynow'])->name('orders.buynow');
         Route::POST('/placeorder', [OrderController::class, 'placeorder'])->name('orders.placeorder');
         Route::GET('/transaction/{id}', [OrderController::class, 'transaction'])->name('orders.transaction');
-
         // Route::GET('/success/{res}', [OrderController::class, 'success'])->name('orders.success');
         Route::get('/success', [OrderController::class, 'success'])->name('orders.success');
         Route::GET('/failed', [OrderController::class, 'cancel'])->name('orders.failed');
@@ -81,20 +79,14 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
         Route::post('user/callback', [OrderController::class, 'handleCallback'])->name('payment.callback');
         Route::post('/filter', [OrderController::class, 'filter'])->name('orders.filter');
         Route::post('/transactionfilter', [OrderController::class, 'transactionfilter'])->name('orders.transactionfilter');
-
         Route::get('/profile', [OrderController::class, 'profile'])->name('user.profile');
         Route::post('/addprofile', [OrderController::class, 'addprofile'])->name('user.addprofile');
-
         Route::post('/add_adhar_pan', [OrderController::class, 'add_adhar_pan'])->name('user.add_adhar_pan');
         Route::post('/bank_details', [OrderController::class, 'bank_details'])->name('user.bank_details');
-
         Route::get('/usercomplaints', [OrderController::class, 'usercomplaints'])->name('user.complaints');
-
         Route::get('/usercomplaintsform', [OrderController::class, 'usercomplaintsform'])->name('user.complaintsform');
-
         // Route::get('/usercomplaintsbooked', [OrderController::class,'usercomplaintsbooked'])->name('user.complaintsbooked');
         Route::post('/usercomplaintsbooked', [OrderController::class, 'usercomplaintsbooked'])->name('user.complaintsbooked');
-
         Route::post('/usercomplaintsstatus', [OrderController::class, 'usercomplaintsstatus'])->name('user.complaintsstatus');
     });
 });
@@ -121,7 +113,9 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::POST('/admin/complaints/filters', [AdminController::class, 'complaintsfilter'])->name('admin.complaintsfilter');
     Route::GET('/admin/revenue', [AdminController::class, 'revenue'])->name('admin.revenue');
     Route::POST('/admin/revenue/filters', [AdminController::class, 'revenuefilter'])->name('admin.revenuefilter');
-    Route::GET('/admin/notification', [AdminController::class,'adminnotification'])->name('admin.notification');
+    Route::GET('/admin/notification', [AdminController::class, 'adminnotification'])->name('admin.notification');
+    Route::GET('/admin/reports', [AdminController::class, 'reports'])->name('admin.reports');
+    Route::POST('/admin/reports/filters', [AdminController::class, 'reportsfilter'])->name('admin.reportsfilter');
     // Route::get('/admin/home', [AdminController::class, 'index'])->name('admin.index');
 });
 

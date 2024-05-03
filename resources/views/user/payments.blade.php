@@ -50,8 +50,6 @@
                             } else if (response.status === "SUCCESS") {
 
                                 console.log("Transaction successful. Redirecting to success page.");
-                                var userId = {{ $userid }};
-
 
 
                                 // Make an AJAX request to pass data to the server
@@ -75,8 +73,6 @@
                             } else if (response.status === "ERROR") {
 
                                 console.log("Transaction successful. Redirecting to success page.");
-                                var userId = {{ $userid }};
-
 
 
                                 // Make an AJAX request to pass data to the server
@@ -125,11 +121,6 @@
                         if (response.status === "INITIATE") {
                             console.log("Transaction initiated. Do nothing.");
 
-
-                            // var userId = {{ $userid }};
-
-
-
                             // // Make an AJAX request to pass data to the server
                             // $.ajax({
                             //     url: "{{ route('orders.success') }}",
@@ -150,8 +141,6 @@
                         } else if (response.status === "SUCCESS") {
 
                             console.log("Transaction successful. Redirecting to success page.");
-                            var userId = {{ $userid }};
-
 
 
                             // Make an AJAX request to pass data to the server
@@ -175,7 +164,6 @@
                         } else if (response.status === "ERROR") {
 
                             console.log("Transaction successful. Redirecting to success page.");
-                            var userId = {{ $userid }};
 
 
 
@@ -224,10 +212,6 @@
                         if (response.status === "INITIATE") {
 
                             console.log("Transaction successful. Redirecting to success page.");
-                            var userId = {{ $userid }};
-
-
-
                             Make an AJAX request to pass data to the server
                             $.ajax({
                                 url: '{{ route('orders.success') }}',
@@ -275,10 +259,6 @@
                         } else if (response.status === "ERROR") {
 
                             console.log("Transaction successful. Redirecting to success page.");
-                            var userId = {{ $userid }};
-
-
-
                             // Make an AJAX request to pass data to the server
                             $.ajax({
                                 url: '{{ route('orders.failed') }}',

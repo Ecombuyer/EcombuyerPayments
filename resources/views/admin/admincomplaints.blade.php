@@ -93,14 +93,17 @@
                             <table class="table align-items-center mb-0">
                                 <thead>
                                     <tr>
+                                        <th>
+                                            <input type="checkbox" name="checkall" id="ids">
+                                        </th>
                                         <th
                                             class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
                                             S.no
                                         </th>
                                         <th
-                                        class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Complaint ID
-                                    </th>
+                                            class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Complaint ID
+                                        </th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             <i class="fa-solid fa-id-card mx-1"></i> User Id
@@ -142,6 +145,12 @@
                                 <tbody>
                                     @foreach ($complaints as $complaint)
                                         <tr>
+                                            <td class="align-middle text-center p-3">
+                                                <span class="text-secondary text-xs font-weight-bold">
+                                                    <input type="checkbox" name="id" class="checkboxclass"
+                                                        value="{{ $complaint->id }}">
+                                                </span>
+                                            </td>
                                             <td class="align-middle text-center p-3">
                                                 <span
                                                     class="text-secondary text-xs font-weight-bold">{{ $loop->index + 1 }}</span>
@@ -229,6 +238,16 @@
                             // Iterate through the response data and construct table rows
                             response.forEach(function(row) {
                                 html += '<tr>';
+
+                                html += ' <td class="align-middle text-center p-3">';
+                                html += '<span>';
+                                html +=
+                                    '<input type="checkbox" name="id" class="checkboxclass" value="row.id">';
+                                html += '</span>';
+                                html += '</td>';
+
+
+                                html += '<tr>';
                                 html += '<td class="align-middle text-center p-3">';
                                 html +=
                                     '<span class="text-secondary text-xs font-weight-bold">';
@@ -312,6 +331,12 @@
                     }
                 });
             });
+        });
+    </script>
+    <script>
+        $('#ids').click(function() {
+            $('.checkboxclass').prop('checked', $(this).prop('checked'));
+
         });
     </script>
 @endsection

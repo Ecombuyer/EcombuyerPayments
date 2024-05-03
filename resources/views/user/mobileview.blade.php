@@ -225,10 +225,11 @@
                                     <input type="hidden" name="type" id="type"
                                     value="{{ $order->type }}">
                                 <button type="submit" class="btn btn-success add-product">Save</button>
-                                <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Close</button>
+                                
                             </div>
 
                     </form>
+                    <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Close</button>
                 </div>
             </div>
         </div>

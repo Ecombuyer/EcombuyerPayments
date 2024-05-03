@@ -31,7 +31,6 @@ class AdminController extends Controller
             ->where('user_profiles.status', 1)
             ->select('users.id', 'users.name', 'users.email', 'users.phone', 'user_profiles.pan_no', 'user_profiles.address', 'user_profiles.city', 'user_profiles.pin_code', 'user_profiles.state', 'user_profiles.country', 'user_profiles.created_at', 'user_profiles.updated_at')
             ->get()->all();
-        // dd($userdetails);
         return view("admin.adminusers", compact("title", "userdetails"));
     }
 
@@ -203,8 +202,6 @@ class AdminController extends Controller
 
     public function revenuefilter(Request $request)
     {
-        // $year = Carbon::now()->format('Y');
-        // $month = Carbon::now()->format('m');
 
         $rev = Order_details::
             when($request->userid, function ($query) use ($request) {
@@ -251,4 +248,40 @@ class AdminController extends Controller
 
 
     }
+    public function reports(Request $request)
+    {
+        $title = 'Reports';
+        $reports = Report::orderByDesc('id')->get()->all();
+        return view('admin.adminreports',compact('title','reports'));
+    }
+
+    public function reportsfilter(Request $request)
+     {
+        $pro =Report::when($request->userid, function ($query) use ($request) {
+            $query->where('user_id', $request->userid);
+        })
+        ->when($request->name, function ($query) use ($request) {
+            $query->where('name', $request->name);
+        })
+        ->when($request->email, function ($query) use ($request) {
+            $query->where('email', $request->email);
+        })
+        ->when($request->phone, function ($query) use ($request) {
+            $query->where('phone', $request->phone);
+        })
+        ->when($request->type, function ($query) use ($request) {
+            $query->where('type', $request->type);
+        })
+        ->when($request->status, function ($query) use ($request) {
+            $query->where('status', $request->status);
+        })
+        ->when($request->filled('fromDate') && $request->filled('toDate'), function ($query) use ($request) {
+            $startDate = date('Y-m-d', strtotime($request->fromDate));
+            $endDate = date('Y-m-d', strtotime($request->toDate));
+            $query->whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate);
+        })
+        ->get();
+
+    return response()->json($pro);
+     }
 }
