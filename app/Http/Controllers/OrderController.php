@@ -437,7 +437,7 @@ class OrderController extends Controller
                   
                     $product = DB::table('products')
                     ->join('orders_details', 'products.product_id', '=', 'orders_details.product_id')
-                    // ->where('order_details.transaction_id','=', $txnid)
+                    ->where('orders_details.transaction_id','=', $txnid)
                     ->select('products.image','products.image_2','products.name','products.price')
                     ->get()->first();
                     // dd($product);
@@ -446,8 +446,7 @@ class OrderController extends Controller
                     $pay = QrCode::size(150)
                         ->backgroundColor(255,255,255)
                         ->color(1, 1, 1)
-                        ->margin(2)
-                        ->style('')
+                        ->margin(2)                    
                         ->generate(
                             $upi_url
                         );

@@ -273,7 +273,7 @@
                             <div class="card1">
                               <div class="imgBx">
                                 <img
-                                  src="{{ asset('uploads/previewimages/' . $order->file) }}"
+                                  src="{{ asset('uploads/previewimages/' . $order->image) }}"
                                   alt="nike-air-shoe"
                                 />
                               </div>
@@ -465,13 +465,9 @@
                     @endif
                     <div class="tab-pane" id="address">
                       <div class="row" style="margin-top: 20px;">
-                        <div class="col-sm-12">
-                          <!-- <h4 class="info-text">
-                            Are you living in a nice area?
-                          </h4> -->
-                        </div>
+                       
                         <div class="col-sm-6 col-md-6  col-lg-6" style="display: flex; justify-content: space-around; align-items: flex-start;">
-                         <img src="{{ asset('uploads/previewimages/' . $order->file) }}" alt="Product-img" width="200px" height="200px" style="object-fit: cover; padding-top: 10px; margin-left: 0px;">
+                         <img src="{{ asset('uploads/previewimages/' . $order->image) }}" alt="Product-img" width="200px" height="200px" style="object-fit: cover; padding-top: 10px; margin-left: 0px;">
 						 <div >
 							<h4 style="font-weight: bold;">{{ $order->name }}</h4>
 							<div style="display: flex;justify-content: space-between;align-items: center;margin-top: 10px; font-weight: bold;">
@@ -494,13 +490,10 @@
 							</div>
 						 </div>
                         </div>
-						<div class="col-sm-6 col-md-6 col-lg-6" style="display: flex; flex-direction: column;">
+						{{-- <div class="col-sm-6 col-md-6 col-lg-6" style="display: flex; flex-direction: column;">
 							<div style="display: flex; flex-direction: row;"  class="qrbox">
 
-                <div style="display: flex; flex-direction: column; width: 50%;">
-                  <span style="text-align: center;font-weight: bold;">[ <i class="fa-solid fa-qrcode" style="margin-right: 5px;"></i> Scan to Pay ]</span>
-                  <img id="qr-code-image" src="" alt="">
-                </div>
+               
 
 								<div style="height: 100%; width: 50%; margin-top: 35px; margin-right: 1rem;">
 									<div style="display: flex; justify-content: space-between; margin-top: 10px;">
@@ -518,8 +511,9 @@
 								</div>
 							</div>
 
-							<button type="submit" class="btn " style="background-color: rgba(129, 130, 245, 0.938); margin-top: 3rem;">Proceed To Pay</button>
-						  </div>
+							
+						  </div> --}}
+                          <button type="submit" class="btn " style="background-color: rgba(129, 130, 245, 0.938); margin-top: 3rem;">Proceed To Pay</button>
                       </div>
                     </div>
                   </div>
