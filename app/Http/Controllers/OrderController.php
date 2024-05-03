@@ -17,6 +17,7 @@ use App\Models\Order_details;
 use App\Models\UserComplaints;
 use Illuminate\Support\Carbon;
 use App\Mail\PaymentReceiptMail;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
@@ -140,7 +141,7 @@ class OrderController extends Controller
 
         $mobileViewUrl = route('user.mobileview', ['order' => $order]);
 
-        return view('user.preview', compact('mobileViewUrl'));
+        return view('user.preview', compact('mobileViewUrl','order'));
     }
 
 
@@ -310,19 +311,26 @@ class OrderController extends Controller
     // }
 
 
-    // public function buynow($productid)
-    // {
-
-    //     // $user = Auth::user();
-    //     // $userid =  $user->id;
-    //     $order = Product::where('product_id', $productid)->get()->first();
-
-    //     $title = "BuyNow";
-    //     return view('user.placeorder', compact('title', 'order'));
-    // }
-    public function placeorder(Request $request)
+    public function buynow(Request $request)
     {
 
+        $user = Auth::user();
+        $userid =  $user->id;
+        $productid =  $request->product_id;
+
+        $order = Product::where('product_id', $productid)->first();
+
+        $title = "BuyNow";
+
+
+        return view('user.placeorder', compact('title', 'order', 'userid'));
+    }
+
+
+    public function placeorder(Request $request)
+    {
+        
+// dd($request->all());
         $paymenttype = Paymenttype::where('status', 1)->get()->first();
 
 
@@ -339,12 +347,13 @@ class OrderController extends Controller
             ]
         );
 
-
+// dd($form2);
         // Randomly select a name from the array
         // foreach ($paymenttype as $paymenttype) {
 
         if ($paymenttype->payment_name == 'indicpay' && $paymenttype->status == 1) {
-             //dd($paymenttype->payment_name);
+            //  dd($paymenttype->payment_name);
+            // dd($request->all());
             $txnid = "TXN" . time();
             $orderid = mt_rand(1000, 9000);
 
@@ -359,17 +368,17 @@ class OrderController extends Controller
                 "name" => $form2['name'],
                 "email" => $form2['email'],
                 "phone" => $form2['mobileno'],
-                "amount" => $request->productprice,
+                "amount" => $request->price,
                 "txnid" => $txnid,
                 "return_url" => $callback_url,
                 "token" => $token,
             ];
+    
             // Conditionally include the "address" field based on product type
             if ($request->input('type') == 'physicalproduct') {
                 $data['address'] = $form2['address'];
             }
             $data = json_encode($data);
-
             $curl = curl_init();
             curl_setopt_array($curl, [
                 CURLOPT_URL => $endpoint,
@@ -404,12 +413,11 @@ class OrderController extends Controller
                         'order_id' => $orderid,
                         'product_id' => $request->productid,
                         'seller_id' => $request->selleruserid,
-                        // 'user_id' => $userid,
                         'user_name' => $form2['name'],
                         'user_email' => $form2['email'],
                         'user_number' => $form2['mobileno'],
                         'payment_method' => $paymenttype->payment_name,
-                        'product_price' => $request->productprice,
+                        'product_price' => $request->price,
                         'product_name' => $request->productname,
                         'payment_status' => $response_array['status'],
                         'type' => $request->type,
@@ -421,21 +429,30 @@ class OrderController extends Controller
                     if ($request->input('type') == 'physicalproduct') {
                         $orderdetails1Data['address'] = $form2['address'];
                     }
-                    //  dd($orderdetails1Data);
-
                     $orderdetails1 = Order_details::create($orderdetails1Data);
+                    // $product_id = Order_details::where('transaction_id','=',$txnid)
+                    //                             ->first('product_id');
+                    // //  dd($product_id);
+                    // $product = Product::where('product_id','=',$product_id)->get();
+                  
+                    $product = DB::table('products')
+                    ->join('orders_details', 'products.product_id', '=', 'orders_details.product_id')
+                    // ->where('order_details.transaction_id','=', $txnid)
+                    ->select('products.image','products.image_2','products.name','products.price')
+                    ->get()->first();
+                    // dd($product);
 
-                    //  dd($orderdetails1);
                     $button = $upi_url;
-                    $pay = QrCode::size(200)
-                        ->backgroundColor(255, 255, 0)
-                        ->color(0, 0, 255)
-                        ->margin(1)
+                    $pay = QrCode::size(150)
+                        ->backgroundColor(255,255,255)
+                        ->color(1, 1, 1)
+                        ->margin(2)
+                        ->style('')
                         ->generate(
                             $upi_url
                         );
                     // $paymenttype = Paymenttype::get()->first();
-                    return view('user.payments', compact('pay', 'paymenttype', 'txnid','button'));
+                    return view('user.payments', compact('pay', 'paymenttype', 'txnid','button','product'));
 
                 }
         }
@@ -458,7 +475,7 @@ class OrderController extends Controller
                 "name" => $form2['name'],
                 "email" => $form2['email'],
                 "phone" => $form2['mobileno'],
-                "amount" => $request->productprice,
+                "amount" => $request->price,
                 "txnid" => $txnid,
                 "return_url" => $callback_url,
                 "token" => $key,
@@ -509,7 +526,7 @@ class OrderController extends Controller
                             'user_email' => $form2['email'],
                             'user_number' => $form2['mobileno'],
                             'payment_method' => $paymenttype->payment_name,
-                            'product_price' => $request->productprice,
+                            'product_price' => $request->price,
                             'payment_status' => $response_array['status'],
                             'product_name' => $request->productname,
                             'type' =>$request->type,
@@ -550,7 +567,7 @@ class OrderController extends Controller
                 "name" => $form2['name'],
                 "email" => $form2['email'],
                 "phone" => $form2['mobileno'],
-                "amount" => $request->productprice,
+                "amount" => $request->price,
                 "txnid" => $txnid,
                 "return_url" => $callback_url,
                 "token" => $key,
@@ -604,7 +621,7 @@ class OrderController extends Controller
                             'user_email' => $form2['email'],
                             'user_number' => $form2['mobileno'],
                             'payment_method' => $paymenttype->payment_name,
-                            'product_price' => $request->productprice,
+                            'product_price' => $request->price,
                             'payment_status' => $response_array['status'],
                             'product_name' => $request->productname,
                             'type' =>$request->type,
