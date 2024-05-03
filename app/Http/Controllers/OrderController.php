@@ -455,59 +455,40 @@ class OrderController extends Controller
                     $orderdetails1 = Order_details::create($orderdetails1Data);
 
                     //   dd($orderdetails1);
-                    // $button = $upi_url;
-                    // $pay = QrCode::size(200)
-                    //     ->backgroundColor(255, 255, 0)
-                    //     ->color(0, 0, 255)
-                    //     ->margin(1)
-                    //     ->generate(
-                    //         $upi_url
-                    //     );
+                    $button = $upi_url;
+                    $pay = QrCode::size(200)
+                        ->backgroundColor(255, 255, 0)
+                        ->color(0, 0, 255)
+                        ->margin(1)
+                        ->generate(
+                            $upi_url
+                        );
 
 
 
                     // Generate the QR code
-                    // $qrCode = QrCode::format('png')
-                    //     ->size(200)
-                    //     ->backgroundColor(255, 255, 0)
-                    //     ->color(0, 0, 255)
-                    //     ->margin(1)
-                    //     ->generate($upi_url);
+                    $qrCode = QrCode::format('png')
+                        ->size(200)
+                        ->backgroundColor(255, 255, 0)
+                        ->color(0, 0, 255)
+                        ->margin(1)
+                        ->generate($upi_url);
 
-                    // // Encode the QR code image data
-                    // // $qrCodeData = base64_encode($qrCode);
-                    // $qrCode->setWriterByExtension($qrCode);
-                    // // Return the QR code data as JSON response
-                    // return response()->json(['qrCodeData' => $qrCode]);
+                    // Encode the QR code image data
+                    // $qrCodeData = base64_encode($qrCode);
+                    $qrCode->setWriterByExtension($qrCode);
+                    // Return the QR code data as JSON response
+                    return response()->json(['qrCodeData' => $qrCode]);
 
                 //         $qrCode = QrCode::size(200)->generate($upi_url);
                 //   return response($qrCode)->header('Content-Type', 'image/png');
 
-                        // return response()->json(['pay' =>$pay]);
-
-                    // if($request->ajax())
-                    // {
-                    //     return response()->json([
-                    //        'pay' =>$pay
-                    //     ]);
-                    // }
-                    // $paymenttype = Paymenttype::get()->first();
-                    // return view('user.payments', compact('pay', 'userid', 'paymenttype', 'txnid', 'button'));
 
 
-                // Generate the QR code
-                $renderer = new ImageRenderer(
-                    new ImagickImageBackEnd(), // Use ImagickImageBackEnd for PNG
-                    400 // Width and height of the QR code
-                );
-                $writer = new Writer($renderer);
-                $qrCode = $writer->writeString($upi_url);
 
-                // Convert the QR code image data to a data URL
-                $dataUrl = 'data:image/png;base64,' . base64_encode($qrCode);
 
-                // Return the data URL as JSON response
-                return response()->json(['dataUrl' => $dataUrl]);
+
+
                 }
             }
         } else if ($paymenttype->payment_name == 'haodapay' && $paymenttype->status == 1) {
