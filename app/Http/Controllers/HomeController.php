@@ -29,17 +29,63 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
+        $userid = $user->id;
         $username = $user->name;
         $orders = Product::where('status', '=', '1')->where('user_id', $user->id)->limit(4)->get();
         Session::put('username', $username);
         $title = "User Dashboard";
 
+        $commissionfee = config('comission.commission_key');
+        $thismonth = Carbon::now();
+        $thismonth = now()->format('m');
+
+        $today = Carbon::now();
+        $today = now()->format('Y/m/d');
+
+        //today's clients
+        $usercounttoday = Order_details::where('seller_id', $userid)
+            ->Where('payment_status', 'INITIATE')
+            ->orWhere('payment_status', 'SUCCESS')
+            ->whereDate('created_at', $today)
+            ->get('id')->count();
+
+        //thismonth clients
+        $usercountthismonth = Order_details::where('seller_id', $userid)
+            ->where('payment_status', 'INITIATE')
+            ->orWhere('payment_status', 'SUCCESS')
+            ->whereMonth('created_at', $thismonth)
+            ->get('id')
+            ->count();
+
+        //revenue_today
+        $revenue_today = Order_details::where('seller_id', $userid)
+            ->where('payment_status', 'SUCCESS')
+            ->whereDate('created_at', $today)
+            ->sum('product_price');
+        $amount_today = $revenue_today * $commissionfee / 100;
+
+        //revenue_thismonth
+        $revenue_thismonth = Order_details::where('seller_id', $userid)
+            ->where('payment_status', 'SUCCESS')
+            ->whereMonth('created_at', $thismonth)
+            ->sum('product_price');
+        $amount_thismonth = $revenue_thismonth * $commissionfee / 100;
+
+        if($request->ajax())
+        {
+            return response()->json([
+                'amount_today' => $amount_today,
+                'amount_thismonth' => $amount_thismonth,
+                'userstoday' => $usercounttoday,
+                'usersmonth' => $usercountthismonth,
+            ]);
+        }
         //notifications 
-        $complaints_status = UserComplaints::where('status','=','solved')->get();
-        
+        $complaints_status = UserComplaints::where('status', '=', 'solved')->get();
+
 
         return view('user.home')->with(compact('title', 'orders'));
 
