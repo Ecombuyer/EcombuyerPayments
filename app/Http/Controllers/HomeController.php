@@ -34,34 +34,12 @@ class HomeController extends Controller
 
         $user = Auth::user();
         $username = $user->name;
-        $userid = $user->id;
+
         $orders = Product::where('status', '=', '1')->where('user_id', $user->id)->limit(4)->get();
         Session::put('username', $username);
         $title = "User Dashboard";
 
         //cards
-        $commissionFee = config('commission.commission_key');
-        $thismonth = Carbon::now();
-        $thismonth = now()->format('m');
-
-        $today = Carbon::now();
-        $today = now()->format('Y/m/d');
-
-        //today's users
-        $users = Order_details::where('seller_id','=',$userid)
-                                ->where('payment_status','=','INITIATE')
-                                ->where('payment_status','=','SUCCESS')
-                                ->whereDate('created_at','=',$today)
-                                ->get()
-                                ->count('id');
-
-        //this month users
-        $thismonthusers = Order_details::where('seller_id',$userid)
-                                ->where('payment_status','=','INITIATE')
-                                ->where('payment_status','=','SUCCESS')
-                                ->where('created_at','=',$thismonth)
-                                ->get();
-        // dd($thismonthusers);
 
         return view('user.home')->with(compact('title', 'orders'));
 

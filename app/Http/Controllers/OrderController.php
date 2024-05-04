@@ -325,19 +325,17 @@ class OrderController extends Controller
     //     $title = "BuyNow";
     //     return view('user.placeorder', compact('title', 'order', 'userid'));
     // }
-    public function buynow(Request $request)
+
+
+
+    public function usertransaction()
     {
-             $user = Auth::user();
-        $userid =  $user->id;
-        $productid =  $request->product_id;
-
-        $order = Product::where('product_id', $productid)->first();
-
-        $title = "BuyNow";
-
-
-        return view('user.placeorder', compact('title', 'order', 'userid'));
+        $userid =  Auth::id();
+        $title = "Transactions";
+        $orders = Order_details::where('seller_id', $userid)->get()->all();
+        return view("user.userransactiondetails", compact("title", "orders"));
     }
+
 
     public function placeorder(Request $request)
     {

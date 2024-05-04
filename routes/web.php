@@ -88,6 +88,8 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
         // Route::get('/usercomplaintsbooked', [OrderController::class,'usercomplaintsbooked'])->name('user.complaintsbooked');
         Route::post('/usercomplaintsbooked', [OrderController::class, 'usercomplaintsbooked'])->name('user.complaintsbooked');
         Route::post('/usercomplaintsstatus', [OrderController::class, 'usercomplaintsstatus'])->name('user.complaintsstatus');
+
+        Route::GET('/user/transactions', [OrderController::class, 'usertransaction'])->name('user.transactions');
     });
 });
 
