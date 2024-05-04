@@ -3,287 +3,306 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <title>Document</title>
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-      :root {
-        --dark-cyan: hsl(158, 36%, 37%);
-        --cream: hsl(30, 38%, 92%);
-        --very-dark-blue: hsl(157, 30%, 24%);
-        --dark-grayish-blue: hsl(228, 12%, 48%);
-        --white: hsl(0, 0%, 100%);
-      }
-
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        font-family: "poppins", sans-serif;
-        background-color: var(--cream);
-        height: 100vh;
-        width: 100%;
-      }
-
-      main {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      main .card1 {
-        width: 900px;
-        background-color: var(--white);
-        display: flex;
-        border-radius: 12px;
-        position: relative;
-      }
-      main .card1 .card__img,
-      main .card1 .card__content {
-        width: 50%;
-      }
-      main .card1 .card__img picture {
-        width: 100%;
-        height: 100%;
-        display: block;
-        position: relative;
-      }
-      /* main .card1 .card__img picture span {
-    position: absolute;
-    background-color: rgb(218, 185, 0);
-    left: -40px;
-    top: 5px;
-    font-family: 'poppins', sans-serif;
-    font-size: 20px;
-    transform: rotate(-30deg);
-    padding: 5px 20px;
-    clip-path: polygon(0% 0%, 100% 0%, 80% 100%, 0% 100%);
-} */
-      main .card1 .card__img picture a {
-        position: absolute;
-        overflow: hidden;
-        width: 150px;
-        height: 150px;
-        top: -10px;
-        left: -10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      main .card1 .card__img picture a::before {
-        content: "Ecom buyer";
-        position: absolute;
-        width: 150%;
-        height: 40px;
-        background-image: linear-gradient(
-          45deg,
-          #ffb144 0%,
-          #ffb144 51%,
-          #ffb144 100%
-        );
-        transform: rotate(-45deg) translateY(-20px);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #fff;
-        font-weight: 600;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.23);
-      }
-
-      main .card1 .card__img picture a::after {
-        content: "";
-        position: absolute;
-        width: 10px;
-        bottom: 0;
-        left: 0;
-        height: 10px;
-        z-index: -1;
-        box-shadow: 140px -140px #cc3f47;
-        background-image: linear-gradient(
-          45deg,
-          #ff512f 0%,
-          #f09819 51%,
-          #ff512f 100%
-        );
-      }
-
-      main .card1 .card__img picture img {
-        width: 100%;
-        height: 100%;
-        border-radius: 12px 0px 0px 12px;
-      }
-      main .card1 .card__content .sample-images {
-        display: flex;
-        width: 180px;
-        /* height: 110px; */
-        justify-content: space-between;
-        text-decoration: none;
-      }
-      main .card1 .card__content .sample-images li {
-        list-style-type: none;
-        cursor: pointer;
-      }
-      main .card1 .card__content .sample-images li img {
-        width: 80px;
-        height: 100%;
-      }
-      main .card1 .card__content .sample-images li.item-selected {
-        border: 2px solid #e6aa57;
-      }
-
-      main .card1 .card__content {
-        padding: 30px;
-        display: flex;
-        flex-direction: column;
-        row-gap: 18px;
-      }
-      main .card1 .card__content .card__tag {
-        text-transform: uppercase;
-        letter-spacing: 3px;
-        font-size: 14px;
-        color: var(--dark-grayish-blue);
-      }
-      main .card1 .card__content .card__title {
-        font-family: "Fraunces", serif;
-        text-transform: capitalize;
-      }
-      main .card1 .card__content .card__desc {
-        font-size: 14px;
-        color: var(--dark-grayish-blue);
-        line-height: 24px;
-      }
-      main .card1 .card__content .card__price {
-        display: flex;
-        align-items: center;
-        column-gap: 20px;
-      }
-      main .card1 .card__content .card__price h1 {
-        color: var(--dark-cyan);
-        font-family: "Fraunces", serif;
-      }
-      main .card1 .card__content .card__price s {
-        font-size: 14px;
-        color: var(--dark-grayish-blue);
-      }
-      main .card1 .card__content .card__btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        column-gap: 10px;
-        background-color: var(--dark-cyan);
-        padding: 14px;
-        outline: none;
-        border: 0;
-        border-radius: 10px;
-        color: var(--white);
-        font-weight: 700;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background1 200ms linear;
-      }
-      main .card1 .card__content .card__btn:hover {
-        background-color: var(--very-dark-blue);
-      }
-
-      @media (max-width: 600px) {
-        body {
-          height: auto;
-        }
-        main {
-          padding: 20px;
-        }
-        main .card1 {
-          flex-direction: column;
-        }
-        main .card1 .card__img,
-        main .card1 .card__content {
-          width: 100%;
-        }
-        main .card1 .card__img picture img {
-          border-radius: 12px 12px 0px 0px;
-        }
-        main .card1 .card__content {
-          padding: 20px;
-          row-gap: 16px;
-        }
-      }
-    </style>
+    <title>Rosario's Fashion</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="{{ env('APP_URL') }}/assets/css/ecom.css" />
   </head>
   <body>
 
-    {{-- @dd( $order->product_id); --}}
-    <main>
-        <form action="{{ route('orders.buynow') }}" method="POST">
-            @csrf
-      <div class="card1">
-        <div class="card__img">
-          <picture>
-            <a href=""></a>
-
-            <img
-              id="featured"
-              src="{{ asset('uploads/previewimages/' . $order->file) }}"
-              alt=""
-            />
-          </picture>
-        </div>
-        <div class="card__content">
-          <ul class="sample-images">
-            <li class="item-selected">
-              <img
-                src="{{ asset('uploads/previewimages/' . $order->image) }}"
-                alt=""
-              />
-            </li>
-            <li class="">
-              <img
-                src="{{ asset('uploads/previewimages/' . $order->image_2) }}"
-                alt=""
-              />
-            </li>
+    <section id="header">
+        <a href="#"><img src="{{ env('APP_URL') }}/assets/Images/logo.png" class="logo" alt="logo" /></a>
+        <div>
+          <ul id="navbar">
+            <li><a  href="index.html">Home</a></li>
+            <li><a class="active" href="shop.html">Shop</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li id="lg-bag"><a href="cart.html"><i class="fa-solid fa-bag-shopping"></i></a></li>
+            <a href="#" id="close"><i class="fa-solid fa-xmark"></i></a>
           </ul>
-          <!-- <div class="sample-images">
-                    <img src="https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcSmUs6Gurb98ITXJD6UwZEJ0PSrJcNcfkmUDcWFlSPmXJeNVd1f2_UveAqG7bVeINfgWmSC2KbpZwIBYCOvD5v8dlaoAtFd_sSj47I" alt="">
-                    <img src="https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSspHTA-ozenqgNWD2U_3U_wDZuL1gXmVnvCgo91Fo6DTc1un8qbKaD77KKGOk0yYmx9HpBQHySBm1Jt3vX9NBYSn3m0dexzQ_GWnAZ" alt="">
-                </div> -->
-          <p class="card__tag">Garments & readymades</p>
-          <h1 class="card__title">
-            {{$order->name}}
-          </h1>
-          <p class="card__desc">
-            {{$order->description}}
-          </p>
-          <div class="card__price">
-            <h1>₹ {{$order->price}}</h1>
-            <s>₹ {{$order->price}}</s>
-          </div>
+        </div>
+        <div id="mobile">
+          <a href="cart.html"><i class="fa-solid fa-bag-shopping"></i></a>
+          <i id="bar" class="fa-solid fa-bars"></i>
+        </div>
+      </section>
+    <section id="pagedetails" class="section-p1">
+      <form action="{{ route('orders.buynow') }}" method="POST">
+        @csrf
+        <div class="single-pro-image">
+            <img src="{{ asset('uploads/previewimages/' . $order->file) }}" width="100%"  id="mainimg" alt="">
+            <div class="small-img-group">
+                <div class="small-img-col">
+                    <img src="{{ asset('uploads/previewimages/' . $order->file) }}" width="100%" class="small-img" alt="">
+                </div>
+                <div class="small-img-col">
+                    <img src="{{ asset('uploads/previewimages/' . $order->image) }}" width="100%" class="small-img" alt="">
+                </div>
+                <div class="small-img-col">
+                    <img src="{{ asset('uploads/previewimages/' . $order->image_2) }}" width="100%" class="small-img" alt="">
+                </div>
+                {{-- <div class="small-img-col">
+                    <img src="Images/Products/f4.jpg" width="100%" class="small-img" alt="">
+                </div> --}}
+            </div>
+        </div>
+        <div class="single-pro-details">
+            <h6> {{$order->name}}</h6>
 
-          <input type="hidden" name="product_id" value="{{ $order->product_id }}">
-          <button class="card__btn" type="submit" value="submit">
-            <img
-              src="https://rvs-product-preview-card-component.vercel.app/images/icon-cart.svg"
-              alt=""
-            />
-            Buy Now
-          </button>
+            <h2>${{$order->price}}</h2>
+            <select name="" id="">
+                <option value="">Select Size</option>
+                <option value="">XL</option>
+                <option value="">XXL</option>
+                <option value="">Large</option>
+                <option value="">Medium</option>
+                <option value="">Small</option>
+            </select>
+            <input type="number" value="1">
+            <input type="hidden" name="product_id" value="{{ $order->product_id }}">
+            <input type="hidden" name="selleruserid" id="selleruserid"
+            value="{{ $order->user_id }}">
+        <input type="hidden" name="productid" id="productid"
+            value="{{ $order->product_id }}">
+            <input type="hidden" name="productname" id="productname"
+            value="{{ $order->name }}">
+            <input type="hidden" name="productprice" id="productprice"
+            value="{{ $order->price }}">
+            <input type="hidden" name="type" id="type"
+            value="{{ $order->type }}">
+
+
+            <button class="normal">Buy Now</button>
+
+            <h4>Product Details</h4>
+            <span>{{$order->description}}</span>
+        </div>
+      </form>
+    </section>
+    <section id="product1" class="section-p1">
+        <h2>Featured Products</h2>
+        <p>Aesthitic Collection New Arrivals! Get your new favorite shirt now.</p>
+        <div class="pro-container">
+          <div class="pro">
+            <img src="Images/Products/n1.jpg" alt="" />
+            <div class="des">
+              <span>Louis Philippe</span>
+              <h5>Casual Blue Shirt</h5>
+              <div class="star">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <h4>₹ 800</h4>
+            </div>
+          <a href="" class="cart"><i class="fa-solid fa-cart-shopping" style="margin-right: 10px;"></i>Buynow</a>
+          </div>
+          <div class="pro">
+            <img src="Images/Products/n2.jpg" alt="" />
+            <div class="des">
+              <span>Louis Philippe</span>
+              <h5>Checked Shirts</h5>
+              <div class="star">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <h4>₹ 900</h4>
+            </div>
+          <a href="" class="cart"><i class="fa-solid fa-cart-shopping" style="margin-right: 10px;"></i>Buynow</a>
+          </div>
+          <div class="pro">
+            <img src="Images/Products/n3.jpg" alt="" />
+            <div class="des">
+              <span>Louis Philippe</span>
+              <h5>Casual White Shirts</h5>
+              <div class="star">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <h4>₹ 830</h4>
+            </div>
+          <a href="" class="cart"><i class="fa-solid fa-cart-shopping" style="margin-right: 10px;"></i>Buynow</a>
+          </div>
+          <div class="pro">
+            <img src="Images/Products/n4.jpg" alt="" />
+            <div class="des">
+              <span>Roadster</span>
+              <h5>Printed Shirt</h5>
+              <div class="star">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <h4>₹ 430</h4>
+            </div>
+          <a href="" class="cart"><i class="fa-solid fa-cart-shopping" style="margin-right: 10px;"></i>Buynow</a>
+          </div>
+          <div class="pro">
+            <img src="Images/Products/n5.jpg" alt="" />
+            <div class="des">
+              <span>Flying Machine</span>
+              <h5>Denim Shirt</h5>
+              <div class="star">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <h4>₹ 1200</h4>
+            </div>
+          <a href="" class="cart"><i class="fa-solid fa-cart-shopping" style="margin-right: 10px;"></i>Buynow</a>
+          </div>
+          <div class="pro">
+            <img src="Images/Products/n6.jpg" alt="" />
+            <div class="des">
+              <span>Flying Machine</span>
+              <h5>Formal Jeans</h5>
+              <div class="star">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <h4>₹ 900</h4>
+            </div>
+          <a href="" class="cart"><i class="fa-solid fa-cart-shopping" style="margin-right: 10px;"></i>Buynow</a>
+          </div>
+          <div class="pro">
+            <img src="Images/Products/n7.jpg" alt="" />
+            <div class="des">
+              <span>Flying Machine</span>
+              <h5>Denim Jackets</h5>
+              <div class="star">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <h4>₹ 980</h4>
+            </div>
+          <a href="" class="cart"><i class="fa-solid fa-cart-shopping" style="margin-right: 10px;"></i>Buynow</a>
+          </div>
+          <div class="pro">
+            <img src="Images/Products/n8.jpg" alt="" />
+            <div class="des">
+              <span>Flying Machine</span>
+              <h5>Black Casual Shirt</h5>
+              <div class="star">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <h4>₹ 780</h4>
+            </div>
+          <a href="" class="cart"><i class="fa-solid fa-cart-shopping" style="margin-right: 10px;"></i>Buynow</a>
+          </div>
+        </div>
+      </section>
+    <section id="newsletter" class="section-p1 section-m1">
+      <div class="newstext">
+        <h4>Sign Up for News Letter</h4>
+        <p>
+          Get E-Mail updates about our latest shop and
+          <span>Special Offer</span>
+        </p>
+      </div>
+      <div class="form">
+        <input type="text" placeholder="Your Email Address" />
+        <button class="normal">Sign Up</button>
+      </div>
+    </section>
+    <footer class="section-p1">
+      <div class="col">
+        <img src="Images/logo.png" class="logo" alt="" />
+        <h4 class="cont">Contact</h4>
+        <p><strong>Address:</strong>N0.1234 Bishop Road, Trichy, TN</p>
+        <p><strong>Phone:</strong>+91 82487 58508, (0431) 123 4567</p>
+        <p><strong>Address:</strong>10.00am - 08.00pm Mon-Sat</p>
+        <div class="follow">
+          <h4>Follow us</h4>
+          <div class="icon">
+            <i class="fa-brands fa-facebook"></i>
+            <i class="fa-brands fa-square-x-twitter"></i>
+            <i class="fa-brands fa-instagram"></i>
+            <i class="fa-brands fa-youtube"></i>
+          </div>
         </div>
       </div>
-        </form>
-    </main>
+      <div class="col">
+        <h4>About</h4>
+        <a href="#">About us</a>
+        <a href="#">Delivery Information</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms &amp; Conditions</a>
+        <a href="#">Contact Us</a>
+      </div>
+      <div class="col">
+        <h4>My Account</h4>
+        <a href="#">Sign In</a>
+        <a href="#">View Cart</a>
+        <a href="#">My Wishlist</a>
+        <a href="#">Track My Order</a>
+        <a href="#">Help</a>
+      </div>
+      <div class="col install">
+        <h4>Install App</h4>
+        <p>From App Store or google play</p>
+        <div class="row">
+          <img src="Images/Pay/app.jpg" alt="" />
+          <img src="Images/Pay/play.jpg" alt="" />
+        </div>
+        <p>Secured Payment Gateway</p>
+        <img src="Images/Pay/pay.png" alt="" />
+      </div>
+      <div class="copyright">
+        <p>&#169; 2024, Melvin Rosario. All rights reserved.</p>
+      </div>
+    </footer>
     <script>
-      $(".card__content li").hover(function () {
-        var url = $(this).children("img").attr("src");
-        $(".item-selected").removeClass("item-selected");
-        $(this).addClass("item-selected");
-        $("#featured").attr("src", url);
-      });
+        var mainImg = document.getElementById('mainimg');
+        var smallImg = document.getElementsByClassName('small-img');
+
+        smallImg[0].onclick = function(){
+            mainImg.src = smallImg[0].src;
+        }
+        smallImg[1].onclick = function(){
+            mainImg.src = smallImg[1].src;
+        }
+        smallImg[2].onclick = function(){
+            mainImg.src = smallImg[2].src;
+        }
+        smallImg[3].onclick = function(){
+            mainImg.src = smallImg[3].src;
+        }
     </script>
+
+    <script src="ecom.js"></script>
   </body>
 </html>
+
+
+
+
+

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class HomepageController extends Controller
@@ -13,9 +14,10 @@ class HomepageController extends Controller
      */
     public function homepage()
     {
-        return view('home.home');
+        $orders = Product::get()->all();
+        return view('home.home',compact('orders'));
     }
-
+    
     /**
      * Show the application dashboard.
      *
