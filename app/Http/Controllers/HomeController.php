@@ -31,15 +31,37 @@ class HomeController extends Controller
      */
     public function index()
     {
+
         $user = Auth::user();
         $username = $user->name;
+        $userid = $user->id;
         $orders = Product::where('status', '=', '1')->where('user_id', $user->id)->limit(4)->get();
         Session::put('username', $username);
         $title = "User Dashboard";
 
-        //notifications 
-        $complaints_status = UserComplaints::where('status','=','solved')->get();
-        
+        //cards
+        $commissionFee = config('commission.commission_key');
+        $thismonth = Carbon::now();
+        $thismonth = now()->format('m');
+
+        $today = Carbon::now();
+        $today = now()->format('Y/m/d');
+
+        //today's users
+        $users = Order_details::where('seller_id','=',$userid)
+                                ->where('payment_status','=','INITIATE')
+                                ->where('payment_status','=','SUCCESS')
+                                ->whereDate('created_at','=',$today)
+                                ->get()
+                                ->count('id');
+
+        //this month users
+        $thismonthusers = Order_details::where('seller_id',$userid)
+                                ->where('payment_status','=','INITIATE')
+                                ->where('payment_status','=','SUCCESS')
+                                ->where('created_at','=',$thismonth)
+                                ->get();
+        // dd($thismonthusers);
 
         return view('user.home')->with(compact('title', 'orders'));
 
@@ -79,13 +101,13 @@ class HomeController extends Controller
             ->sum('product_price');
         $thismonthrevenue = $orderdetails * $commissionFee / 100;
 
-        //payment status 
+        //payment status
         $success = Order_details::where('payment_status', 'SUCCESS')->count();
         $initiate = Order_details::where('payment_status', 'INITIATE')->count();
         $failed = Order_details::where('payment_status', 'FAILED')->count();
         $error = Order_details::where('payment_status', 'ERROR')->count();
 
-        //daily usercount   
+        //daily usercount
         $this_month_user = Auth::user()
             ->where('status', 1)->where('type', 0)
             ->whereDate('created_at', $today)->get()->count();
@@ -134,7 +156,9 @@ class HomeController extends Controller
 
             ]);
         }
-        return view('admin.adminHome', compact('users', 'title'));
+        // for chart
+
+        return view('admin.adminhome', compact('users', 'title'));
     }
 
     /**

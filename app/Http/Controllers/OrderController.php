@@ -325,7 +325,6 @@ class OrderController extends Controller
     //     $title = "BuyNow";
     //     return view('user.placeorder', compact('title', 'order', 'userid'));
     // }
-
     public function buynow(Request $request)
     {
              $user = Auth::user();
