@@ -12,8 +12,8 @@
                                 <div class="col-8">
                                     <div class="numbers">
                                         <p class="text-sm mb-0 text-uppercase font-weight-bold">Today's Money</p>
-                                        <h5 class="font-weight-bolder">
-                                            $53,000
+                                        <h5 class="font-weight-bolder" id="todaysmoney">
+                                            ₹
                                         </h5>
                                         <p class="mb-0">
                                             <span class="text-success text-sm font-weight-bolder">+55%</span>
@@ -38,8 +38,8 @@
                                 <div class="col-8">
                                     <div class="numbers">
                                         <p class="text-sm mb-0 text-uppercase font-weight-bold">Today's Users</p>
-                                        <h5 class="font-weight-bolder">
-                                            2,300
+                                        <h5 class="font-weight-bolder" id="todaysusers">
+                                            +
                                         </h5>
                                         <p class="mb-0">
                                             <span class="text-success text-sm font-weight-bolder">+3%</span>
@@ -64,8 +64,8 @@
                                 <div class="col-8">
                                     <div class="numbers">
                                         <p class="text-sm mb-0 text-uppercase font-weight-bold">New Clients</p>
-                                        <h5 class="font-weight-bolder">
-                                            +3,462
+                                        <h5 class="font-weight-bolder" id="thismonthuser">
+                                            +
                                         </h5>
                                         <p class="mb-0">
                                             <span class="text-danger text-sm font-weight-bolder">-2%</span>
@@ -90,8 +90,8 @@
                                 <div class="col-8">
                                     <div class="numbers">
                                         <p class="text-sm mb-0 text-uppercase font-weight-bold">Sales</p>
-                                        <h5 class="font-weight-bolder">
-                                            $103,430
+                                        <h5 class="font-weight-bolder" id="amountthismonth">
+                                            ₹
                                         </h5>
                                         <p class="mb-0">
                                             <span class="text-success text-sm font-weight-bolder">+5%</span> than last month
@@ -266,10 +266,10 @@
                                                         Product name
                                                     </th>
                                                     <!-- <th
-                                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
-                                                    >
-                                                    Product Description
-                                                    </th> -->
+                                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+                                                        >
+                                                        Product Description
+                                                        </th> -->
                                                     <th
                                                         class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                         Product Price
@@ -283,8 +283,8 @@
                                                         Product Image
                                                     </th>
                                                     <th
-                                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                    Product Type
+                                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                        Product Type
                                                     </th>
                                                     <th
                                                         class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -312,18 +312,20 @@
                                                                 class="text-secondary text-xs font-weight-bold">{{ $order->name }}</span>
                                                         </td>
                                                         <!-- <td class="align-middle text-center">
-                                                        <span class="text-secondary text-xs font-weight-bold"
-                                                            >loremffndsofnon</span
-                                                        >
-                                                        </td> -->
+                                                            <span class="text-secondary text-xs font-weight-bold"
+                                                                >loremffndsofnon</span
+                                                            >
+                                                            </td> -->
                                                         <td class="align-middle text-center">
                                                             <span
                                                                 class="text-secondary text-xs font-weight-bold">{{ $order->price }}</span>
                                                         </td>
                                                         <td class="align-middle text-center">
-                                                            <a class="badge bg-primary" href="{{route('orders.transaction',$order->product_id)}}"  style="font-weight: 500; text-transform: capitalize; text-decoration: underline; background-color: #c9c8c3;">Details</a>
+                                                            <a class="badge bg-primary"
+                                                                href="{{ route('orders.transaction', $order->product_id) }}"
+                                                                style="font-weight: 500; text-transform: capitalize; text-decoration: underline; background-color: #c9c8c3;">Details</a>
 
-                                                          </td>
+                                                        </td>
 
                                                         <td class="align-middle text-center">
                                                             <div class="">
@@ -356,14 +358,12 @@
                                                                 data-original-title="Edit user"
                                                                 data-title="{{ $order->name }}"
                                                                 data-text="{{ $order->description }}"
-                                                                data-url="{{ url('/' . $order->product_id . '/' . $order->name . '/show') }}"
-                                                                >
+                                                                data-url="{{ url('/' . $order->product_id . '/' . $order->name . '/show') }}">
                                                                 <template class="is-supported">
-                                                                    <a
-                                                                        class="text-white font-weight-bold text-xs mx-1  bg-gradient-success js-share" style="border-radius:10px;padding: 7px;" >
-                                                                        <i
-                                                                            class="fa-solid fa-share"
-                                                                            style="margin-right: 5px" ></i>Share</a>
+                                                                    <a class="text-white font-weight-bold text-xs mx-1  bg-gradient-success js-share"
+                                                                        style="border-radius:10px;padding: 7px;">
+                                                                        <i class="fa-solid fa-share"
+                                                                            style="margin-right: 5px"></i>Share</a>
                                                                 </template>
                                                                 <template class="not-supported">
                                                                     <pre>@Html.Partial('_Social.html')</pre>
@@ -394,8 +394,10 @@
                                         </table>
                                     </div>
                                     <div class="card-footer d-flex align-items-center">
-                                        <a href="{{route('orders.index')}}" class="font-weight-bold text-xs mx-3 text-decoration-underline">Show More...</a>
-                                      </div>
+                                        <a href="{{ route('orders.index') }}"
+                                            class="font-weight-bold text-xs mx-3 text-decoration-underline">Show
+                                            More...</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -445,8 +447,8 @@
     </main>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
     <script>
-        script>
         $(document).ready(function() {
             function userdashboard() {
                 $.ajax({
@@ -457,31 +459,17 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
-                        $('#orderdetails').text(response.orderdetails);
-                        $('#usercounts').text(response.countusers);
-                        $('#thismonthclients').text(response.thismonthusers);
-                        $('#initiate').text(response.initiate);
-                        $('#success').text(response.success);
-                        $('#failed').text(response.failed);
-                        $('#error').text(response.error);
-                        $('#todaysmoney').text(response.todaysmoney);
-                        $('#products').text(response.totalproduct);
-                        $('#physical').text(response.physicalproducts);
-                        $('#digital').text(response.digitalproducts);
-                        $('#revenue').text(response.todaysmoney);
-                        $('#rev_month').text(response.revenuethismonth);
-                        $('#tc').text(response.totalcomplaints);
-                        $('#solved').text(response.solved);
-                        $('#pending').text(response.pending);
-                        $('#enquiring').text(response.enquiring);
+                        $('#todaysmoney').text(response.amount_today);
+                        $('#amountthismonth').text(response.amount_thismonth);
+                        $('#todaysusers').text(response.userstoday);
+                        $('#thismonthuser').text(response.usersmonth);
                     }
 
                 });
             }
-           
+
             userdashboard();
             setInterval(userdashboard, 3000);
         });
-    </script>
     </script>
 @endsection

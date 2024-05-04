@@ -19,10 +19,10 @@
         <a href="#"><img src="{{ env('APP_URL') }}/assets/Images/logo.png" class="logo" alt="logo" /></a>
         <div>
           <ul id="navbar">
-            <li><a  href="index.html">Home</a></li>
+            <li><a  href="{{route('home')}}">Home</a></li>
             <li><a class="active" href="shop.html">Shop</a></li>
             <li><a href="blog.html">Blog</a></li>
-            <li><a href="about.html">About</a></li>
+            <li><a href="{{route('aboutpage')}}">About</a></li>
             <li><a href="contact.html">Contact</a></li>
             <li id="lg-bag"><a href="cart.html"><i class="fa-solid fa-bag-shopping"></i></a></li>
             <a href="#" id="close"><i class="fa-solid fa-xmark"></i></a>
