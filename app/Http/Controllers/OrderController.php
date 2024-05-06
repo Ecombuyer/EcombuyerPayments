@@ -429,6 +429,7 @@ class OrderController extends Controller
                     if ($request->input('type') == 'physicalproduct') {
                         $orderdetails1Data['address'] = $form2['address'];
                     }
+                    // dd($orderdetails1Data);
                     $orderdetails1 = Order_details::create($orderdetails1Data);
                     // $product_id = Order_details::where('transaction_id','=',$txnid)
                     //                             ->first('product_id');
