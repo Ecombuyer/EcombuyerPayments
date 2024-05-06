@@ -453,7 +453,7 @@
             function userdashboard() {
                 $.ajax({
                     type: "GET",
-                    url: "{{ route('admin.home') }}",
+                    url: "{{ route('home') }}",
                     dataType: "json",
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

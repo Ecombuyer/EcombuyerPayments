@@ -109,8 +109,9 @@ class HomeController extends Controller
         //counting users
         $users = Auth::user()->where('type', 0)
             ->where('status', 1)
-            ->get()
-            ->all();
+            ->orderBydesc('id')
+            ->limit(5)
+            ->get();
         $countusers = count($users);
 
         //getting current username

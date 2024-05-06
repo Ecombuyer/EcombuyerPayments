@@ -44,11 +44,6 @@
                                         placeholder="Enter User Email" name = "email" />
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="pan" class="form-label">Pan No</label>
-                                    <input type="text" class="form-control" id="inputEmail4"
-                                        placeholder="Enter Pan Number" name = "pan" />
-                                </div>
-                                <div class="col-md-4">
                                     <label for="pincode" class="form-label">Pincode</label>
                                     <input type="text" class="form-control" id="inputEmail4" placeholder="Enter PinCode"
                                         name = "pincode" />

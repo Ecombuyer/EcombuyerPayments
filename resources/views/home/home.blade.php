@@ -1198,7 +1198,7 @@ What payment types are accepted through Ecom Buyer Payments?
                 <li><a href="shop.html">Shop</a></li>
                 <li><a href="blog.html">Blog</a></li>
                 <li><a href="{{route('aboutpage')}}">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
+                <li><a href="{{route('login')}}">Get Started</a></li>
                 <li id="lg-bag"><a href="cart.html"><i class="fa-solid fa-bag-shopping"></i></a></li>
                 <a href="#" id="close"><i class="fa-solid fa-xmark"></i></a>
             </ul>

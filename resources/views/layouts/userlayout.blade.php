@@ -391,6 +391,60 @@
         <script src="{{ env('APP_URL') }}/assets/js/argon-dashboard.min.js?v=2.0.4"></script>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{{-- <script>
+    function notification() {
+        $.ajax({
+            type: "GET",
+            url: "{{ route('') }}",
+            dataType: "json",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+                if (Notification.permission === "granted") {
+                    response.complaints.forEach(row => {
+                        const notify = new Notification(`Complaint from ${row.name}`, {
+                            body: row.complaints,
+                        });
+                        notify.onclick = () => {
+                            window.open("http://localhost:8000/admin/complaints");
+                        };
+                    });
+
+                    response.reports.forEach(row2 => {
+                        const notify = new Notification(`Report from ${row2.name}`, {
+                            body: row2.complaint,
+                        });
+                        notify.onclick = () => {
+                            window.open("http://localhost:8000/admin/reports");
+                        };
+                    });
+                } else {
+                    console.log("Notifications are not allowed");
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        if ("Notification" in window) {
+            Notification.requestPermission().then(function(result) {
+                if (result === "granted") {
+                    console.log("Notifications allowed");
+                    notification();
+                    setInterval(notification, 4000);
+                } else {
+                    console.log("Notifications not allowed");
+                }
+            });
+        } else {
+            console.log("Notifications not supported in this browser");
+        }
+    });
+</script> --}}
 <script>
     class WebShare {
         constructor({
@@ -445,4 +499,5 @@
         }
     });
 </script>
+
 </html>
