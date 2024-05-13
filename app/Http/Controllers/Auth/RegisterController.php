@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\aadhar_pan;
+use App\Models\BankDetail;
 use App\Models\UserProfile;
-use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -32,6 +34,7 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'phone' => ['required', 'string', 'regex:/^[0-9]{10}$/'],
             'Pancard' => ['required', 'string', 'regex:/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/'],
+            'remember' => 'required'
         ]);
     }
 
@@ -51,6 +54,19 @@ class RegisterController extends Controller
         $userprofile->user_id  = $user->id;
         $userprofile->pan_no = $user->Pancard;
         $userprofile->save();
+
+        /*Aadhar details*/
+        $aadhar_pan = new aadhar_pan;
+
+        $aadhar_pan->user_id  = $user->id;
+        $aadhar_pan->pan_no = $user->Pancard;
+        $aadhar_pan->save();
+        /*End*/
+        /*Bank Details*/
+        $BankDetail = new BankDetail;
+        $BankDetail->user_id  =  $user->id;
+        $BankDetail->save();
+        /*End*/
         $number = $user->phone;
         $name = $user->name;
         $authkey = "41632a58a273b09e";

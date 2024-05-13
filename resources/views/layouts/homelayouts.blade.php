@@ -20,15 +20,15 @@
     rel="stylesheet">
 
   <!-- Vendor CSS Files -->
-  <link href="{{env('APP_URL')}}homepage_assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="{{env('APP_URL')}}homepage_assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="{{env('APP_URL')}}homepage_assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="{{env('APP_URL')}}homepage_assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="{{env('APP_URL')}}homepage_assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="{{env('APP_URL')}}homepage_assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="{{env('APP_URL')}}/homepage_assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="{{env('APP_URL')}}/homepage_assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="{{env('APP_URL')}}/homepage_assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="{{env('APP_URL')}}/homepage_assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="{{env('APP_URL')}}/homepage_assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="{{env('APP_URL')}}/homepage_assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
   <!-- Template Main CSS File -->
-  <link href="{{env('APP_URL')}}homepage_assets/css/style.css" rel="stylesheet">
+  <link href="{{env('APP_URL')}}/homepage_assets/css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -38,7 +38,7 @@
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
       <a href="index.html" class="logo d-flex align-items-center">
-        <img src="{{env('APP_URL')}}homepage_assets/img/logo.png" alt="">
+        <img src="{{env('APP_URL')}}/homepage_assets/img/logo.png" alt="">
         <span>Ecom Buyer</span>
       </a>
 
