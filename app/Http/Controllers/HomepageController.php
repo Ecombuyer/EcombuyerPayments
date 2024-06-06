@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Product;
+
+use App\Models\Order_details;
+
 use Illuminate\Http\Request;
 
 class HomepageController extends Controller
@@ -14,10 +18,15 @@ class HomepageController extends Controller
      */
     public function homepage()
     {
-        $orders = Product::get()->all();
-        return view('home.home',compact('orders'));
+        $orders = Product::where('status', '=', '1')->limit(4)->get();
+        // Session::put('username', $username);
+        $title = "User Dashboard";
+
+        //cards
+
+        return view('user.home')->with(compact('title', 'orders'));
     }
-    
+
     /**
      * Show the application dashboard.
      *

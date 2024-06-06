@@ -17,19 +17,19 @@ class UserAccess
     public function handle(Request $request, Closure $next, $userType)
     {
 
-        // dd($request);
+         //dd($request);
         if(auth()->user()->type == $userType){
 
             return $next($request);
         }
 
 
-        else if(auth()->user()->type == 'admin'){
+        else if(auth()->user()->type == 1){
 
 
             return $next($request);
         }
-        else if(auth()->user()->type == 'manager'){
+        else if(auth()->user()->type == 2){
 
 
             return $next($request);

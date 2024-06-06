@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use Image;
+use App\Models\City;
 use App\Models\User;
 use App\Models\Order;
+use App\Models\State;
+use App\Models\Country;
 use App\Models\Product;
-
+use BaconQrCode\Writer;
 use App\Mail\RegisterMail;
 use App\Models\aadhar_pan;
 use App\Models\BankDetail;
@@ -20,13 +23,12 @@ use App\Mail\PaymentReceiptMail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+
+use BaconQrCode\Renderer\ImageRenderer;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
-
-use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
-use BaconQrCode\Writer;
 
 
 class OrderController extends Controller
@@ -339,12 +341,26 @@ class OrderController extends Controller
         $productid =  $request->product_id;
 
         $order = Product::where('product_id', $productid)->first();
+        $countries = Country::get(["name", "id"]);
+
 
         $title = "BuyNow";
 
 
-        return view('user.placeorder', compact('title', 'order', 'userid'));
+        return view('user.placeorder', compact('title', 'order', 'userid','countries'));
     }
+    /*State city*/
+    public function fetchState(Request $request)
+    {
+        $data['states'] = State::where("country_id",$request->country_id)->get(["name", "id"]);
+        return response()->json($data);
+    }
+    public function fetchCity(Request $request)
+    {
+        $data['cities'] = City::where("state_id",$request->state_id)->get(["name", "id"]);
+        return response()->json($data);
+    }
+    /*End*/
 
 
     public function placeorder(Request $request)

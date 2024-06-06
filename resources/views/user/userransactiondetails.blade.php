@@ -218,10 +218,7 @@
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             <i class="fa-solid fa-box mx-1"></i> Product Price
                                         </th>
-                                        <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            <i class="fa-solid fa-id-card mx-1"></i> User Id
-                                        </th>
+
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             <i class="fa-regular fa-user mx-1"></i> Name
@@ -283,10 +280,7 @@
                                                 <span
                                                     class="text-secondary text-xs font-weight-bold">{{ $order->product_price }}</span>
                                             </td>
-                                            <td class="align-middle text-center p-3">
-                                                <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $order->user_id }}</span>
-                                            </td>
+
                                             <td class="align-middle text-center p-3">
                                                 <span
                                                     class="text-secondary text-xs font-weight-bold">{{ $order->user_name }}</span>
