@@ -136,3 +136,4 @@ Route::middleware(['auth', 'user-access:manager'])->group(function () {
 });
 
 // Route::resource('orders', OrderController::class)->names('orders');
+Route::any('/returnurl', [HomeController::class,'returnurl'])->name('returnurl');
