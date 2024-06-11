@@ -194,6 +194,11 @@ class HomeController extends Controller
         return view('manager.managerHome');
     }
 
-
+    //check routes
+    public function returnurl(Request $request)
+    {
+        // dd($request->all());
+        return $request->all();
+    }
 
 }

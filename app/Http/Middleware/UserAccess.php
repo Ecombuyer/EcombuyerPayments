@@ -13,23 +13,23 @@ class UserAccess
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
-     */ 
+     */
     public function handle(Request $request, Closure $next, $userType)
     {
-
-        // dd($request);
+        dd(auth()->user()->type);
+        dd($userType);
         if(auth()->user()->type == $userType){
 
             return $next($request);
         }
 
 
-        else if(auth()->user()->type == 'admin'){
+        else if(auth()->user()->type == "admin"){
 
 
             return $next($request);
         }
-        else if(auth()->user()->type == 'manager'){
+        else if(auth()->user()->type == "manager"){
 
 
             return $next($request);
