@@ -44,8 +44,8 @@ Route::GET('/{product_id}/{name}/show', [OrderController::class, 'show'])->name(
 Route::POST('/buynow', [OrderController::class, 'buynow'])->name('orders.buynow');
 Route::POST('/placeorder', [OrderController::class, 'placeorder'])->name('orders.placeorder');
 Route::get('callback', [PaystackController::class, 'callback'])->name('callback');
-Route::get('success', [PaystackController::class, 'success'])->name('success');
-Route::get('cancel', [PaystackController::class, 'cancel'])->name('cancel');
+Route::get('/success/paid', [PaystackController::class, 'successful'])->name('success1');
+Route::get('/cancel/notpaid', [PaystackController::class, 'failure'])->name('cancel1');
 
 /*------------------------------------------
 --------------------------------------------

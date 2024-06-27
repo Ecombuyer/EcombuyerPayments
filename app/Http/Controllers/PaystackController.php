@@ -29,7 +29,7 @@ class PaystackController extends Controller
         $response = curl_exec($curl);
         curl_close($curl);
         $response = json_decode($response);
-        dd($response);
+        // dd($response);
         $meta_data = $response->data->metadata->custom_fields;
         if($response->data->status == 'success')
         {
@@ -42,17 +42,17 @@ class PaystackController extends Controller
             $obj->payment_status = "Completed";
             $obj->payment_method = "Paystack";
             $obj->save();
-            return redirect()->route('success');
+            return redirect()->route('success1');
         } else {
-            return redirect()->route('cancel');
+            return redirect()->route('cancel1');
         }
     }
 
-    public function success()
+    public function successful()
     {
         return "Payment is successful";
     }
-    public function cancel()
+    public function failure()
     {
         return "Payment is cancelled";
     }
