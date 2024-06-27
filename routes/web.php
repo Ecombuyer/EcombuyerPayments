@@ -9,6 +9,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\HomepageController;
+use App\Http\Controllers\PaystackController;
 use App\Http\Controllers\GoogleAuthController;
 
 
@@ -42,7 +43,9 @@ Route::GET('/{product_id}/{name}/show', [OrderController::class, 'show'])->name(
 // Route::GET('/buynow/{id}', [OrderController::class, 'buynow'])->name('orders.buynow');
 Route::POST('/buynow', [OrderController::class, 'buynow'])->name('orders.buynow');
 Route::POST('/placeorder', [OrderController::class, 'placeorder'])->name('orders.placeorder');
-
+Route::get('callback', [PaystackController::class, 'callback'])->name('callback');
+Route::get('success', [PaystackController::class, 'success'])->name('success');
+Route::get('cancel', [PaystackController::class, 'cancel'])->name('cancel');
 
 /*------------------------------------------
 --------------------------------------------

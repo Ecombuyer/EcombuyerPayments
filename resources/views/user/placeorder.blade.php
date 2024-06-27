@@ -244,9 +244,9 @@
                 id="wizardProfile"
                 style="border-radius: 30px"
               >
-                <form action="{{route('orders.placeorder')}}" method="POST">
-                    @csrf
-                  <!--        You can switch " data-color="purple" "  with one of the next bright colors: "green", "orange", "red", "blue"       -->
+             
+                   
+                  {{-- <!--        action="{{route('orders.placeorder')}}" @csrf method="POST"You can switch " data-color="purple" "  with one of the next bright colors: "green", "orange", "red", "blue"       --> --}}
 
                   <div class="wizard-header" style="display: flex; justify-content: space-between; align-items: center;">
                     <h3 style="font-weight: bold;" class="heading"><img src="assets/img/Layer 1 (5).png" alt="ecom" width="25px" style="margin: 7px 10px;" >Ecom Buyer</h3>
@@ -512,8 +512,8 @@
 							</div>
 
 							
-						  </div> --}}
-                          <button type="submit" class="btn " style="background-color: rgba(129, 130, 245, 0.938); margin-top: 3rem;">Proceed To Pay</button>
+						  </div> --}} <form id="paymentForm">
+                          <button type="submit" onclick="payWithPaystack()" class="btn " style="background-color: rgba(129, 130, 245, 0.938); margin-top: 3rem;">Proceed To Pay</button>
                       </div>
                     </div>
                   </div>
@@ -584,6 +584,48 @@
   <!--  More information about jquery.validate here: http://jqueryvalidation.org/	 -->
   <script src="{{ env('APP_URL') }}/assets/js/jquery1.validate.min.js"></script>
 
+  <script src="https://js.paystack.co/v1/inline.js"></script>
+  <script>
+    function payWithPaystack() {
+      let publicKey = "pk_test_e8d220b7463d64569f0053e78534f38e6b10cf4a";  // Ensure this correctly accesses your environment variable
+      let handler = PaystackPop.setup({
+        key: publicKey,
+        email: document.getElementById('email').value,
+        amount: parseFloat("{{$order->price}}") * 100,  // Convert amount to kobo (cents)
+        metadata: {
+                    custom_fields: [
+                        {
+                            display_name: "{{$order->name}}",
+                            variable_name: "{{$order->name}}",
+                            value: "{{$order->name}}"
+                        },
+                        {
+                            display_name: "Quantity",
+                            variable_name: "quantity",
+                            value: "1"
+                        }
+                    ]
+                },
+        onClose: function(){
+          alert('Payment window closed.');
+        },
+        callback: function(response){
+          window.location.href = "{{ route('callback') }}";  // Redirect to callback URL after payment
+        }
+      });
+      handler.openIframe();
+    }
+  
+    // Wait for the form to be submitted
+    document.getElementById('paymentForm').addEventListener('submit', function(event) {
+      event.preventDefault();  // Prevent the default form submission
+  
+      // Call function to initiate Paystack payment
+      payWithPaystack();
+    });
+  </script>
+  
+  
 
   <script>
     function sendAjaxRequest() {
