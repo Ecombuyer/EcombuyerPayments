@@ -592,7 +592,7 @@
         key: publicKey,
         email: document.getElementById('email').value,
         amount: parseFloat("{{$order->price}}") * 100,  // Convert amount to kobo (cents)
-        metadata: {
+       metadata: {
                     custom_fields: [
                         {
                             display_name: "{{$order->name}}",
@@ -610,7 +610,7 @@
           alert('Payment window closed.');
         },
         callback: function(response){
-          window.location.href = "{{ route('callback') }}";  // Redirect to callback URL after payment
+          window.location.href = "{{ route('callback') }}" + response.redirecturl;  // Redirect to callback URL after payment
         }
       });
       handler.openIframe();
