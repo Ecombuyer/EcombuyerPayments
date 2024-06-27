@@ -131,13 +131,10 @@ class OrderController extends Controller
      */
      public function show(string $id, $name)
     {
-        $banks = ['Paypal', 'stripe', 'indicash'];
-
         $order = Product::where('product_id', $id)->get()->first();
         $qrdata = QrCode::generate(
             $order
         );
-
 
         $mobileViewUrl = route('user.mobileview', ['order' => $order]);
 
@@ -314,8 +311,8 @@ class OrderController extends Controller
     public function buynow(Request $request)
     {
 
-        $user = Auth::user();
-        $userid =  $user->id;
+        // $user = Auth::user();
+        // $userid =  $user->id;'userid'
         $productid =  $request->product_id;
 
         $order = Product::where('product_id', $productid)->first();
@@ -323,33 +320,45 @@ class OrderController extends Controller
         $title = "BuyNow";
 
 
-        return view('user.placeorder', compact('title', 'order', 'userid'));
+        return view('user.placeorder', compact('title', 'order'));
     }
 
 
     public function placeorder(Request $request)
     {
         
-// dd($request->all());
+        // dd($request->all());
         $paymenttype = Paymenttype::where('status', 1)->get()->first();
-
-
-        $form2 = $request->validate(
-            [
-
+        $type = $request->type;
+        
+        if($type == 'physicalproduct')
+        {
+            $form2 = $request->validate([
                 'name' => 'required|string',
                 'email' => 'required|string',
                 'mobileno' => 'required|numeric',
-                'address' => $request->input('type') == 'physicalproduct' ? 'required|string' : '', // Address is required if type is physicalproduct
-            ],
-            [
-                'address.required' => 'The address field is required for physical products.', // Custom error message for 'address'
-            ]
-        );
-
-// dd($form2);
-        // Randomly select a name from the array
-        // foreach ($paymenttype as $paymenttype) {
+                'houseno' => 'required',
+                'area' => 'required',
+                'city' => 'required',
+                'state' => 'required',
+                'pincode' => 'required',
+                'country' => 'required', 
+                ]);
+        }
+        
+        else
+        {
+            $form2 = $request->validate([
+                'name' => 'required|string',
+                'email' => 'required|string',
+                'mobileno' => 'required|numeric',
+                ]);
+        }
+        
+        $address = $form2['houseno'].','.$form2['area'].','.$form2['city'].'-'.$form2['pincode'].','.$form2['state'].','.$form2['country'];
+        // dd($address);
+        
+        // dd($form2);
 
         if ($paymenttype->payment_name == 'indicpay' && $paymenttype->status == 1) {
             //  dd($paymenttype->payment_name);
@@ -375,8 +384,8 @@ class OrderController extends Controller
             ];
     
             // Conditionally include the "address" field based on product type
-            if ($request->input('type') == 'physicalproduct') {
-                $data['address'] = $form2['address'];
+            if ($type == 'physicalproduct') {
+                $data['address'] = $address;
             }
             $data = json_encode($data);
             $curl = curl_init();
@@ -398,7 +407,7 @@ class OrderController extends Controller
             $response = curl_exec($curl);
 
             curl_close($curl);
-            // dd($response);
+            dd($response);
             // session()->put('txnid', $txnid);
             if ($response === false) {
                 echo 'Curl error: ' . curl_error($curl);
@@ -426,16 +435,11 @@ class OrderController extends Controller
                     ];
 
                     // Conditionally include the "address" field based on product type
-                    if ($request->input('type') == 'physicalproduct') {
-                        $orderdetails1Data['address'] = $form2['address'];
+                    if ($type == 'physicalproduct') {
+                        $orderdetails1Data['address'] = $address;
                     }
                     // dd($orderdetails1Data);
                     $orderdetails1 = Order_details::create($orderdetails1Data);
-                    // $product_id = Order_details::where('transaction_id','=',$txnid)
-                    //                             ->first('product_id');
-                    // //  dd($product_id);
-                    // $product = Product::where('product_id','=',$product_id)->get();
-                  
                     $product = DB::table('products')
                     ->join('orders_details', 'products.product_id', '=', 'orders_details.product_id')
                     ->where('orders_details.transaction_id','=', $txnid)
@@ -481,8 +485,8 @@ class OrderController extends Controller
                 "token" => $key,
             ];
             // Conditionally include the "address" field based on product type
-            if ($request->input('type') == 'physicalproduct') {
-                $data['address'] = $form2['address'];
+            if ($type == 'physicalproduct') {
+                $data['address'] = $address;
             }
 
             $data = json_encode($data);
@@ -509,7 +513,7 @@ class OrderController extends Controller
 
             curl_close($curl);
 
-                dd($response);
+                //dd($response);
                 // session()->put('txnid', $txnid);
                 if ($response === false) {
                     echo 'Curl error: ' . curl_error($curl);
@@ -534,9 +538,9 @@ class OrderController extends Controller
 
                         ];
                         // Conditionally include the "address" field based on product type
-                        if ($request->input('type') == 'physicalproduct') {
-                            $orderdetails2Data['address'] = $form2['address'];
-                        }
+                         if ($type == 'physicalproduct') {
+                        $orderdetails2Data['address'] = $address;
+                    }
                         $orderdetails2 =   Order_details::create($orderdetails2Data);
                         /// dd($response_array);
 
@@ -573,8 +577,8 @@ class OrderController extends Controller
                 "token" => $key,
             ];
             // Conditionally include the "address" field based on product type
-            if ($request->input('type') == 'physicalproduct') {
-                $data['address'] = $form2['address'];
+            if ($type == 'physicalproduct') {
+                $data['address'] = $address;
             }
 
             $data = json_encode($data);
@@ -629,9 +633,9 @@ class OrderController extends Controller
 
                         ];
                         // Conditionally include the "address" field based on product type
-                        if ($request->input('type') == 'physicalproduct') {
-                            $orderdetails3Data['address'] = $form2['address'];
-                        }
+                         if ($type == 'physicalproduct') {
+                        $orderdetails3Data['address'] = $address;
+                    }
                         $orderdetails3 =   Order_details::create($orderdetails3Data);
                         /// dd($response_array);
                         $cs = "display: block; margin: 10 auto;";
@@ -1189,9 +1193,4 @@ class OrderController extends Controller
        // return response()->json($usercomplaints);
     }
 
-    // public function usercomplaintsstatus()
-    // {
-
-
-    // }
 }
