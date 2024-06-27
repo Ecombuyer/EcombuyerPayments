@@ -20,8 +20,8 @@
         <div>
           <ul id="navbar">
             <li><a  href="{{route('home')}}">Home</a></li>
-            <li><a class="active" href="shop.html">Shop</a></li>
-            <li><a href="blog.html">Blog</a></li>
+            <!--<li><a class="active" href="shop.html">Shop</a></li>-->
+            <!--<li><a href="blog.html">Blog</a></li>-->
             <li><a href="{{route('aboutpage')}}">About</a></li>
             <li><a href="contact.html">Contact</a></li>
             <li id="lg-bag"><a href="cart.html"><i class="fa-solid fa-bag-shopping"></i></a></li>
@@ -91,7 +91,7 @@
         <p>Aesthitic Collection New Arrivals! Get your new favorite shirt now.</p>
         <div class="pro-container">
           <div class="pro">
-            <img src="Images/Products/n1.jpg" alt="" />
+            <img src="{{env('APP_URL')}}/assets/Images/Products/n1.jpg" alt="" />
             <div class="des">
               <span>Louis Philippe</span>
               <h5>Casual Blue Shirt</h5>
@@ -107,7 +107,7 @@
           <a href="" class="cart"><i class="fa-solid fa-cart-shopping" style="margin-right: 10px;"></i>Buynow</a>
           </div>
           <div class="pro">
-            <img src="Images/Products/n2.jpg" alt="" />
+            <img src="{{env('APP_URL')}}/assets/Images/Products/n2.jpg" alt="" />
             <div class="des">
               <span>Louis Philippe</span>
               <h5>Checked Shirts</h5>
@@ -123,7 +123,7 @@
           <a href="" class="cart"><i class="fa-solid fa-cart-shopping" style="margin-right: 10px;"></i>Buynow</a>
           </div>
           <div class="pro">
-            <img src="Images/Products/n3.jpg" alt="" />
+            <img src="{{env('APP_URL')}}/assets/Images/Products/n3.jpg" alt="" />
             <div class="des">
               <span>Louis Philippe</span>
               <h5>Casual White Shirts</h5>
@@ -139,7 +139,7 @@
           <a href="" class="cart"><i class="fa-solid fa-cart-shopping" style="margin-right: 10px;"></i>Buynow</a>
           </div>
           <div class="pro">
-            <img src="Images/Products/n4.jpg" alt="" />
+            <img src="{{env('APP_URL')}}/assets/Images/Products/n4.jpg" alt="" />
             <div class="des">
               <span>Roadster</span>
               <h5>Printed Shirt</h5>
@@ -155,7 +155,7 @@
           <a href="" class="cart"><i class="fa-solid fa-cart-shopping" style="margin-right: 10px;"></i>Buynow</a>
           </div>
           <div class="pro">
-            <img src="Images/Products/n5.jpg" alt="" />
+            <img src="{{env('APP_URL')}}/assets/Images/Products/n5.jpg" alt="" />
             <div class="des">
               <span>Flying Machine</span>
               <h5>Denim Shirt</h5>
@@ -171,7 +171,7 @@
           <a href="" class="cart"><i class="fa-solid fa-cart-shopping" style="margin-right: 10px;"></i>Buynow</a>
           </div>
           <div class="pro">
-            <img src="Images/Products/n6.jpg" alt="" />
+            <img src="{{env('APP_URL')}}/assets/Images/Products/n6.jpg" alt="" />
             <div class="des">
               <span>Flying Machine</span>
               <h5>Formal Jeans</h5>
@@ -187,7 +187,7 @@
           <a href="" class="cart"><i class="fa-solid fa-cart-shopping" style="margin-right: 10px;"></i>Buynow</a>
           </div>
           <div class="pro">
-            <img src="Images/Products/n7.jpg" alt="" />
+            <img src="{{env('APP_URL')}}/assets/Images/Products/n7.jpg" alt="" />
             <div class="des">
               <span>Flying Machine</span>
               <h5>Denim Jackets</h5>
@@ -203,7 +203,7 @@
           <a href="" class="cart"><i class="fa-solid fa-cart-shopping" style="margin-right: 10px;"></i>Buynow</a>
           </div>
           <div class="pro">
-            <img src="Images/Products/n8.jpg" alt="" />
+            <img src="{{env('APP_URL')}}/assets/Images/Products/n8.jpg" alt="" />
             <div class="des">
               <span>Flying Machine</span>
               <h5>Black Casual Shirt</h5>
@@ -235,7 +235,7 @@
     </section>
     <footer class="section-p1">
       <div class="col">
-        <img src="Images/logo.png" class="logo" alt="" />
+        <img src="{{env('APP_URL')}}/assets/Images/logo.png" class="logo" alt="" />
         <h4 class="cont">Contact</h4>
         <p><strong>Address:</strong>N0.1234 Bishop Road, Trichy, TN</p>
         <p><strong>Phone:</strong>+91 82487 58508, (0431) 123 4567</p>
@@ -270,11 +270,11 @@
         <h4>Install App</h4>
         <p>From App Store or google play</p>
         <div class="row">
-          <img src="Images/Pay/app.jpg" alt="" />
-          <img src="Images/Pay/play.jpg" alt="" />
+          <img src="{{env('APP_URL')}}/assets/Images/Pay/app.jpg" alt="" />
+          <img src="{{env('APP_URL')}}/assets/Images/Pay/play.jpg" alt="" />
         </div>
         <p>Secured Payment Gateway</p>
-        <img src="Images/Pay/pay.png" alt="" />
+        <img src="{{env('APP_URL')}}/assets/Images/Pay/pay.png" alt="" />
       </div>
       <div class="copyright">
         <p>&#169; 2024, Melvin Rosario. All rights reserved.</p>
@@ -298,7 +298,7 @@
         }
     </script>
 
-    <script src="ecom.js"></script>
+    <script src="{{env('APP_URL')}}/assets/js/ecom.js"></script>
   </body>
 </html>
 

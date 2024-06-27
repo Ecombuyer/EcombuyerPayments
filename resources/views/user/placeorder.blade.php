@@ -7,7 +7,7 @@
 
     <link rel="apple-touch-icon" sizes="76x76" href="{{ env('APP_URL') }}/assets/img/favicon.ico" />
 
-    <title>Material Bootstrap Wizard by Creative Tim</title>
+    <title>{{$title}}</title>
 
     <meta
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
@@ -399,7 +399,7 @@
                                 >House Number, Apartment</label
                               >
                               <input
-                                name="lastname"
+                                name="houseno"
                                 type="text"
                                 class="form-control"
                               />
@@ -411,7 +411,7 @@
                                 >Area, Colony, Street, Sector</label
                               >
                               <input
-                                name="lastname"
+                                name="area"
                                 type="text"
                                 class="form-control"
                               />
@@ -422,7 +422,7 @@
                               <div class="form-group label-floating">
                                 <label class="control-label">City</label>
                                 <input
-                                  name="lastname"
+                                  name="city"
                                   type="text"
                                   class="form-control"
                                 />
@@ -432,7 +432,7 @@
                               <div class="form-group label-floating">
                                 <label class="control-label">State</label>
                                 <input
-                                  name="lastname"
+                                  name="state"
                                   type="text"
                                   class="form-control"
                                 />
@@ -442,7 +442,7 @@
                               <div class="form-group label-floating">
                                 <label class="control-label">Zipcode</label>
                                 <input
-                                  name="lastname"
+                                  name="pincode"
                                   type="text"
                                   class="form-control"
                                 />
@@ -452,7 +452,7 @@
                               <div class="form-group label-floating">
                                 <label class="control-label">Country</label>
                                 <input
-                                  name="lastname"
+                                  name="country"
                                   type="text"
                                   class="form-control"
                                 />
