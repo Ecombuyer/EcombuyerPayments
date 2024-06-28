@@ -29,7 +29,7 @@ class PaystackController extends Controller
         $response = curl_exec($curl);
         curl_close($curl);
         $response = json_decode($response);
-        // dd($response);
+        //  dd($response);
         $meta_data = $response->data->metadata->custom_fields;
         if($response->data->status == 'success')
         {
@@ -39,7 +39,7 @@ class PaystackController extends Controller
             $obj->quantity = $meta_data[1]->value;
             $obj->amount = $response->data->amount / 100;
             $obj->currency = $response->data->currency;
-            $obj->payment_status = "Completed";
+            $obj->payment_status =$response->data->status;
             $obj->payment_method = "Paystack";
             $obj->save();
             return redirect()->route('success1');
