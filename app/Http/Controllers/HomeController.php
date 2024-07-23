@@ -107,7 +107,7 @@ class HomeController extends Controller
 
 
         //counting users
-        $users = Auth::user()->where('type', 0)
+        $users = User::where('type', 0)
             ->where('status', 1)
             ->orderBydesc('id')
             ->limit(5)
