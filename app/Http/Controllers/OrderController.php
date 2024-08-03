@@ -129,7 +129,7 @@ class OrderController extends Controller
     /**
      * PREVIEW PRODUCT.
      */
-     public function show(string $id, $name)
+    public function show(string $id, $name)
     {
         $order = Product::where('product_id', $id)->get()->first();
         $qrdata = QrCode::generate(
@@ -138,7 +138,7 @@ class OrderController extends Controller
 
         $mobileViewUrl = route('user.mobileview', ['order' => $order]);
 
-        return view('user.preview', compact('mobileViewUrl','order'));
+        return view('user.preview', compact('mobileViewUrl', 'order'));
     }
 
 
@@ -326,13 +326,12 @@ class OrderController extends Controller
 
     public function placeorder(Request $request)
     {
-        
+
         // dd($request->all());
         $paymenttype = Paymenttype::where('status', 1)->get()->first();
         $type = $request->type;
-        
-        if($type == 'physicalproduct')
-        {
+
+        if ($type == 'physicalproduct') {
             $form2 = $request->validate([
                 'name' => 'required|string',
                 'email' => 'required|string',
@@ -342,22 +341,19 @@ class OrderController extends Controller
                 'city' => 'required',
                 'state' => 'required',
                 'pincode' => 'required',
-                'country' => 'required', 
-                ]);
-        }
-        
-        else
-        {
+                'country' => 'required',
+            ]);
+        } else {
             $form2 = $request->validate([
                 'name' => 'required|string',
                 'email' => 'required|string',
                 'mobileno' => 'required|numeric',
-                ]);
+            ]);
         }
-        
-        $address = $form2['houseno'].','.$form2['area'].','.$form2['city'].'-'.$form2['pincode'].','.$form2['state'].','.$form2['country'];
+
+        $address = $form2['houseno'] . ',' . $form2['area'] . ',' . $form2['city'] . '-' . $form2['pincode'] . ',' . $form2['state'] . ',' . $form2['country'];
         // dd($address);
-        
+
         // dd($form2);
 
         if ($paymenttype->payment_name == 'indicpay' && $paymenttype->status == 1) {
@@ -382,7 +378,7 @@ class OrderController extends Controller
                 "return_url" => $callback_url,
                 "token" => $token,
             ];
-    
+
             // Conditionally include the "address" field based on product type
             if ($type == 'physicalproduct') {
                 $data['address'] = $address;
@@ -413,7 +409,7 @@ class OrderController extends Controller
                 echo 'Curl error: ' . curl_error($curl);
             } else {
                 $response_array = json_decode($response, true);
-            
+
                 if (!empty($response_array) && isset($response_array['upi_url']) && !empty($response_array['upi_url'])) {
                     $upi_url = $response_array['upi_url'];
 
@@ -441,36 +437,34 @@ class OrderController extends Controller
                     // dd($orderdetails1Data);
                     $orderdetails1 = Order_details::create($orderdetails1Data);
                     $product = DB::table('products')
-                    ->join('orders_details', 'products.product_id', '=', 'orders_details.product_id')
-                    ->where('orders_details.transaction_id','=', $txnid)
-                    ->select('products.image','products.image_2','products.name','products.price')
-                    ->get()->first();
+                        ->join('orders_details', 'products.product_id', '=', 'orders_details.product_id')
+                        ->where('orders_details.transaction_id', '=', $txnid)
+                        ->select('products.image', 'products.image_2', 'products.name', 'products.price')
+                        ->get()->first();
                     // dd($product);
 
                     $button = $upi_url;
                     $pay = QrCode::size(150)
-                        ->backgroundColor(255,255,255)
+                        ->backgroundColor(255, 255, 255)
                         ->color(1, 1, 1)
-                        ->margin(2)                    
+                        ->margin(2)
                         ->generate(
                             $upi_url
                         );
                     // $paymenttype = Paymenttype::get()->first();
-                    return view('user.payments', compact('pay', 'paymenttype', 'txnid','button','product'));
-
+                    return view('user.payments', compact('pay', 'paymenttype', 'txnid', 'button', 'product'));
                 }
-        }
-        } 
-        else if ($paymenttype->payment_name == 'haodapay' && $paymenttype->status == 1) {
+            }
+        } else if ($paymenttype->payment_name == 'haodapay' && $paymenttype->status == 1) {
             $key = 'xnF20EI173240130015224';
             $endpoint = 'https://jupiter.haodapayments.com/api/v4/collection';
             // $paymentverify = ' https://jupiter.haodapayments.com/api/v3/collection/status?txnid=' . $txnid;
 
 
-                // dd($paymenttype->payment_name);
-                // echo 'hoada';
-                $txnid = "TXN" . time();
-                $orderid = mt_rand(1000, 9000);
+            // dd($paymenttype->payment_name);
+            // echo 'hoada';
+            $txnid = "TXN" . time();
+            $orderid = mt_rand(1000, 9000);
 
             $callback_url = route('payment.callback');
             // }
@@ -513,52 +507,50 @@ class OrderController extends Controller
 
             curl_close($curl);
 
-                //dd($response);
-                // session()->put('txnid', $txnid);
-                if ($response === false) {
-                    echo 'Curl error: ' . curl_error($curl);
-                } else {
-                    $response_array = json_decode($response, true);
+            //dd($response);
+            // session()->put('txnid', $txnid);
+            if ($response === false) {
+                echo 'Curl error: ' . curl_error($curl);
+            } else {
+                $response_array = json_decode($response, true);
 
-                    if (!empty($response_array) && isset($response_array['upi_url']) && !empty($response_array['upi_url'])) {
-                        $upi_url = $response_array['upi_url'];
-                        $orderdetails2Data =[
-                            'order_id' => $orderid,
-                            'product_id' => $request->productid,
-                            'seller_id' => $request->selleruserid,
-                            'user_name' => $form2['name'],
-                            'user_email' => $form2['email'],
-                            'user_number' => $form2['mobileno'],
-                            'payment_method' => $paymenttype->payment_name,
-                            'product_price' => $request->price,
-                            'payment_status' => $response_array['status'],
-                            'product_name' => $request->productname,
-                            'type' =>$request->type,
-                            "transaction_id" => $txnid
+                if (!empty($response_array) && isset($response_array['upi_url']) && !empty($response_array['upi_url'])) {
+                    $upi_url = $response_array['upi_url'];
+                    $orderdetails2Data = [
+                        'order_id' => $orderid,
+                        'product_id' => $request->productid,
+                        'seller_id' => $request->selleruserid,
+                        'user_name' => $form2['name'],
+                        'user_email' => $form2['email'],
+                        'user_number' => $form2['mobileno'],
+                        'payment_method' => $paymenttype->payment_name,
+                        'product_price' => $request->price,
+                        'payment_status' => $response_array['status'],
+                        'product_name' => $request->productname,
+                        'type' => $request->type,
+                        "transaction_id" => $txnid
 
-                        ];
-                        // Conditionally include the "address" field based on product type
-                         if ($type == 'physicalproduct') {
+                    ];
+                    // Conditionally include the "address" field based on product type
+                    if ($type == 'physicalproduct') {
                         $orderdetails2Data['address'] = $address;
                     }
-                        $orderdetails2 =   Order_details::create($orderdetails2Data);
-                        /// dd($response_array);
+                    $orderdetails2 =   Order_details::create($orderdetails2Data);
+                    /// dd($response_array);
 
-                        $pay = QrCode::size(200)
-                            ->backgroundColor(255, 255, 0)
-                            ->color(0, 0, 255)
-                            ->margin(1)
-                            ->generate(
-                                $upi_url
-                            );
-                        return view('user.payments', compact('pay', 'paymenttype', 'txnid'));
-                   
+                    $pay = QrCode::size(200)
+                        ->backgroundColor(255, 255, 0)
+                        ->color(0, 0, 255)
+                        ->margin(1)
+                        ->generate(
+                            $upi_url
+                        );
+                    return view('user.payments', compact('pay', 'paymenttype', 'txnid'));
                 }
             }
-            }
-            else if ($paymenttype->payment_name == 'crizzpay' && $paymenttype->status == '1') {
-                $txnid = "TXN" . time();
-                $orderid = mt_rand(1000, 9000);
+        } else if ($paymenttype->payment_name == 'crizzpay' && $paymenttype->status == '1') {
+            $txnid = "TXN" . time();
+            $orderid = mt_rand(1000, 9000);
 
             $key = 'CP36308010567889670';
             $paymentmethod = 'PS001';
@@ -604,58 +596,52 @@ class OrderController extends Controller
 
             $response = curl_exec($curl);
 
-                curl_close($curl);
-                //dd($response);
-                // session()->put('txnid', $txnid);
-                if ($response === false) 
-                {
-                    echo 'Curl error: ' . curl_error($curl);
-                } 
-                else 
-                {
-                    $response_array = json_decode($response, true);
+            curl_close($curl);
+            //dd($response);
+            // session()->put('txnid', $txnid);
+            if ($response === false) {
+                echo 'Curl error: ' . curl_error($curl);
+            } else {
+                $response_array = json_decode($response, true);
 
-                    if (!empty($response_array) && isset($response_array['upi_url']) && !empty($response_array['upi_url'])) {
-                        $upi_url = $response_array['upi_url'];
-                        $orderdetails1 = [
-                            'order_id' => $orderid,
-                            'product_id' => $request->productid,
-                            'seller_id' => $request->selleruserid,
-                            'user_name' => $form2['name'],
-                            'user_email' => $form2['email'],
-                            'user_number' => $form2['mobileno'],
-                            'payment_method' => $paymenttype->payment_name,
-                            'product_price' => $request->price,
-                            'payment_status' => $response_array['status'],
-                            'product_name' => $request->productname,
-                            'type' =>$request->type,
-                            "transaction_id" => $txnid
+                if (!empty($response_array) && isset($response_array['upi_url']) && !empty($response_array['upi_url'])) {
+                    $upi_url = $response_array['upi_url'];
+                    $orderdetails1 = [
+                        'order_id' => $orderid,
+                        'product_id' => $request->productid,
+                        'seller_id' => $request->selleruserid,
+                        'user_name' => $form2['name'],
+                        'user_email' => $form2['email'],
+                        'user_number' => $form2['mobileno'],
+                        'payment_method' => $paymenttype->payment_name,
+                        'product_price' => $request->price,
+                        'payment_status' => $response_array['status'],
+                        'product_name' => $request->productname,
+                        'type' => $request->type,
+                        "transaction_id" => $txnid
 
-                        ];
-                        // Conditionally include the "address" field based on product type
-                         if ($type == 'physicalproduct') {
+                    ];
+                    // Conditionally include the "address" field based on product type
+                    if ($type == 'physicalproduct') {
                         $orderdetails3Data['address'] = $address;
                     }
-                        $orderdetails3 =   Order_details::create($orderdetails3Data);
-                        /// dd($response_array);
-                        $cs = "display: block; margin: 10 auto;";
+                    $orderdetails3 =   Order_details::create($orderdetails3Data);
+                    /// dd($response_array);
+                    $cs = "display: block; margin: 10 auto;";
 
 
-                        $pay = QrCode::size(200)
-                            ->backgroundColor(0, 255, 255)
-                            ->color(0, 30, 0)
-                            ->style($cs)
-                            ->margin(1)
-                            ->generate(
-                                $upi_url
-                            );
-                        // $paymenttype = Paymenttype::get()->first();
-                        return view('user.payments', compact('pay', 'paymenttype', 'txnid'));
-                
-                    }
+                    $pay = QrCode::size(200)
+                        ->backgroundColor(0, 255, 255)
+                        ->color(0, 30, 0)
+                        ->style($cs)
+                        ->margin(1)
+                        ->generate(
+                            $upi_url
+                        );
+                    // $paymenttype = Paymenttype::get()->first();
+                    return view('user.payments', compact('pay', 'paymenttype', 'txnid'));
                 }
-            
-      
+            }
         }
     }
 
@@ -797,9 +783,9 @@ class OrderController extends Controller
         $title = 'Profile';
         //  dd($request->all());
         $aadhar_pan = aadhar_pan::select('users.name', 'users.email', 'users.phone', 'aadhar_pans.*')
-        ->join('users', 'users.id', '=', 'aadhar_pans.user_id')
+            ->join('users', 'users.id', '=', 'aadhar_pans.user_id')
 
-        ->where('aadhar_pans.user_id', Auth::id())->get()->first();
+            ->where('aadhar_pans.user_id', Auth::id())->get()->first();
 
         if (Auth::check()) {
             // Get the authenticated user's ID
@@ -851,7 +837,7 @@ class OrderController extends Controller
                 if ($existingProfile == true) {
                     toastr()->success('Profile Updated Successfully');
                     // return redirect()->back();
-                    return view('user.aadharverify', compact('title','aadhar_pan'));
+                    return view('user.aadharverify', compact('title', 'aadhar_pan'));
                 } else {
                     toastr()->error('Profile Updated Failed');
                     return redirect()->back();
@@ -881,7 +867,7 @@ class OrderController extends Controller
                 if ($existingProfile == true) {
                     toastr()->success('Profile Inserted Successfully');
                     // return redirect()->back();
-                    return view('user.aadharverify',compact('title','aadhar_pan'));
+                    return view('user.aadharverify', compact('title', 'aadhar_pan'));
                 } else {
                     toastr()->error('Profile Inserted Failed');
                     return redirect()->back();
@@ -905,9 +891,9 @@ class OrderController extends Controller
         $title = 'Profile';
 
         $bank_details = BankDetail::select('users.name', 'users.email', 'users.phone', 'bank_details.*')
-        ->join('users', 'users.id', '=', 'bank_details.user_id')
+            ->join('users', 'users.id', '=', 'bank_details.user_id')
 
-        ->where('bank_details.user_id', Auth::id())->get()->first();
+            ->where('bank_details.user_id', Auth::id())->get()->first();
 
 
         if (Auth::check()) {
@@ -998,7 +984,7 @@ class OrderController extends Controller
                 if ($existingProfile == true) {
                     toastr()->success('Aadhar Updated Successfully');
                     // return redirect()->back();
-                    return view('user.bankinfopage', compact('title','bank_details'));
+                    return view('user.bankinfopage', compact('title', 'bank_details'));
                 } else {
                     toastr()->error('Aadhar Updated Failed');
                     return redirect()->back();
@@ -1026,7 +1012,7 @@ class OrderController extends Controller
                 if ($existingProfile == true) {
                     toastr()->success('Aadhar Inserted Successfully');
                     // return redirect()->back();
-                    return view('user.bankinfopage',compact('title','bank_details'));
+                    return view('user.bankinfopage', compact('title', 'bank_details'));
                 } else {
                     toastr()->error('Aadhar Inserted Failed');
                     return redirect()->back();
@@ -1190,7 +1176,6 @@ class OrderController extends Controller
 
 
         return redirect()->route('user.complaints')->with('success', 'Complaint submitted successfully.');
-       // return response()->json($usercomplaints);
+        // return response()->json($usercomplaints);
     }
-
 }
